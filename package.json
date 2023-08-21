@@ -1,0 +1,28 @@
+{
+    "private": true,
+    "name": "@carrot-kpi/defillama-oracle-template",
+    "version": "0.1.0",
+    "description": "A Carrot template.",
+    "license": "GPL-3.0",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "turbo run build",
+        "build:contracts": "yarn build --filter contracts",
+        "lint": "turbo run lint",
+        "format": "turbo run format",
+        "start": "carrot-scripts start",
+        "test": "turbo run test",
+        "commitlint": "commitlint -e",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.7.1",
+        "@commitlint/config-conventional": "^17.7.0",
+        "carrot-scripts": "0.22.6",
+        "husky": "^8.0.3",
+        "prettier": "^3.0.1",
+        "turbo": "^1.10.12"
+    }
+}

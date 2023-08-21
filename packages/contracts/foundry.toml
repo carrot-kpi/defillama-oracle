@@ -1,0 +1,15 @@
+[profile.default]
+remappings = [
+    'src/=src',
+    'test/=test/',
+    'carrot/=lib/carrot/contracts',
+    'forge-std/=lib/forge-std/src/',
+    'oz-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/',
+    'oz/=lib/openzeppelin-contracts/contracts/',
+]
+optimizer = false
+
+[profile.production]
+optimizer = true
+via_ir = true
+optimizer_runs = 1000000

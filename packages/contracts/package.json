@@ -1,0 +1,23 @@
+{
+    "type": "module",
+    "name": "contracts",
+    "version": "0.2.0",
+    "description": "A preset for developing Carrot oracle templates' smart contracts with Foundry and Solidity.",
+    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
+    "license": "GPL-3.0-or-later",
+    "private": true,
+    "scripts": {
+        "lint": "./fmt.js lint",
+        "format": "./fmt.js format",
+        "build": "forge build",
+        "build:production": "FOUNDRY_PROFILE=production forge build",
+        "test": "forge test",
+        "coverage": "forge coverage",
+        "codegen-chain-specific-contracts": "./codegen-chain-specific-contracts.js"
+    },
+    "devDependencies": {
+        "@carrot-kpi/sdk": "^1.33.2",
+        "prettier": "^3.0.1",
+        "viem": "^1.6.0"
+    }
+}

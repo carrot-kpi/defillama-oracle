@@ -1,0 +1,34 @@
+{
+    "include": [
+        "./src/**/*.tsx",
+        "./src/**/*.ts",
+        "./tests/**/*.ts",
+        "./tests/**/*.tsx",
+        "./playground/*.tsx",
+        "./.cct/**/*.tsx"
+    ],
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "ESNext",
+        "lib": ["DOM", "ESNext"],
+        "target": "ESNext",
+        "sourceMap": true,
+        "strict": true,
+        "rootDirs": ["./src"],
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "moduleResolution": "node",
+        "jsx": "react-jsx",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "verbatimModuleSyntax": true
+    }
+}
