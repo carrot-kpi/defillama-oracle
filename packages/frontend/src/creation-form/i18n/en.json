@@ -1,1 +1,8 @@
-{}
+{
+    "label.metric": "Metric",
+    "info.metric": "Pick the kind of DefiLlama-sourced metric you want to track.",
+    "placeholder.pick": "Pick a metric",
+    "label.tvl.protocol": "Protocol",
+    "label.tvl.timestamp": "Timestamp",
+    "placeholder.tvl.timestamp": "Timestamp"
+}
