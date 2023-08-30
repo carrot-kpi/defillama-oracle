@@ -1074,10 +1074,10 @@
     bufferutil "4.0.5"
     utf-8-validate "5.0.7"
 
-"@carrot-kpi/host-frontend@^0.16.2":
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.16.2.tgz#0e48e74cfff1ce69387ad43d0a390005fefe98d0"
-  integrity sha512-vNRJmveFjuq7D4anrDuOK3ythy6MEI3XOfJ+4L8WSd7OrpCtwJaABvRn6zGS61yvFzt9yiqPQldFxS52gNf8QA==
+"@carrot-kpi/host-frontend@^0.16.3":
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.16.3.tgz#a4ae34c39a9736c776237ac18fffdea0f004c2af"
+  integrity sha512-KVm7xmR1DUhOWvCEvhRgPIGkR7SAxd/ArW1/GZNOeBBTgGXWmMAdvWE8NE7/ECZYDHgI+FzksjrFtYKNrbnrxw==
   dependencies:
     "@carrot-kpi/react" "*"
     "@carrot-kpi/sdk" "*"
@@ -1094,7 +1094,7 @@
     use-fathom-client "^1.3.2"
     viem "^1.4.1"
 
-"@carrot-kpi/react@*", "@carrot-kpi/react@^0.55.0":
+"@carrot-kpi/react@*":
   version "0.55.0"
   resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.55.0.tgz#5c4e04ba93b76f023cd08d7322811050364c3688"
   integrity sha512-SV11Ej3gxNw87gCXtK+pEagh1BnO+yNmPQQCfIykIRXtZICya7a2wK3QttyQh8dGWmH67flboOpcpeDGgWsSIQ==
@@ -1107,7 +1107,20 @@
     react-use "^17.4.0"
     viem "^1.4.1"
 
-"@carrot-kpi/sdk@*", "@carrot-kpi/sdk@^1.33.1", "@carrot-kpi/sdk@^1.33.2":
+"@carrot-kpi/react@^0.55.1":
+  version "0.55.1"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.55.1.tgz#128b9383a7b1e43a6eef3dca4546eaad60f228f1"
+  integrity sha512-C7tlwxbSnUxxrG/JJ13+/IdRmSIeJ3JrLaf93CM5T7ZDe8v5T0iARYq8aot11A0hYGuU19Y14tvjuHVWosFAaA==
+  dependencies:
+    "@carrot-kpi/sdk" "*"
+    "@tanstack/query-sync-storage-persister" "^4.32.0"
+    "@tanstack/react-query-persist-client" "^4.32.0"
+    "@uniswap/token-lists" "1.0.0-beta.33"
+    class-variance-authority "^0.7.0"
+    react-use "^17.4.0"
+    viem "^1.4.1"
+
+"@carrot-kpi/sdk@*", "@carrot-kpi/sdk@^1.33.2":
   version "1.33.2"
   resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.33.2.tgz#b7624a278a5c1c4eb983c6079ce086b4d7639f1b"
   integrity sha512-PMzA4ndl8pRQV13CcEW9axzMEjnNIBJfmxdtFawDgBWn/LzJ/KZ/o2iS11Yrk9IDly+X5X0HypDbJ4PZX8faUw==
@@ -4932,20 +4945,20 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001517, caniuse-lite@^1.0.30001520:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001523.tgz#b838f70b1a98c556776b998fafb47d2b64146d4f"
   integrity sha512-I5q5cisATTPZ1mc588Z//pj/Ox80ERYDfR71YnvY7raS/NOk8xXlZcB0sF7JdqaV//kOaa6aus7lRfpdnt1eBA==
 
-carrot-scripts@0.22.9:
-  version "0.22.9"
-  resolved "https://registry.yarnpkg.com/carrot-scripts/-/carrot-scripts-0.22.9.tgz#bce598f0e3905e6c0f32658513cecdb3fcf901af"
-  integrity sha512-ECwuCgbg3l5upqHeuUQYNvYVdQqBEURJPpj2D+UIAEVvyWQFYIbwXf6USyATV3muK16uCc8w2KMEd/psBcEADw==
+carrot-scripts@0.22.10:
+  version "0.22.10"
+  resolved "https://registry.yarnpkg.com/carrot-scripts/-/carrot-scripts-0.22.10.tgz#d1381dd3d1d9c66a3f563701db953df9afe778dc"
+  integrity sha512-LhCXHdvuqriopdyJudZ9IIqgc1ShL0kSBwTnMdp2c90s36wy6gnIv4K1a+dJyPhOsUSyBfpLjmsDp5lsSNw9WA==
   dependencies:
     "@carrot-kpi/ganache" "^0.2.0"
-    "@carrot-kpi/sdk" "^1.33.1"
+    "@carrot-kpi/sdk" "^1.33.2"
     chalk "^5.3.0"
     ethers "5"
-    execa "^7.2.0"
+    execa "^8.0.1"
     ipfs-http-client "^60.0.1"
     ora "^7.0.1"
     tsconfig "*"
-    viem "^1.6.0"
+    viem "^1.9.2"
 
 case-anything@^2.1.13:
   version "2.1.13"
@@ -6471,7 +6484,7 @@ execa@^5.0.0:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
-execa@^7.1.1, execa@^7.2.0:
+execa@^7.1.1:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/execa/-/execa-7.2.0.tgz#657e75ba984f42a70f38928cedc87d6f2d4fe4e9"
   integrity sha512-UduyVP7TLB5IcAQl+OzLyLcS/l32W/GLg+AhHJ+ow40FOk2U3SAllPwR44v4vmdFwIWqpdwxxpQbF1n5ta9seA==
@@ -6484,6 +6497,21 @@ execa@^7.1.1, execa@^7.2.0:
     npm-run-path "^5.1.0"
     onetime "^6.0.0"
     signal-exit "^3.0.7"
+    strip-final-newline "^3.0.0"
+
+execa@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-8.0.1.tgz#51f6a5943b580f963c3ca9c6321796db8cc39b8c"
+  integrity sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==
+  dependencies:
+    cross-spawn "^7.0.3"
+    get-stream "^8.0.1"
+    human-signals "^5.0.0"
+    is-stream "^3.0.0"
+    merge-stream "^2.0.0"
+    npm-run-path "^5.1.0"
+    onetime "^6.0.0"
+    signal-exit "^4.1.0"
     strip-final-newline "^3.0.0"
 
 exit@^0.1.2:
@@ -6874,6 +6902,11 @@ get-stream@^6.0.0, get-stream@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.1.tgz#a262d8eef67aced57c2852ad6167526a43cbf7b7"
   integrity sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
+
+get-stream@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-8.0.1.tgz#def9dfd71742cd7754a7761ed43749a27d02eca2"
+  integrity sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==
 
 get-symbol-description@^1.0.0:
   version "1.0.0"
@@ -7279,6 +7312,11 @@ human-signals@^4.3.0:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-4.3.1.tgz#ab7f811e851fca97ffbd2c1fe9a958964de321b2"
   integrity sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==
+
+human-signals@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-5.0.0.tgz#42665a284f9ae0dade3ba41ebc37eb4b852f3a28"
+  integrity sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==
 
 humanize-ms@^1.2.1:
   version "1.2.1"
@@ -10045,10 +10083,19 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.1.0, postcss-value-parser@^
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.3.11, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.27:
+postcss@^8.3.11, postcss@^8.4.21, postcss@^8.4.23:
   version "8.4.28"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.28.tgz#c6cc681ed00109072816e1557f889ef51cf950a5"
   integrity sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==
+  dependencies:
+    nanoid "^3.3.6"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
+postcss@^8.4.29:
+  version "8.4.29"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.29.tgz#33bc121cf3b3688d4ddef50be869b2a54185a1dd"
+  integrity sha512-cbI+jaqIeu/VGqXEarWkRCCffhjgXc0qjBtXpqJhTBohMUjUQnbBr0xqX3vEKudc4iviTewcJo5ajcec5+wdJw==
   dependencies:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
@@ -10071,10 +10118,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^3.0.1:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.2.tgz#78fcecd6d870551aa5547437cdae39d4701dca5b"
-  integrity sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==
+prettier@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"
+  integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
 
 pretty-error@^4.0.0:
   version "4.0.0"
@@ -10445,10 +10492,10 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-i18next@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.2.0.tgz#9d7a574144738e46dd4c66573907f56942435ced"
-  integrity sha512-YD8xMc+I0jkHHLotd8ERMzZ53hMaCBVLCndbcbBveJn3FbppRP4jyYOAkmR8XItN01sTD9ilAjoEjpH1i42IgA==
+react-i18next@^13.2.1:
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.2.1.tgz#57cf7c07778281bdb1e0a1fd60ca5fcc35c0a786"
+  integrity sha512-XhMsnGgJnytWfi2Q70HMYfm+zysPUu1Pz+It6I87WwaeclGY+W8W1c11uENEMNg+Xb+mNrGuo8GEDuQDOgO+oQ==
   dependencies:
     "@babel/runtime" "^7.22.5"
     html-parse-stringify "^3.0.1"
@@ -11167,7 +11214,7 @@ signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-signal-exit@^4.0.1:
+signal-exit@^4.0.1, signal-exit@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
@@ -12292,7 +12339,7 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-viem@^1.0.0, viem@^1.4.1, viem@^1.6.0:
+viem@^1.0.0, viem@^1.4.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/viem/-/viem-1.7.0.tgz#9d6fbdb4c7db2ef31fe5344fb8fc3b9103ae3225"
   integrity sha512-S4SclYe0Oca6TuPh2YPI3BzfC7a4UvN7TRDCWwpoVNnu9+4z2hqCZhW+6aF1yufgSwdezNsF14vztE/P4eMdBw==
@@ -12308,10 +12355,10 @@ viem@^1.0.0, viem@^1.4.1, viem@^1.6.0:
     isomorphic-ws "5.0.0"
     ws "8.12.0"
 
-viem@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.9.0.tgz#134293919146ee2505d72538e4e530d2071dee2c"
-  integrity sha512-YSRmS6ck2pVQZLDTwpNb04c8dN74uxMgDlj2jAixbCokP1e1th2ly8j+EQVRdwq0mFAW4Pdmx8/KNIICtkQLuA==
+viem@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.9.2.tgz#7cc15d8945e8268810d885610a8a06b11c0bbe16"
+  integrity sha512-a4l502Sl4ytYOT6a77ezDCEEgztR+wF8ZZRLAEVcrQawFFIiAWXGPrXVPT8MQmDF00idPMKPON8Ayz34Ft3NLw==
   dependencies:
     "@adraffy/ens-normalize" "1.9.0"
     "@noble/curves" "1.1.0"
