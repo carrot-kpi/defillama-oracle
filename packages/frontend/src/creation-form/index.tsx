@@ -8,7 +8,7 @@ import {
     type OracleInitializationBundleGetter,
 } from "@carrot-kpi/react";
 import { Select, Typography } from "@carrot-kpi/ui";
-import { type MetricOption, type Specificaton, type State } from "../types";
+import { type MetricOption, type Specification, type State } from "../types";
 import { DEFILLAMA_ANSWERER_URL, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import { encodeAbiParameters } from "viem";
@@ -24,9 +24,9 @@ export const Component = ({
     const [metric, setMetric] = useState<MetricOption | undefined>(
         METRICS.find((metric) => metric.value === state.specification?.metric),
     );
-    const [payload, setPayload] = useState<Specificaton["payload"] | undefined>(
-        state.specification?.payload,
-    );
+    const [payload, setPayload] = useState<
+        Specification["payload"] | undefined
+    >(state.specification?.payload);
 
     // this effect reacts to any change in internal state, firing an
     // onChange event to the creation form when necessary.

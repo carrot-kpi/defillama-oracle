@@ -2,15 +2,15 @@ import { type FC } from "react";
 import {
     Metric,
     type PayloadFormProps as InnerPayloadForm,
-    type Specificaton,
+    type Specification,
 } from "../../types";
 import { TvlPayloadForm } from "./tvl";
 import { Typography } from "@carrot-kpi/ui";
 
 export interface PayloadFormProps extends InnerPayloadForm {
     metric?: Metric | null;
-    payload?: Partial<Specificaton["payload"]>;
-    onChange: (payload: Specificaton["payload"]) => void;
+    payload?: Partial<Specification["payload"]>;
+    onChange: (payload: Specification["payload"]) => void;
 }
 
 const PAYLOAD_FORM_BY_METRIC: {

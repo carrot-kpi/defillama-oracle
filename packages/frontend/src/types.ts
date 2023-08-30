@@ -3,7 +3,7 @@ import { ChainId } from "@carrot-kpi/sdk";
 import type { SelectOption } from "@carrot-kpi/ui";
 
 export interface State {
-    specification: Partial<Specificaton>;
+    specification: Partial<Specification>;
 }
 
 export enum SupportedChainId {
@@ -17,7 +17,7 @@ export enum Metric {
 
 export type MetricOption = SelectOption<Metric>;
 
-export type Specificaton = {
+export type Specification = {
     metric: "tvl";
     payload: {
         protocol: string;
@@ -28,6 +28,6 @@ export type Specificaton = {
 export interface PayloadFormProps {
     t: OracleRemoteCreationFormProps<State>["t"];
     kpiToken: OracleRemoteCreationFormProps<State>["kpiToken"];
-    payload?: Partial<Specificaton["payload"]>;
-    onChange: (payload: Specificaton["payload"]) => void;
+    payload?: Partial<Specification["payload"]>;
+    onChange: (payload: Specification["payload"]) => void;
 }
