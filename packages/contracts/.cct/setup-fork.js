@@ -2,14 +2,11 @@ import { ChainId } from "@carrot-kpi/sdk";
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { getContract, parseUnits } from "viem";
+import { privateKeyToAddress } from "viem/accounts";
 
 const require = createRequire(fileURLToPath(import.meta.url));
 
-const ANSWERER_ADDRESS = "0x0000000000000000000000000000000000012345";
-
 export const setupFork = async ({ nodeClient, walletClient }) => {
-    const chainId = await nodeClient.getChainId();
-
     // deploy template
     const {
         abi: templateAbi,
@@ -21,9 +18,7 @@ export const setupFork = async ({ nodeClient, walletClient }) => {
             hash: await walletClient.deployContract({
                 abi: templateAbi,
                 bytecode: templateBytecode,
-                args: [
-                    ANSWERER_ADDRESS,
-                ],
+                args: [walletClient.account?.address],
             }),
         });
 
