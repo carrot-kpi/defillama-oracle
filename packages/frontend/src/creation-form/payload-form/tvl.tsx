@@ -4,7 +4,7 @@ import {
     useDefiLlamaProtocols,
     type ProtocolOption,
 } from "../../hooks/useDefiLlamaProtocols";
-import { DateTimeInput, Select } from "@carrot-kpi/ui";
+import { DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
@@ -85,6 +85,11 @@ export const TvlPayloadForm = ({
             <div className="w-full md:w-1/2">
                 <DateTimeInput
                     id="timestamp"
+                    info={
+                        <Typography variant="sm">
+                            {t("info.timestamp")}
+                        </Typography>
+                    }
                     className={{
                         root: "w-full",
                         input: "w-full",

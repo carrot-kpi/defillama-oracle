@@ -35,6 +35,8 @@ export const Component = ({
     useEffect(() => {
         let cancelled = false;
         const validateAndChange = async () => {
+            if (!metric || !payload?.protocol || !payload.timestamp) return;
+
             const specification = {
                 metric: metric?.value,
                 payload,
@@ -86,7 +88,7 @@ export const Component = ({
         return () => {
             cancelled = true;
         };
-    }, [metric?.value, onChange, payload, uploadToIpfs]);
+    }, [metric, onChange, payload, uploadToIpfs]);
 
     return (
         <div className="flex flex-col gap-2 w-full">

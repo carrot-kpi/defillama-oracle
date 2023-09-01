@@ -28,7 +28,7 @@ export const PayloadForm = ({
     if (!metric)
         return (
             <div className="flex justify-center">
-                <Typography>Select a metric</Typography>;
+                <Typography>Select a metric</Typography>
             </div>
         );
 

@@ -1,8 +1,6 @@
-import { ChainId } from "@carrot-kpi/sdk";
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { getContract, parseUnits } from "viem";
-import { privateKeyToAddress } from "viem/accounts";
 
 const require = createRequire(fileURLToPath(import.meta.url));
 
