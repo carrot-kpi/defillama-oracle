@@ -7,8 +7,8 @@
     "license": "GPL-3.0-or-later",
     "private": true,
     "scripts": {
-        "lint": "./fmt.js lint && eslint --ext .ts ./src && prettier --check './**/*.{json,md}'",
-        "format": "./fmt.js format",
+        "lint": "./fmt.js lint && eslint fmt.js && prettier --check './**/*.{json,md}'",
+        "format": "./fmt.js format && eslint --write fmt.js",
         "build": "forge build",
         "build:production": "FOUNDRY_PROFILE=production forge build",
         "test": "forge test",
