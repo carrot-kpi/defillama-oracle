@@ -1,7 +1,7 @@
 # Contributing
 
-The DefiLlama oracle template contracts are developed using Foundry, so in
-order to contribute you need to first install Foundry locally. Check out
+The DefiLlama oracle template contracts are developed using Foundry, so in order
+to contribute you need to first install Foundry locally. Check out
 [this link](https://getfoundry.sh/) to easily install Foundry on your machine.
 Make sure you periodically update Foundry to the latest version.
 
@@ -66,7 +66,8 @@ brief explainer of the env variables:
   deployment.
 - `RPC_ENDPOINT`: the RPC endpoint that will be used to broadcast transactions.
   This will also determine the network where the deployment will happen.
-- `ANSWERER_ADDRESS`: the trusted answerer that will be allowed to post answers based on DefiLlama's data.
+- `ANSWERER_ADDRESS`: the trusted answerer that will be allowed to post answers
+  based on DefiLlama's data.
 
 Once you have one instance of this file for each network you're interested in
 (e.g. .`env.goerli`, `.env.gnosis`, `env.mainnet` etc etc), you can go ahead and
