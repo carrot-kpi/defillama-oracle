@@ -19,7 +19,7 @@
         "url": "https://github.com/carrot-kpi/cct-frontend-preset-react-typescript/issues"
     },
     "scripts": {
-        "lint": "eslint --ext .js,.ts,.tsx ./src ./scripts ./.cct ./jest.config.js",
+        "lint": "eslint --ext .js,.ts,.tsx ./ && prettier --check .",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write .",
         "build": "NODE_ENV=production node ./scripts/build.js",
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"
@@ -59,6 +59,7 @@
         "terser-webpack-plugin": "^5.3.9",
         "ts-jest": "^29.1.1",
         "ts-loader": "^9.4.4",
+        "tsconfig": "*",
         "turbo": "^1.10.13",
         "typescript": "^5.2.2",
         "url-loader": "^4.1.1",

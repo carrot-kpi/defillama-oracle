@@ -11,4 +11,6 @@ if (!arg) {
     process.exit(1);
 }
 
-execSync(`forge fmt ${arg !== "format" ? "--check " : ""}`, { stdio: "inherit" });
+execSync(`forge fmt ${arg !== "format" ? "--check " : ""}`, {
+    stdio: "inherit",
+});
