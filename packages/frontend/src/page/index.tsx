@@ -9,6 +9,9 @@ import { useSpecificationContent } from "./hooks/useSpecificationContent";
 
 export const Component = ({ oracle }: OracleRemotePageProps): ReactElement => {
     const [specificationCid, setSpecificationCid] = useState("");
+    const [measurementTimestamp, setMeasurementTimestamp] = useState<
+        bigint | null
+    >(null);
 
     const { loading, specification } =
         useSpecificationContent(specificationCid);
@@ -18,11 +21,16 @@ export const Component = ({ oracle }: OracleRemotePageProps): ReactElement => {
         const decoded = decodeOracleData(oracle.data);
         if (!decoded) return;
         setSpecificationCid(decoded.specificationCid);
+        setMeasurementTimestamp(decoded.measurementTimestamp);
     }, [oracle]);
 
     return loading ? (
         <Loader />
     ) : (
-        <Typography>{JSON.stringify(specification, null, 4)}</Typography>
+        <Typography>
+            {JSON.stringify(specification, null, 4)}
+            <br />
+            {measurementTimestamp?.toString()}
+        </Typography>
     );
 };

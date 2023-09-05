@@ -3,6 +3,7 @@ import { ChainId } from "@carrot-kpi/sdk";
 import type { SelectOption } from "@carrot-kpi/ui";
 
 export interface State {
+    timestamp?: number;
     specification: Partial<Specification>;
 }
 
@@ -21,7 +22,6 @@ export type Specification = {
     metric: "tvl";
     payload: {
         protocol: string;
-        timestamp: number;
     };
 };
 
