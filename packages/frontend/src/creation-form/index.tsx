@@ -41,7 +41,6 @@ export const Component = ({
         Specification["payload"] | undefined
     >(state.specification?.payload);
 
-    // TODO: properly implement minimum elapsed time enforcement
     useEffect(() => {
         if (kpiToken?.expiration)
             setMaximumDate(dayjs.unix(kpiToken.expiration).toDate());
