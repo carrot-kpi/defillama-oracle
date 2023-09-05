@@ -58,6 +58,7 @@ create a .env.<NETWORK_NAME> file exporting 5 env variables:
 export PRIVATE_KEY=""
 export RPC_ENDPOINT=""
 export ANSWERER=""
+export MINIMUM_ELAPSED_TIME=""
 ```
 
 brief explainer of the env variables:
@@ -68,6 +69,11 @@ brief explainer of the env variables:
   This will also determine the network where the deployment will happen.
 - `ANSWERER_ADDRESS`: the trusted answerer that will be allowed to post answers
   based on DefiLlama's data.
+- `MINIMUM_ELAPSED_TIME`: the minimum time that must elapse from the
+  instantiation of an oracle to when the final measurement should be taken. If
+  for example we have a `MINIMUM_ELAPSED_TIME` set to 30, and oracle created at
+  t0 must have a measurement timestamp of at least t30. Set this to a
+  sufficiently large value for production deployments.
 
 Once you have one instance of this file for each network you're interested in
 (e.g. .`env.goerli`, `.env.gnosis`, `env.mainnet` etc etc), you can go ahead and

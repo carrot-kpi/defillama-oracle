@@ -6,6 +6,11 @@ export default [
                 name: "_answerer",
                 type: "address",
             },
+            {
+                internalType: "uint256",
+                name: "_minimumElapsedTime",
+                type: "uint256",
+            },
         ],
         stateMutability: "nonpayable",
         type: "constructor",
@@ -18,6 +23,16 @@ export default [
     {
         inputs: [],
         name: "InvalidSpecification",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "MeasurementTimestampAfterKPITokenExpiration",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "MeasurementTimestampTooClose",
         type: "error",
     },
     {
@@ -175,6 +190,32 @@ export default [
                 internalType: "address",
                 name: "",
                 type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "measurementTimestamp",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "minimumElapsedTime",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
             },
         ],
         stateMutability: "view",

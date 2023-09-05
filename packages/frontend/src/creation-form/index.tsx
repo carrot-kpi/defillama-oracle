@@ -1,25 +1,38 @@
 import "../global.css";
 import "@carrot-kpi/ui/styles.css";
 
-import { type ReactElement, useState, useEffect } from "react";
+import { type ReactElement, useState, useEffect, useCallback } from "react";
 import {
     useDecentralizedStorageUploader,
     type OracleRemoteCreationFormProps,
     type OracleInitializationBundleGetter,
 } from "@carrot-kpi/react";
-import { Select, Typography } from "@carrot-kpi/ui";
+import { DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import { type MetricOption, type Specification, type State } from "../types";
 import { DEFILLAMA_ANSWERER_URL, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import { encodeAbiParameters } from "viem";
+import dayjs, { Dayjs } from "dayjs";
+import { useMinimumTimeElapsed } from "../hooks/useMinimumTimeElapsed";
 
 export const Component = ({
     state,
     onChange,
     t,
     kpiToken,
+    template,
 }: OracleRemoteCreationFormProps<State>): ReactElement => {
     const uploadToIpfs = useDecentralizedStorageUploader();
+    const { minimumTimeElapsed, loading: loadingMinimumTimeElapsed } =
+        useMinimumTimeElapsed(template.address);
+
+    const [timestamp, setTimestamp] = useState<Dayjs | null>(
+        state?.timestamp ? dayjs(state.timestamp) : null,
+    );
+    const [minimumDate, setMinimumDate] = useState(new Date());
+    const [maximumDate, setMaximumDate] = useState(new Date());
+
+    const [timestampErrorText, setTimestampErrorText] = useState("");
 
     const [metric, setMetric] = useState<MetricOption | undefined>(
         METRICS.find((metric) => metric.value === state.specification?.metric),
@@ -28,6 +41,30 @@ export const Component = ({
         Specification["payload"] | undefined
     >(state.specification?.payload);
 
+    useEffect(() => {
+        if (kpiToken?.expiration)
+            setMaximumDate(dayjs.unix(kpiToken.expiration).toDate());
+        const interval = setInterval(() => {
+            const minimumDate = dayjs();
+            if (minimumTimeElapsed)
+                minimumDate.add(Number(minimumTimeElapsed), "seconds");
+            setMinimumDate(minimumDate.toDate());
+        }, 1_000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [kpiToken?.expiration, minimumTimeElapsed]);
+
+    useEffect(() => {
+        setTimestampErrorText(
+            timestamp &&
+                (timestamp.isAfter(maximumDate) ||
+                    timestamp.isBefore(minimumDate))
+                ? t("error.timestamp.invalid")
+                : "",
+        );
+    }, [maximumDate, minimumDate, t, timestamp]);
+
     // this effect reacts to any change in internal state, firing an
     // onChange event to the creation form when necessary.
     // onChange will also receive an initialization bundle getter function
@@ -35,13 +72,16 @@ export const Component = ({
     useEffect(() => {
         let cancelled = false;
         const validateAndChange = async () => {
-            if (!metric || !payload?.protocol || !payload.timestamp) return;
+            // FIXME: in the following check we're verifying that the protocol
+            // is there, but this is a spec-specific check that should be
+            // implemented elsewhere, as this component should be completely
+            // spec-agnostic
+            if (!metric || !timestamp || !payload?.protocol) return;
 
             const specification = {
                 metric: metric?.value,
                 payload,
             };
-            const newState: State = { specification };
 
             let valid = false;
             try {
@@ -72,8 +112,11 @@ export const Component = ({
                         JSON.stringify(specification),
                     );
                     const initializationData = encodeAbiParameters(
-                        [{ type: "string", name: "specification" }],
-                        [specificationCid],
+                        [
+                            { type: "string", name: "specification" },
+                            { type: "uint256", name: "measurementTimestamp" },
+                        ],
+                        [specificationCid, BigInt(timestamp.unix())],
                     );
                     return {
                         data: initializationData,
@@ -82,18 +125,26 @@ export const Component = ({
                 };
             }
 
+            const newState = {
+                timestamp: timestamp.unix(),
+                specification,
+            };
             if (!cancelled) onChange(newState, initializationBundleGetter);
         };
         validateAndChange();
         return () => {
             cancelled = true;
         };
-    }, [metric, onChange, payload, uploadToIpfs]);
+    }, [metric, onChange, payload, timestamp, uploadToIpfs]);
+
+    const handleTimestampChange = useCallback((value: Date) => {
+        setTimestamp(dayjs(value));
+    }, []);
 
     return (
-        <div className="flex flex-col gap-2 w-full">
-            <div className="flex flex-col gap-4">
-                <div className="w-full">
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2 md:flex-row">
+                <div className="w-full md:w-1/2">
                     <Select
                         id="metric"
                         className={{
@@ -113,14 +164,38 @@ export const Component = ({
                         value={metric || null}
                     />
                 </div>
-                <PayloadForm
-                    metric={metric?.value}
-                    payload={payload}
-                    onChange={setPayload}
-                    kpiToken={kpiToken}
-                    t={t}
-                />
+                <div className="w-full md:w-1/2">
+                    <DateTimeInput
+                        id="timestamp"
+                        info={
+                            <Typography variant="sm">
+                                {t("info.timestamp")}
+                            </Typography>
+                        }
+                        className={{
+                            root: "w-full",
+                            input: "w-full",
+                            inputWrapper: "w-full",
+                        }}
+                        loading={loadingMinimumTimeElapsed}
+                        label={t("label.tvl.timestamp")}
+                        placeholder={t("placeholder.tvl.timestamp")}
+                        min={minimumDate}
+                        max={maximumDate}
+                        onChange={handleTimestampChange}
+                        value={timestamp?.toDate()}
+                        error={!!timestampErrorText}
+                        errorText={timestampErrorText}
+                    />
+                </div>
             </div>
+            <PayloadForm
+                metric={metric?.value}
+                payload={payload}
+                onChange={setPayload}
+                kpiToken={kpiToken}
+                t={t}
+            />
         </div>
     );
 };
