@@ -8,7 +8,7 @@
     "private": true,
     "scripts": {
         "lint": "./fmt.js lint && eslint fmt.js && prettier --check './**/*.{json,md}'",
-        "format": "./fmt.js format && eslint --write fmt.js",
+        "format": "./fmt.js format && eslint --fix fmt.js",
         "build": "forge build",
         "build:production": "FOUNDRY_PROFILE=production forge build",
         "test": "forge test",

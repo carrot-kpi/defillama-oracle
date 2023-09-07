@@ -16,6 +16,7 @@ contract DefiLlamaOracle is TrustedOracle {
 
     uint256 public measurementTimestamp;
     string public specification;
+    uint256 public result;
 
     error InvalidSpecification();
     error MeasurementTimestampTooClose();
@@ -62,14 +63,15 @@ contract DefiLlamaOracle is TrustedOracle {
 
     /// @dev Internal finalization logic. This simply checks if the measurement timestamp
     /// has passed in order to validate if a finalization request is valid or not
-    function _finalize(uint256) internal view override {
+    function _finalize(uint256 _result) internal override {
         if (block.timestamp < measurementTimestamp) revert TooSoonToFinalize();
+        result = _result;
     }
 
     /// @dev View function returning all the most important data about the oracle, in
     /// an ABI-encoded structure.
     /// @return The ABI-encoded data.
     function data() external view override returns (bytes memory) {
-        return abi.encode(answerer, specification, measurementTimestamp);
+        return abi.encode(answerer, specification, measurementTimestamp, result);
     }
 }

@@ -1,1 +1,9 @@
-{}
+{
+    "tracked.protocol": "Tracked protocol",
+    "metric": "Metric",
+    "metric.tvl": "TVL",
+    "oracle.link": "Direct oracle link",
+    "current.value": "Current value",
+    "final.value": "Final value",
+    "finalization.time": "Finalization time"
+}

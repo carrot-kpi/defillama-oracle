@@ -1,6 +1,11 @@
-import type { OracleRemoteCreationFormProps } from "@carrot-kpi/react";
+import type {
+    OracleRemoteCreationFormProps,
+    OracleRemotePageProps,
+} from "@carrot-kpi/react";
 import { ChainId } from "@carrot-kpi/sdk";
 import type { SelectOption } from "@carrot-kpi/ui";
+import type { Dayjs } from "dayjs";
+import type { Address } from "viem";
 
 export interface State {
     timestamp?: number;
@@ -30,4 +35,16 @@ export interface PayloadFormProps {
     kpiToken: OracleRemoteCreationFormProps<State>["kpiToken"];
     payload?: Partial<Specification["payload"]>;
     onChange: (payload: Specification["payload"]) => void;
+}
+
+export interface DecodedOracleData {
+    answerer: Address;
+    specificationCid: string;
+    measurementTimestamp: Dayjs;
+    result: bigint;
+}
+
+export interface MetricPageProps extends OracleRemotePageProps {
+    specification: Specification;
+    decodedOracleData: DecodedOracleData;
 }
