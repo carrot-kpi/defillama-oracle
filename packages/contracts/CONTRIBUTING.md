@@ -82,5 +82,5 @@ doing that, you can finally execute the following command to initiate the
 deployment:
 
 ```
-FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address)' Deploy $ANSWERER_ADDRESS
+FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address,uint256)' Deploy $ANSWERER_ADDRESS $MINIMUM_ELAPSED_TIME
 ```
