@@ -2,7 +2,9 @@
     "label.metric": "Metric",
     "info.metric": "Pick the kind of DefiLlama-sourced metric you want to track.",
     "info.timestamp": "This is the timestamp at which the measurement over the picked metric will be taken and used to finalize the oracle.",
-    "placeholder.pick": "Pick a metric",
+    "select.no.results": "No results",
+    "placeholder.pick.metric": "Pick a metric",
+    "placeholder.pick.protocol": "Pick a protocol",
     "label.tvl.protocol": "Protocol",
     "label.tvl.timestamp": "Timestamp",
     "placeholder.tvl.timestamp": "Timestamp"

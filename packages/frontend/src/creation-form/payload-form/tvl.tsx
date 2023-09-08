@@ -35,8 +35,11 @@ export const TvlPayloadForm = ({ t, payload, onChange }: PayloadFormProps) => {
                         inputWrapper: "w-full",
                     }}
                     label={t("label.tvl.protocol")}
-                    placeholder={t("placeholder.pick")}
+                    placeholder={t("placeholder.pick.protocol")}
                     loading={loading}
+                    messages={{
+                        noResults: t("select.no.results"),
+                    }}
                     onChange={setProtocol}
                     options={protocols}
                     value={protocol}
