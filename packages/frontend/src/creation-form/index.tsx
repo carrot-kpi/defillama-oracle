@@ -153,12 +153,15 @@ export const Component = ({
                             inputWrapper: "w-full",
                         }}
                         label={t("label.metric")}
+                        messages={{
+                            noResults: t("select.no.results"),
+                        }}
                         info={
                             <Typography variant="sm">
                                 {t("info.metric")}
                             </Typography>
                         }
-                        placeholder={t("placeholder.pick")}
+                        placeholder={t("placeholder.pick.metric")}
                         onChange={setMetric}
                         options={METRICS}
                         value={metric || null}
