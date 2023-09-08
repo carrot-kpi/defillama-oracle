@@ -42,6 +42,7 @@ export const TvlPayloadForm = ({ t, payload, onChange }: PayloadFormProps) => {
                     }}
                     onChange={setProtocol}
                     options={protocols}
+                    search
                     value={protocol}
                 />
             </div>
