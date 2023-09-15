@@ -19,7 +19,7 @@ abstract contract BaseTestSetup is Test {
     address internal feeReceiver;
     KPITokensFactory internal factory;
     KPITokensManager1 internal kpiTokensManager;
-    DefiLlamaOracle internal mockOracle;
+    DefiLlamaOracle internal defiLlamaOracleTemplate;
     MockKPIToken internal mockKPIToken;
     OraclesManager1 internal oraclesManager;
 
@@ -31,9 +31,9 @@ abstract contract BaseTestSetup is Test {
         kpiTokensManager = new KPITokensManager1(address(factory));
         kpiTokensManager.addTemplate(address(mockKPIToken), "test-specification");
 
-        mockOracle = new DefiLlamaOracle(ANSWERER, MINIMUM_ELAPSED_TIME);
+        defiLlamaOracleTemplate = new DefiLlamaOracle(ANSWERER, MINIMUM_ELAPSED_TIME);
         oraclesManager = new OraclesManager1(address(factory));
-        oraclesManager.addTemplate(address(mockOracle), TRUSTED_ORACLE_SPECIFICATION);
+        oraclesManager.addTemplate(address(defiLlamaOracleTemplate), TRUSTED_ORACLE_SPECIFICATION);
 
         factory.setKpiTokensManager(address(kpiTokensManager));
         factory.setOraclesManager(address(oraclesManager));
