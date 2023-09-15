@@ -149,14 +149,14 @@ export const Component = ({
                         [
                             { type: "string", name: "specification" },
                             { type: "uint256", name: "measurementTimestamp" },
-                            { type: "Constraint", name: "constraint" },
+                            { type: "uint256", name: "constraint" },
                             { type: "uint256", name: "value0" },
                             { type: "uint256", name: "value1" },
                         ],
                         [
                             specificationCid,
                             BigInt(timestamp.unix()),
-                            constraintType.value,
+                            BigInt(Number(constraintType.value)),
                             constraintValues[0],
                             constraintValues[1],
                         ],
