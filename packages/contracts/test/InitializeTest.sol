@@ -79,7 +79,7 @@ contract InitializeTest is BaseTestSetup {
 
         // both values are the invalid answer
         initializeWithConstraintAndExpectRevertWithData(
-            Constraint.Between, 0, INVALID_ANSWER, abi.encodeWithSignature("InvalidValues()")
+            Constraint.Between, INVALID_ANSWER, INVALID_ANSWER, abi.encodeWithSignature("InvalidValues()")
         );
     }
 
