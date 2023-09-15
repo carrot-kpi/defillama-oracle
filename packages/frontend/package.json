@@ -36,7 +36,7 @@
         "@types/react": "^18.2.21",
         "@types/react-dom": "^18.2.7",
         "autoprefixer": "^10.4.15",
-        "carrot-scripts": "0.22.12",
+        "carrot-scripts": "0.22.13",
         "chalk": "^5.3.0",
         "css-loader": "^6.8.1",
         "cssnano": "^6.0.1",
