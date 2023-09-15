@@ -8,12 +8,21 @@ import {
     type OracleInitializationBundleGetter,
 } from "@carrot-kpi/react";
 import { DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
-import { type MetricOption, type Specification, type State } from "../types";
-import { DEFILLAMA_ANSWERER_URL, METRICS } from "../commons";
+import {
+    type ConstraintTypeOption,
+    type MetricOption,
+    type Specification,
+    type State,
+} from "../types";
+import { CONSTRAINT_TYPES, DEFILLAMA_ANSWERER_URL, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import { encodeAbiParameters } from "viem";
 import dayjs, { Dayjs } from "dayjs";
 import { useMinimumTimeElapsed } from "../hooks/useMinimumTimeElapsed";
+import { ConstraintForm } from "./constraint-values-form";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(localizedFormat);
 
 export const Component = ({
     state,
@@ -40,6 +49,17 @@ export const Component = ({
     const [payload, setPayload] = useState<
         Specification["payload"] | undefined
     >(state.specification?.payload);
+
+    const [constraintType, setConstraintType] = useState<
+        ConstraintTypeOption | undefined
+    >(
+        CONSTRAINT_TYPES.find(
+            (constraintType) => constraintType.value === state.constraint?.type,
+        ),
+    );
+    const [constraintValues, setConstraintValues] = useState<
+        [bigint | undefined, bigint | undefined]
+    >([undefined, undefined]);
 
     useEffect(() => {
         if (kpiToken?.expiration)
@@ -76,7 +96,15 @@ export const Component = ({
             // is there, but this is a spec-specific check that should be
             // implemented elsewhere, as this component should be completely
             // spec-agnostic
-            if (!metric || !timestamp || !payload?.protocol) return;
+            if (
+                !metric ||
+                !timestamp ||
+                !constraintType ||
+                constraintValues[0] === undefined ||
+                constraintValues[1] === undefined ||
+                !payload?.protocol
+            )
+                return;
 
             const specification = {
                 metric: metric?.value,
@@ -108,6 +136,12 @@ export const Component = ({
                 | undefined = undefined;
             if (valid) {
                 initializationBundleGetter = async () => {
+                    if (!constraintValues[0] || !constraintValues[1])
+                        return {
+                            data: "0x",
+                            value: 0n,
+                        };
+
                     const specificationCid = await uploadToIpfs(
                         JSON.stringify(specification),
                     );
@@ -115,8 +149,17 @@ export const Component = ({
                         [
                             { type: "string", name: "specification" },
                             { type: "uint256", name: "measurementTimestamp" },
+                            { type: "Constraint", name: "constraint" },
+                            { type: "uint256", name: "value0" },
+                            { type: "uint256", name: "value1" },
                         ],
-                        [specificationCid, BigInt(timestamp.unix())],
+                        [
+                            specificationCid,
+                            BigInt(timestamp.unix()),
+                            constraintType.value,
+                            constraintValues[0],
+                            constraintValues[1],
+                        ],
                     );
                     return {
                         data: initializationData,
@@ -125,8 +168,13 @@ export const Component = ({
                 };
             }
 
-            const newState = {
+            const newState: State = {
                 timestamp: timestamp.unix(),
+                constraint: {
+                    type: constraintType.value,
+                    value0: constraintValues[0],
+                    value1: constraintValues[1],
+                },
                 specification,
             };
             if (!cancelled) onChange(newState, initializationBundleGetter);
@@ -135,7 +183,15 @@ export const Component = ({
         return () => {
             cancelled = true;
         };
-    }, [metric, onChange, payload, timestamp, uploadToIpfs]);
+    }, [
+        constraintType,
+        constraintValues,
+        metric,
+        onChange,
+        payload,
+        timestamp,
+        uploadToIpfs,
+    ]);
 
     const handleTimestampChange = useCallback((value: Date) => {
         setTimestamp(dayjs(value));
@@ -143,62 +199,103 @@ export const Component = ({
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2 md:flex-row">
-                <div className="w-full md:w-1/2">
-                    <Select
-                        id="metric"
-                        className={{
-                            root: "w-full",
-                            input: "w-full",
-                            inputWrapper: "w-full",
-                        }}
-                        label={t("label.metric")}
-                        messages={{
-                            noResults: t("select.no.results"),
-                        }}
-                        info={
-                            <Typography variant="sm">
-                                {t("info.metric")}
-                            </Typography>
-                        }
-                        placeholder={t("placeholder.pick.metric")}
-                        onChange={setMetric}
-                        options={METRICS}
-                        value={metric || null}
-                    />
+            <div className="flex flex-col px-4 gap-4">
+                <Typography variant="h3">Tracked metric</Typography>
+                <div className="flex flex-col gap-2 md:flex-row">
+                    <div className="w-full md:w-1/2">
+                        <Select
+                            id="metric"
+                            className={{
+                                root: "w-full",
+                                input: "w-full",
+                                inputWrapper: "w-full",
+                            }}
+                            label={t("label.metric")}
+                            messages={{
+                                noResults: t("select.no.results"),
+                            }}
+                            info={
+                                <Typography variant="sm">
+                                    {t("info.metric")}
+                                </Typography>
+                            }
+                            placeholder={t("placeholder.pick.metric")}
+                            search
+                            onChange={setMetric}
+                            options={METRICS}
+                            value={metric || null}
+                        />
+                    </div>
+                    <div className="w-full md:w-1/2">
+                        <DateTimeInput
+                            id="timestamp"
+                            info={
+                                <Typography variant="sm">
+                                    {t("info.timestamp")}
+                                </Typography>
+                            }
+                            className={{
+                                root: "w-full",
+                                input: "w-full",
+                                inputWrapper: "w-full",
+                            }}
+                            loading={loadingMinimumTimeElapsed}
+                            label={t("label.timestamp")}
+                            placeholder={t("placeholder.tvl.timestamp")}
+                            min={minimumDate}
+                            max={maximumDate}
+                            onChange={handleTimestampChange}
+                            value={timestamp?.toDate()}
+                            error={!!timestampErrorText}
+                            errorText={timestampErrorText}
+                        />
+                    </div>
                 </div>
-                <div className="w-full md:w-1/2">
-                    <DateTimeInput
-                        id="timestamp"
-                        info={
-                            <Typography variant="sm">
-                                {t("info.timestamp")}
-                            </Typography>
-                        }
-                        className={{
-                            root: "w-full",
-                            input: "w-full",
-                            inputWrapper: "w-full",
-                        }}
-                        loading={loadingMinimumTimeElapsed}
-                        label={t("label.tvl.timestamp")}
-                        placeholder={t("placeholder.tvl.timestamp")}
-                        min={minimumDate}
-                        max={maximumDate}
-                        onChange={handleTimestampChange}
-                        value={timestamp?.toDate()}
-                        error={!!timestampErrorText}
-                        errorText={timestampErrorText}
-                    />
-                </div>
+                <PayloadForm
+                    metric={metric?.value}
+                    measurementTimestamp={timestamp}
+                    payload={payload}
+                    onChange={setPayload}
+                    kpiToken={kpiToken}
+                    t={t}
+                />
             </div>
-            <PayloadForm
-                metric={metric?.value}
-                payload={payload}
-                onChange={setPayload}
-                kpiToken={kpiToken}
-                t={t}
-            />
+            <hr className="border-black" />
+            <div className="flex flex-col px-4 gap-4">
+                <Typography variant="h3">Goal</Typography>
+                <div className="flex flex-col gap-2 md:flex-row">
+                    <div className="w-full">
+                        <Select
+                            id="constraint-type"
+                            className={{
+                                root: "w-full",
+                                input: "w-full",
+                                inputWrapper: "w-full",
+                            }}
+                            label={t("label.constraint.type")}
+                            messages={{
+                                noResults: t("select.no.results"),
+                            }}
+                            info={
+                                <Typography variant="sm">
+                                    {t("info.constraint.type")}
+                                </Typography>
+                            }
+                            placeholder={t("placeholder.pick.constraint.type")}
+                            onChange={setConstraintType}
+                            options={CONSTRAINT_TYPES}
+                            value={constraintType || null}
+                        />
+                    </div>
+                </div>
+                <ConstraintForm
+                    type={constraintType}
+                    value0={constraintValues[0]}
+                    value1={constraintValues[1]}
+                    onChange={setConstraintValues}
+                    t={t}
+                />
+            </div>
         </div>
     );
 };

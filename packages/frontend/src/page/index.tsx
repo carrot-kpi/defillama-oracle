@@ -8,6 +8,10 @@ import { Loader } from "@carrot-kpi/ui";
 import { useSpecificationContent } from "./hooks/useSpecificationContent";
 import { Metric, type DecodedOracleData, type MetricPageProps } from "../types";
 import { TvlPage } from "./metric-page/tvl";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(localizedFormat);
 
 const PAGE_BY_METRIC: {
     [M in Metric]: FC<MetricPageProps>;

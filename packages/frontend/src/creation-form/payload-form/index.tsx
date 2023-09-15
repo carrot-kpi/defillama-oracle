@@ -21,17 +21,25 @@ const PAYLOAD_FORM_BY_METRIC: {
 
 export const PayloadForm = ({
     metric,
+    measurementTimestamp,
     payload,
     onChange,
     ...rest
 }: PayloadFormProps) => {
     if (!metric)
         return (
-            <div className="flex justify-center">
+            <div className="flex justify-center py-4">
                 <Typography>Select a metric</Typography>
             </div>
         );
 
     const PayloadForm = PAYLOAD_FORM_BY_METRIC[metric];
-    return <PayloadForm onChange={onChange} payload={payload} {...rest} />;
+    return (
+        <PayloadForm
+            onChange={onChange}
+            measurementTimestamp={measurementTimestamp}
+            payload={payload}
+            {...rest}
+        />
+    );
 };

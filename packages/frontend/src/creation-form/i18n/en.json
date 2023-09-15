@@ -1,11 +1,20 @@
 {
     "label.metric": "Metric",
+    "label.timestamp": "Measurement timestamp",
+    "label.constraint.type": "Constraint type",
+    "label.value0.single": "Value",
+    "placeholder.value0.single": "Pick a value",
+    "label.value0.ranged": "Lower bound",
+    "placeholder.value0.ranged": "Pick a lower bound",
+    "label.value1.ranged": "Upper bound",
+    "placeholder.value1.ranged": "Pick an upper bound",
     "info.metric": "Pick the kind of DefiLlama-sourced metric you want to track.",
+    "info.constraint.type": "Pick the kind of constraint you want to be applied to the tracked metric you've picked above to determine if your goal was reached or not.",
     "info.timestamp": "This is the timestamp at which the measurement over the picked metric will be taken and used to finalize the oracle.",
     "select.no.results": "No results",
     "placeholder.pick.metric": "Pick a metric",
+    "placeholder.pick.constraint.type": "Pick a constraint type",
     "placeholder.pick.protocol": "Pick a protocol",
     "label.tvl.protocol": "Protocol",
-    "label.tvl.timestamp": "Timestamp",
     "placeholder.tvl.timestamp": "Timestamp"
 }
