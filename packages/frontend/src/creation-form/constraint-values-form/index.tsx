@@ -17,6 +17,7 @@ const CONSTRAINT_FORM_BY_TYPE: {
 };
 
 export const ConstraintForm = ({
+    t,
     type,
     onChange,
     ...rest
@@ -24,10 +25,12 @@ export const ConstraintForm = ({
     if (!type && type !== 0)
         return (
             <div className="flex justify-center py-4">
-                <Typography>Select a constraint type</Typography>
+                <Typography>
+                    {t("label.constraint.form.placeholder")}
+                </Typography>
             </div>
         );
 
     const ConstraintForm = CONSTRAINT_FORM_BY_TYPE[type.value];
-    return <ConstraintForm type={type} onChange={onChange} {...rest} />;
+    return <ConstraintForm type={type} onChange={onChange} t={t} {...rest} />;
 };

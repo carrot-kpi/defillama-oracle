@@ -1,9 +1,23 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
-import type { ConstraintFormProps } from "../../types";
+import { type ConstraintFormProps, ConstraintType } from "../../types";
 import { NumberInput, Typography } from "@carrot-kpi/ui";
 
 // TODO: improve value validation
+
+type SingleConstraintType = Exclude<
+    ConstraintType,
+    ConstraintType.NOT_BETWEEN | ConstraintType.BETWEEN | ConstraintType.RANGE
+>;
+
+const CONSTRAINT_SUMMARY: {
+    [C in SingleConstraintType]: string;
+} = {
+    [ConstraintType.EQUAL]: "label.summary.single.value.equal",
+    [ConstraintType.NOT_EQUAL]: "label.summary.single.value.notEqual",
+    [ConstraintType.GREATER_THAN]: "label.summary.single.value.greaterThan",
+    [ConstraintType.LOWER_THAN]: "label.summary.single.value.lowerThan",
+};
 
 export const SingleValueConstraintForm = ({
     t,
@@ -11,11 +25,26 @@ export const SingleValueConstraintForm = ({
     value0,
     onChange,
 }: ConstraintFormProps) => {
+    const [valueErrorText, setValueErrorText] = useState("");
     const handleValueChange = useCallback(
         ({ value }: { value: string }) => {
+            let errorText = "";
+
+            console.log({ value });
+
+            if (!value) {
+                errorText = t("error.value0.single.missing");
+            } else if (
+                type?.value === ConstraintType.LOWER_THAN &&
+                BigInt(value) <= 0n
+            ) {
+                errorText = t("error.value0.single.notValid");
+            }
+
+            setValueErrorText(!!errorText ? errorText : "");
             onChange([parseUnits(value, 18), 0n]);
         },
-        [onChange],
+        [onChange, t, type],
     );
 
     return (
@@ -32,6 +61,8 @@ export const SingleValueConstraintForm = ({
                         allowNegative={false}
                         label={t("label.value0.single")}
                         placeholder={t("placeholder.value0.single")}
+                        error={!!valueErrorText}
+                        errorText={valueErrorText}
                         onValueChange={handleValueChange}
                         value={value0 ? formatUnits(value0, 18) : ""}
                     />
@@ -39,9 +70,15 @@ export const SingleValueConstraintForm = ({
             </div>
             {!!value0 && !!type && (
                 <Typography>
-                    The goal will be considered reached if the metric measured
-                    at the measurement timestamp will be{" "}
-                    {type.label.toLowerCase()} {formatUnits(value0, 18)}
+                    {t("label.goal.summary.single")}{" "}
+                    <strong>
+                        {t(
+                            CONSTRAINT_SUMMARY[
+                                type.value as SingleConstraintType
+                            ],
+                        )}{" "}
+                        {formatUnits(value0, 18)}.
+                    </strong>
                 </Typography>
             )}
         </div>

@@ -24,12 +24,13 @@ export const PayloadForm = ({
     measurementTimestamp,
     payload,
     onChange,
+    t,
     ...rest
 }: PayloadFormProps) => {
     if (!metric)
         return (
             <div className="flex justify-center py-4">
-                <Typography>Select a metric</Typography>
+                <Typography>{t("label.payload.form.placeholder")}</Typography>
             </div>
         );
 
@@ -39,6 +40,7 @@ export const PayloadForm = ({
             onChange={onChange}
             measurementTimestamp={measurementTimestamp}
             payload={payload}
+            t={t}
             {...rest}
         />
     );
