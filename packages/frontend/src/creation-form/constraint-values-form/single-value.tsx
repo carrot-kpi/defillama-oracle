@@ -30,8 +30,6 @@ export const SingleValueConstraintForm = ({
         ({ value }: { value: string }) => {
             let errorText = "";
 
-            console.log({ value });
-
             if (!value) {
                 errorText = t("error.value0.single.missing");
             } else if (

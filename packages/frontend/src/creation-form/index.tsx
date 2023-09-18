@@ -286,7 +286,6 @@ export const Component = ({
                                     clickable
                                     active={constraintType?.value === ct.value}
                                     onClick={() => {
-                                        console.log("click", ct);
                                         setConstraintType(ct);
                                     }}
                                 >
