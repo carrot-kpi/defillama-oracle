@@ -7,11 +7,8 @@ import { getDefiLlamaLink } from "../utils/defillama";
 import External from "../icons/external";
 import { formatDecimals } from "@carrot-kpi/sdk";
 import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import { formatUnits } from "viem";
 
-dayjs.extend(localizedFormat);
+import { formatUnits } from "viem";
 
 export const TvlPage = ({
     t,

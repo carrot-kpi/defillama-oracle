@@ -10,6 +10,3 @@
 [submodule "packages/contracts/lib/openzeppelin-contracts"]
 	path = packages/contracts/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
-[submodule "packages/contracts/lib/carrot-trusted-oracle"]
-	path = packages/contracts/lib/carrot-trusted-oracle
-	url = https://github.com/carrot-kpi/trusted-oracle-contract
