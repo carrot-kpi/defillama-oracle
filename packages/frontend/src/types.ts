@@ -25,8 +25,8 @@ export interface Constraint {
 
 export interface State {
     timestamp?: number;
-    constraint: Partial<Constraint>;
-    specification: Partial<Specification>;
+    constraint?: Partial<Constraint>;
+    specification?: Partial<Specification>;
 }
 
 export enum SupportedChainId {
@@ -67,6 +67,9 @@ export interface ConstraintFormProps {
 
 export interface DecodedOracleData {
     answerer: Address;
+    constraint: ConstraintType;
+    value0: bigint;
+    value1: bigint;
     specificationCid: string;
     measurementTimestamp: Dayjs;
     result: bigint;

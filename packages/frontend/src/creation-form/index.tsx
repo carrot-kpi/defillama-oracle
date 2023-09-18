@@ -21,6 +21,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useMinimumTimeElapsed } from "../hooks/useMinimumTimeElapsed";
 import { ConstraintForm } from "./constraint-values-form";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import useDebounce from "react-use/esm/useDebounce";
 
 dayjs.extend(localizedFormat);
 
@@ -49,6 +50,8 @@ export const Component = ({
     const [payload, setPayload] = useState<
         Specification["payload"] | undefined
     >(state.specification?.payload);
+    const [validSpecification, setValidSpecification] =
+        useState<Specification | null>(null);
 
     const [constraintType, setConstraintType] = useState<
         ConstraintTypeOption | undefined
@@ -85,112 +88,122 @@ export const Component = ({
         );
     }, [maximumDate, minimumDate, t, timestamp]);
 
+    useDebounce(
+        () => {
+            // FIXME: there's a potential risk of race conditions
+            const validate = async () => {
+                // FIXME: in the following check we're verifying that the protocol
+                // is there in the payload, but this is a spec-specific check that should be
+                // implemented elsewhere, as this component should be completely
+                // spec-agnostic
+                if (
+                    !metric ||
+                    !timestamp ||
+                    !constraintType ||
+                    constraintValues[0] === undefined ||
+                    constraintValues[1] === undefined ||
+                    !payload?.protocol
+                )
+                    return;
+
+                const specification = {
+                    metric: metric?.value,
+                    payload,
+                };
+
+                let valid = false;
+                try {
+                    const response = await fetch(
+                        `${DEFILLAMA_ANSWERER_URL}/specifications/validations`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(specification),
+                        },
+                    );
+                    valid = response.ok;
+                } catch (error) {
+                    console.error(
+                        "an error occurred while checking for spec validity",
+                        error,
+                    );
+                }
+
+                setValidSpecification(valid ? specification : null);
+            };
+            validate();
+        },
+        300,
+        [metric, timestamp, constraintType, constraintValues, payload],
+    );
+
     // this effect reacts to any change in internal state, firing an
     // onChange event to the creation form when necessary.
     // onChange will also receive an initialization bundle getter function
     // when data is valid.
     useEffect(() => {
-        let cancelled = false;
-        const validateAndChange = async () => {
-            // FIXME: in the following check we're verifying that the protocol
-            // is there, but this is a spec-specific check that should be
-            // implemented elsewhere, as this component should be completely
-            // spec-agnostic
-            if (
-                !metric ||
-                !timestamp ||
-                !constraintType ||
-                constraintValues[0] === undefined ||
-                constraintValues[1] === undefined ||
-                !payload?.protocol
-            )
-                return;
-
-            const specification = {
-                metric: metric?.value,
-                payload,
-            };
-
-            let valid = false;
-            try {
-                const response = await fetch(
-                    `${DEFILLAMA_ANSWERER_URL}/specifications/validations`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(specification),
-                    },
-                );
-                valid = response.ok;
-            } catch (error) {
-                console.error(
-                    "an error occurred while checking for spec validity",
-                    error,
-                );
-            }
-
-            let initializationBundleGetter:
-                | OracleInitializationBundleGetter
-                | undefined = undefined;
-            if (valid) {
-                initializationBundleGetter = async () => {
-                    if (!constraintValues[0] || !constraintValues[1])
-                        return {
-                            data: "0x",
-                            value: 0n,
-                        };
-
-                    const specificationCid = await uploadToIpfs(
-                        JSON.stringify(specification),
-                    );
-                    const initializationData = encodeAbiParameters(
-                        [
-                            { type: "string", name: "specification" },
-                            { type: "uint256", name: "measurementTimestamp" },
-                            { type: "uint256", name: "constraint" },
-                            { type: "uint256", name: "value0" },
-                            { type: "uint256", name: "value1" },
-                        ],
-                        [
-                            specificationCid,
-                            BigInt(timestamp.unix()),
-                            BigInt(Number(constraintType.value)),
-                            constraintValues[0],
-                            constraintValues[1],
-                        ],
-                    );
+        let initializationBundleGetter:
+            | OracleInitializationBundleGetter
+            | undefined = undefined;
+        if (!!validSpecification && !!timestamp && !!constraintType) {
+            initializationBundleGetter = async () => {
+                if (!constraintValues[0] || !constraintValues[1])
                     return {
-                        data: initializationData,
+                        data: "0x",
                         value: 0n,
                     };
-                };
-            }
 
-            const newState: State = {
-                timestamp: timestamp.unix(),
-                constraint: {
-                    type: constraintType.value,
-                    value0: constraintValues[0],
-                    value1: constraintValues[1],
-                },
-                specification,
+                const specificationCid = await uploadToIpfs(
+                    JSON.stringify(validSpecification),
+                );
+                const initializationData = encodeAbiParameters(
+                    [
+                        { type: "string", name: "specification" },
+                        { type: "uint256", name: "measurementTimestamp" },
+                        { type: "uint256", name: "constraint" },
+                        { type: "uint256", name: "value0" },
+                        { type: "uint256", name: "value1" },
+                    ],
+                    [
+                        specificationCid,
+                        BigInt(timestamp.unix()),
+                        BigInt(Number(constraintType.value)),
+                        constraintValues[0],
+                        constraintValues[1],
+                    ],
+                );
+                return {
+                    data: initializationData,
+                    value: 0n,
+                };
             };
-            if (!cancelled) onChange(newState, initializationBundleGetter);
+        }
+
+        const newState: State = {
+            timestamp: timestamp?.unix(),
+            constraint: {
+                type: constraintType?.value,
+                value0: constraintValues[0],
+                value1: constraintValues[1],
+            },
+            specification: {
+                metric: metric?.value,
+                payload,
+            },
         };
-        validateAndChange();
-        return () => {
-            cancelled = true;
-        };
+
+        onChange(newState, initializationBundleGetter);
     }, [
         constraintType,
         constraintValues,
-        metric,
+        metric?.value,
         onChange,
         payload,
         timestamp,
         uploadToIpfs,
+        validSpecification,
     ]);
 
     const handleTimestampChange = useCallback((value: Date) => {
