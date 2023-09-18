@@ -14,14 +14,14 @@ export const RangedValuesConstraintForm = ({
 }: ConstraintFormProps) => {
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {
-            onChange([parseUnits(value, 18), value1]);
+            onChange([value ? parseUnits(value, 18) : undefined, value1]);
         },
         [onChange, value1],
     );
 
     const handleValue1Change = useCallback(
         ({ value }: { value: string }) => {
-            onChange([value0, parseUnits(value, 18)]);
+            onChange([value0, value ? parseUnits(value, 18) : undefined]);
         },
         [onChange, value0],
     );
