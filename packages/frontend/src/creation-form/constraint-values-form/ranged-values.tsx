@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { formatUnits, parseUnits } from "viem";
 import type { ConstraintFormProps } from "../../types";
-import { NumberInput, Typography } from "@carrot-kpi/ui";
+import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 
 // TODO: add bounds validation (for example that the lower bound is actually < higher bound)
 
@@ -66,16 +66,26 @@ export const RangedValuesConstraintForm = ({
                     />
                 </div>
             </div>
-            {!!value0 && !!value1 && !!type && (
-                // FIXME: this text should change depending on the specific constraint
-                // type. For example the difference between the "between" constraint
-                // and the "range" constraint is big
-                <Typography>
-                    The goal will be considered reached if the metric measured
-                    at the measurement timestamp will be{" "}
-                    {type.label.toLowerCase()} {formatUnits(value0, 18)} and{" "}
-                    {formatUnits(value1, 18)}
-                </Typography>
+            {!!value0 && !!value1 && !!type ? (
+                <FeedbackBox
+                    variant="info"
+                    messages={{ title: t("label.goal.summary") }}
+                >
+                    {/* FIXME: this text should change depending on the specific constraint
+                        type. For example the difference between the "between" constraint
+                        and the "range" constraint is big */}
+                    <Typography>
+                        {t("goal.summary.ranged", {
+                            type: type.label.toLowerCase(),
+                            value0: formatUnits(value0, 18),
+                            value1: formatUnits(value1, 18),
+                        })}
+                    </Typography>
+                </FeedbackBox>
+            ) : (
+                <FeedbackBox className={{ root: "bg-gray-300" }}>
+                    <Typography uppercase>{t("label.goal.summary")}</Typography>
+                </FeedbackBox>
             )}
         </div>
     );

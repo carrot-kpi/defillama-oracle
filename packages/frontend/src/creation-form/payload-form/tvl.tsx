@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type PayloadFormProps, type ProtocolOption } from "../../types";
 import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
-import { Select, Typography } from "@carrot-kpi/ui";
+import { FeedbackBox, Select, Typography } from "@carrot-kpi/ui";
 import { ProtocolOption as ProtocolOptionComponent } from "../../commons/protocol-option";
 
 export const TvlPayloadForm = ({
@@ -52,11 +52,25 @@ export const TvlPayloadForm = ({
                     />
                 </div>
             </div>
-            {measurementTimestamp && protocol && (
-                <Typography>
-                    Metric summary: total value locked in {protocol.label} on
-                    date {measurementTimestamp.format("L HH:mm:ss")}
-                </Typography>
+            {measurementTimestamp && protocol ? (
+                <FeedbackBox
+                    variant="info"
+                    messages={{ title: t("label.metric.summary") }}
+                >
+                    <Typography>
+                        {t("metric.summary.tvl", {
+                            protocol: protocol.label,
+                            measurementTime:
+                                measurementTimestamp.format("L HH:mm:ss"),
+                        })}
+                    </Typography>
+                </FeedbackBox>
+            ) : (
+                <FeedbackBox className={{ root: "bg-gray-300" }}>
+                    <Typography uppercase>
+                        {t("label.metric.summary")}
+                    </Typography>
+                </FeedbackBox>
             )}
         </div>
     );

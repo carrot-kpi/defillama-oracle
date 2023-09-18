@@ -25,5 +25,9 @@
     "label.summary.single.value.equal": "will be equal to",
     "label.summary.single.value.notEqual": "will be different from",
     "label.summary.single.value.greaterThan": "will be greater than",
-    "label.summary.single.value.lowerThan": "will be lower than"
+    "label.summary.single.value.lowerThan": "will be lower than",
+    "label.goal.summary": "Goal summary",
+    "goal.summary.ranged": "The goal will be considered reached if the metric measured at the measurement timestamp will be {{type}} {{value0}} and {{value1}}",
+    "label.metric.summary": "Metric summary",
+    "metric.summary.tvl": "The total value locked in {{protocol}} on date {{measurementTime}}"
 }

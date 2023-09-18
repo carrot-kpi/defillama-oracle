@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { type ConstraintFormProps, ConstraintType } from "../../types";
-import { NumberInput, Typography } from "@carrot-kpi/ui";
+import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 
 // TODO: improve value validation
 
@@ -68,18 +68,30 @@ export const SingleValueConstraintForm = ({
                     />
                 </div>
             </div>
-            {!!value0 && !!type && (
-                <Typography>
-                    {t("label.goal.summary.single")}{" "}
-                    <strong>
-                        {t(
-                            CONSTRAINT_SUMMARY[
-                                type.value as SingleConstraintType
-                            ],
-                        )}{" "}
-                        {formatUnits(value0, 18)}.
-                    </strong>
-                </Typography>
+            {!!value0 && !!type ? (
+                <FeedbackBox
+                    variant="info"
+                    messages={{ title: t("label.goal.summary") }}
+                >
+                    {/* FIXME: this text should change depending on the specific constraint
+                        type. For example the difference between the "between" constraint
+                        and the "range" constraint is big */}
+                    <Typography>
+                        {t("label.goal.summary.single")}{" "}
+                        <strong>
+                            {t(
+                                CONSTRAINT_SUMMARY[
+                                    type.value as SingleConstraintType
+                                ],
+                            )}{" "}
+                            {formatUnits(value0, 18)}.
+                        </strong>
+                    </Typography>
+                </FeedbackBox>
+            ) : (
+                <FeedbackBox className={{ root: "bg-gray-300" }}>
+                    <Typography uppercase>{t("label.goal.summary")}</Typography>
+                </FeedbackBox>
             )}
         </div>
     );
