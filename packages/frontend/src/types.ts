@@ -79,3 +79,7 @@ export interface MetricPageProps extends OracleRemotePageProps {
     specification: Specification;
     decodedOracleData: DecodedOracleData;
 }
+
+export interface ProtocolOption extends SelectOption<string> {
+    logoURL: string;
+}

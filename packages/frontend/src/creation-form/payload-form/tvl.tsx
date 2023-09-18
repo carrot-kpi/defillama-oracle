@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { type PayloadFormProps } from "../../types";
-import {
-    useDefiLlamaProtocols,
-    type ProtocolOption,
-} from "../../hooks/useDefiLlamaProtocols";
+import { type PayloadFormProps, type ProtocolOption } from "../../types";
+import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
 import { Select, Typography } from "@carrot-kpi/ui";
+import { ProtocolOption as ProtocolOptionComponent } from "../../commons/protocol-option";
 
 export const TvlPayloadForm = ({
     t,
@@ -50,6 +48,7 @@ export const TvlPayloadForm = ({
                         options={protocols}
                         search
                         value={protocol}
+                        renderOption={ProtocolOptionComponent}
                     />
                 </div>
             </div>

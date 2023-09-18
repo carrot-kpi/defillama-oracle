@@ -1,12 +1,11 @@
-import type { SelectOption } from "@carrot-kpi/ui";
 import { useEffect, useState } from "react";
+import type { ProtocolOption } from "../types";
 
 export type Response = {
     name: string;
     slug: string;
+    logo: string;
 }[];
-
-export type ProtocolOption = SelectOption<string>;
 
 export const useDefiLlamaProtocols = (): {
     loading: boolean;
@@ -28,11 +27,10 @@ export const useDefiLlamaProtocols = (): {
                     return;
                 }
                 const rawProtocols = (await response.json()) as Response;
-                // raw protocols also contain a lot of other stuff, so here we
-                // remove that
                 const protocols = rawProtocols.map((rawProtocol) => ({
                     label: rawProtocol.name,
                     value: rawProtocol.slug,
+                    logoURL: rawProtocol.logo,
                 }));
                 if (!cancelled) setProtocols(protocols);
             } catch (error) {
