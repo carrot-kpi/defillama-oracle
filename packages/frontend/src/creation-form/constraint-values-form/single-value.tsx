@@ -62,11 +62,13 @@ export const SingleValueConstraintForm = ({
                         error={!!valueErrorText}
                         errorText={valueErrorText}
                         onValueChange={handleValueChange}
-                        value={value0 ? formatUnits(value0, 18) : ""}
+                        value={
+                            value0 !== undefined ? formatUnits(value0, 18) : ""
+                        }
                     />
                 </div>
             </div>
-            {!!value0 && !!type ? (
+            {value0 !== undefined && !!type ? (
                 <FeedbackBox
                     variant="info"
                     messages={{ title: t("label.goal.summary") }}

@@ -62,7 +62,7 @@ export const Component = ({
     );
     const [constraintValues, setConstraintValues] = useState<
         [bigint | undefined, bigint | undefined]
-    >([undefined, undefined]);
+    >([state.constraint?.value0, state.constraint?.value1]);
 
     useEffect(() => {
         if (kpiToken?.expiration)

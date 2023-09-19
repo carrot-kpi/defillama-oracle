@@ -41,9 +41,7 @@ export const RangedValuesConstraintForm = ({
                         allowNegative={false}
                         onValueChange={handleValue0Change}
                         value={
-                            value0 || value0 == 0n
-                                ? formatUnits(value0, 18)
-                                : ""
+                            value0 !== undefined ? formatUnits(value0, 18) : ""
                         }
                     />
                 </div>
@@ -59,14 +57,12 @@ export const RangedValuesConstraintForm = ({
                         allowNegative={false}
                         onValueChange={handleValue1Change}
                         value={
-                            value1 || value1 == 0n
-                                ? formatUnits(value1, 18)
-                                : ""
+                            value1 !== undefined ? formatUnits(value1, 18) : ""
                         }
                     />
                 </div>
             </div>
-            {!!value0 && !!value1 && !!type ? (
+            {value0 !== undefined && value1 !== undefined && !!type ? (
                 <FeedbackBox
                     variant="info"
                     messages={{ title: t("label.goal.summary") }}

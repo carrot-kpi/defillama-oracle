@@ -1,5 +1,5 @@
-import { Skeleton, Typography } from "@carrot-kpi/ui";
-import { Metric, type MetricPageProps } from "../../types";
+import { RemoteLogo, Skeleton, Typography } from "@carrot-kpi/ui";
+import { Metric, type MetricPageProps, type ProtocolOption } from "../../types";
 import { InfoBox } from "../components/info-box";
 import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
 import { useEffect, useState } from "react";
@@ -21,14 +21,15 @@ export const TvlPage = ({
         specification.payload.protocol,
     );
 
-    const [resolvedProtocol, setResolvedProtocol] = useState("");
+    const [resolvedProtocol, setResolvedProtocol] =
+        useState<ProtocolOption | null>(null);
 
     useEffect(() => {
         if (loadingProtocols) return;
         setResolvedProtocol(
             protocols.find(
                 (protocol) => protocol.value === specification.payload.protocol,
-            )?.label || specification.payload.protocol,
+            ) || null,
         );
     }, [loadingProtocols, protocols, specification.payload.protocol]);
 
@@ -44,10 +45,18 @@ export const TvlPage = ({
                             root: "border-r border-black dark:border-white",
                         }}
                     >
-                        {loadingProtocols ? (
+                        {loadingProtocols || !resolvedProtocol ? (
                             <Skeleton width="100px" />
                         ) : (
-                            <Typography>{resolvedProtocol}</Typography>
+                            <div className="flex gap-2 items-center">
+                                <RemoteLogo
+                                    defaultText={resolvedProtocol.label}
+                                    src={resolvedProtocol.logoURL}
+                                />
+                                <Typography>
+                                    {resolvedProtocol.label}
+                                </Typography>
+                            </div>
                         )}
                     </InfoBox>
                 </div>
