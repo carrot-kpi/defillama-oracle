@@ -21,10 +21,8 @@ export const TvlPage = ({
         specification.payload.protocol,
     );
 
-    const [resolvedProtocol, setResolvedProtocol] = useState<Pick<
-        ProtocolOption,
-        "label" | "logoURL"
-    > | null>(null);
+    const [resolvedProtocol, setResolvedProtocol] =
+        useState<ProtocolOption | null>(null);
 
     useEffect(() => {
         if (loadingProtocols) return;
