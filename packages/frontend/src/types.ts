@@ -17,6 +17,11 @@ export enum ConstraintType {
     NOT_EQUAL,
 }
 
+export type ConstraintTypeOption = {
+    label: string;
+    value: ConstraintType;
+};
+
 export interface Constraint {
     type: ConstraintType;
     value0: bigint;
@@ -39,8 +44,6 @@ export enum Metric {
 }
 
 export type MetricOption = SelectOption<Metric>;
-
-export type ConstraintTypeOption = SelectOption<ConstraintType>;
 
 export type Specification = {
     metric: "tvl";

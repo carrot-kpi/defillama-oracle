@@ -7,7 +7,7 @@ import {
     type OracleRemoteCreationFormProps,
     type OracleInitializationBundleGetter,
 } from "@carrot-kpi/react";
-import { DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
+import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import {
     type ConstraintTypeOption,
     type MetricOption,
@@ -277,28 +277,22 @@ export const Component = ({
             <div className="flex flex-col px-4 gap-4">
                 <Typography variant="h3">Goal</Typography>
                 <div className="flex flex-col gap-2 md:flex-row">
-                    <div className="w-full">
-                        <Select
-                            id="constraint-type"
-                            className={{
-                                root: "w-full",
-                                input: "w-full",
-                                inputWrapper: "w-full",
-                            }}
-                            label={t("label.constraint.type")}
-                            messages={{
-                                noResults: t("select.no.results"),
-                            }}
-                            info={
-                                <Typography variant="sm">
-                                    {t("info.constraint.type")}
-                                </Typography>
-                            }
-                            placeholder={t("placeholder.pick.constraint.type")}
-                            onChange={setConstraintType}
-                            options={CONSTRAINT_TYPES}
-                            value={constraintType || null}
-                        />
+                    <div className="flex w-full flex-wrap gap-3">
+                        {CONSTRAINT_TYPES.map((ct) => {
+                            return (
+                                <Chip
+                                    key={ct.value}
+                                    size="big"
+                                    clickable
+                                    active={constraintType?.value === ct.value}
+                                    onClick={() => {
+                                        setConstraintType(ct);
+                                    }}
+                                >
+                                    {ct.label}
+                                </Chip>
+                            );
+                        })}
                     </div>
                 </div>
                 <ConstraintForm
