@@ -37,7 +37,7 @@ export const Component = ({
         useMinimumTimeElapsed(template.address);
 
     const [timestamp, setTimestamp] = useState<Dayjs | null>(
-        state?.timestamp ? dayjs(state.timestamp) : null,
+        state?.timestamp ? dayjs.unix(state.timestamp) : null,
     );
     const [minimumDate, setMinimumDate] = useState(new Date());
     const [maximumDate, setMaximumDate] = useState(new Date());
