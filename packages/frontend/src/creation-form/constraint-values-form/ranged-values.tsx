@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { formatUnits, parseUnits } from "viem";
 import type { ConstraintFormProps } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
+import { formatDecimals } from "@carrot-kpi/sdk";
 
 // TODO: add bounds validation (for example that the lower bound is actually < higher bound)
 
@@ -73,8 +74,14 @@ export const RangedValuesConstraintForm = ({
                     <Typography>
                         {t("goal.summary.ranged", {
                             type: type.label.toLowerCase(),
-                            value0: formatUnits(value0, 18),
-                            value1: formatUnits(value1, 18),
+                            value0: formatDecimals({
+                                number: formatUnits(value0, 18),
+                                decimalsAmount: 2,
+                            }),
+                            value1: formatDecimals({
+                                number: formatUnits(value1, 18),
+                                decimalsAmount: 2,
+                            }),
                         })}
                     </Typography>
                 </FeedbackBox>

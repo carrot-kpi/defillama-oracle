@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { type ConstraintFormProps, ConstraintType } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
+import { formatDecimals } from "@carrot-kpi/sdk";
 
 // TODO: improve value validation
 
@@ -84,7 +85,11 @@ export const SingleValueConstraintForm = ({
                                     type.value as SingleConstraintType
                                 ],
                             )}{" "}
-                            {formatUnits(value0, 18)}.
+                            {formatDecimals({
+                                number: formatUnits(value0, 18),
+                                decimalsAmount: 2,
+                            })}
+                            .
                         </strong>
                     </Typography>
                 </FeedbackBox>
