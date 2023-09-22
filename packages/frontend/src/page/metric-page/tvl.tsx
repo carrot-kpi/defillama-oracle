@@ -102,14 +102,17 @@ export const TvlPage = ({
                         ) : (
                             <Typography>
                                 {finalized
-                                    ? formatDecimals(
-                                          formatUnits(
+                                    ? formatDecimals({
+                                          number: formatUnits(
                                               decodedOracleData.result,
                                               18,
                                           ),
-                                          2,
-                                      )
-                                    : formatDecimals(tvl, 2)}
+                                          decimalsAmount: 2,
+                                      })
+                                    : formatDecimals({
+                                          number: tvl,
+                                          decimalsAmount: 2,
+                                      })}
                             </Typography>
                         )}
                     </InfoBox>
