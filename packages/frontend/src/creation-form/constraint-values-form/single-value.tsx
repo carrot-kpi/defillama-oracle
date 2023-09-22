@@ -4,8 +4,6 @@ import { type ConstraintFormProps, ConstraintType } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 import { formatDecimals } from "@carrot-kpi/sdk";
 
-// TODO: improve value validation
-
 type SingleConstraintType = Exclude<
     ConstraintType,
     ConstraintType.NOT_BETWEEN | ConstraintType.BETWEEN | ConstraintType.RANGE
@@ -41,7 +39,7 @@ export const SingleValueConstraintForm = ({
             }
 
             setValueErrorText(!!errorText ? errorText : "");
-            onChange([parseUnits(value, 18), 0n]);
+            onChange([parseUnits(value, 18), 0n], !errorText);
         },
         [onChange, t, type],
     );
@@ -74,9 +72,6 @@ export const SingleValueConstraintForm = ({
                     variant="info"
                     messages={{ title: t("label.goal.summary") }}
                 >
-                    {/* FIXME: this text should change depending on the specific constraint
-                        type. For example the difference between the "between" constraint
-                        and the "range" constraint is big */}
                     <Typography>
                         {t("label.goal.summary.single")}{" "}
                         <strong>
@@ -89,8 +84,8 @@ export const SingleValueConstraintForm = ({
                                 number: formatUnits(value0, 18),
                                 decimalsAmount: 2,
                             })}
-                            .
                         </strong>
+                        .
                     </Typography>
                 </FeedbackBox>
             ) : (
