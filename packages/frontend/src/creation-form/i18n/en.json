@@ -1,5 +1,7 @@
 {
+    "label.tracked.metric": "Tracked metric",
     "label.metric": "Metric",
+    "label.goal": "Goal",
     "label.timestamp": "Measurement timestamp",
     "label.payload.form.placeholder": "Select a metric",
     "label.constraint.type": "Constraint type",
@@ -7,6 +9,11 @@
     "label.value0.single": "Value",
     "error.value0.single.missing": "Value is required",
     "error.value0.single.notValid": "Value can't be 0 or lower for 'LOWER THAN' constraint, provide a positive number",
+    "error.value0.ranged.missing": "Value is required",
+    "error.value0.ranged.tooHigh": "Value can't be higher than upper bound",
+    "error.value1.ranged.missing": "Value is required",
+    "error.value1.ranged.tooLow": "Value can't be lower than lower bound",
+    "error.ranged.zero": "Value can't be 0",
     "label.goal.summary.single": "The goal will be considered reached if the metric measured at the measurement timestamp",
     "placeholder.value0.single": "Pick a value",
     "label.value0.ranged": "Lower bound",
@@ -27,7 +34,14 @@
     "label.summary.single.value.greaterThan": "will be greater than",
     "label.summary.single.value.lowerThan": "will be lower than",
     "label.goal.summary": "Goal summary",
-    "goal.summary.ranged": "The goal will be considered reached if the metric measured at the measurement timestamp will be {{type}} {{value0}} and {{value1}}",
+    "label.goal.summary.ranged": "The goal will be considered reached if the metric measured at the measurement timestamp",
+    "label.summary.ranged.value.between": "will be between",
+    "label.summary.ranged.value.between.details": "Please be aware that the success criteria for achieving your goal do not include the lower and upper bounds.",
+    "label.summary.ranged.value.notBetween": "won't be between (limit values excluded)",
+    "label.summary.ranged.value.notBetween.details": "Please be aware that the success criteria for achieving your goal do not include the lower and upper bounds.",
+    "label.summary.ranged.value.range": "will be in range of",
+    "label.summary.ranged.value.range.details": "Please be aware that if the final result is equal to the lower bound, the goal is considered to be failed. If it's greater than the lower bound the goal is considered to be linearly reached up to a final value greater than or equal to the upper bound of the range.",
+    "label.summary.ranged.values": "{{value0}} and {{value1}}",
     "label.metric.summary": "Metric summary",
-    "metric.summary.tvl": "The total value locked in {{protocol}} on date {{measurementTime}}"
+    "metric.summary.tvl": "The total value locked in {{protocol}} on date {{measurementTime}}."
 }
