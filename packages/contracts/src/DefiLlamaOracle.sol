@@ -25,6 +25,9 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
     error MeasurementTimestampAfterKPITokenExpiration();
     error TooSoonToFinalize();
 
+    event Initialize(address indexed kpiToken, uint256 indexed templateId);
+    event Finalize(uint256 result);
+
     /// @dev Initializes the trusted oracle system.
     /// @param _answerer The address of the trusted entitity that will be allowed to post answers.
     /// @param _minimumElapsedTime The minimum time that must elapse from the instantiation
@@ -77,6 +80,8 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
 
         specification = _specification;
         measurementTimestamp = _measurementTimestamp;
+
+        emit Initialize(_params.kpiToken, _params.templateId);
     }
 
     /// @dev Oracle finalization logic. This checks if the measurement timestamp has been reached and
@@ -90,6 +95,7 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
         finalized = true;
         result = _result;
         IKPIToken(kpiToken).finalize(_toCompletionPercentage(_result));
+        emit Finalize(_result);
     }
 
     /// @dev View function returning all the most important data about the oracle, in
