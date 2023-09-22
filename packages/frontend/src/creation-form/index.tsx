@@ -60,6 +60,7 @@ export const Component = ({
             (constraintType) => constraintType.value === state.constraint?.type,
         ),
     );
+    const [constraintValuesValid, setConstraintValuesValid] = useState(false);
     const [constraintValues, setConstraintValues] = useState<
         [bigint | undefined, bigint | undefined]
     >([state.constraint?.value0, state.constraint?.value1]);
@@ -147,7 +148,12 @@ export const Component = ({
         let initializationBundleGetter:
             | OracleInitializationBundleGetter
             | undefined = undefined;
-        if (!!validSpecification && !!timestamp && !!constraintType) {
+        if (
+            !!validSpecification &&
+            !!timestamp &&
+            !!constraintType &&
+            constraintValuesValid
+        ) {
             initializationBundleGetter = async () => {
                 const specificationCid = await uploadToIpfs(
                     JSON.stringify(validSpecification),
@@ -168,6 +174,7 @@ export const Component = ({
                         constraintValues[1] || 0n,
                     ],
                 );
+                console.log("initData", { initializationData });
                 return {
                     data: initializationData,
                     value: 0n,
@@ -187,10 +194,10 @@ export const Component = ({
                 payload,
             },
         };
-
         onChange(newState, initializationBundleGetter);
     }, [
         constraintType,
+        constraintValuesValid,
         constraintValues,
         metric?.value,
         onChange,
@@ -204,10 +211,20 @@ export const Component = ({
         setTimestamp(dayjs(value));
     }, []);
 
+    const handleValuesChange = useCallback(
+        (values: [bigint | undefined, bigint | undefined], valid: boolean) => {
+            setConstraintValues(values);
+            setConstraintValuesValid(valid);
+        },
+        [],
+    );
+
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-col px-4 gap-4">
-                <Typography variant="h3">Tracked metric</Typography>
+                <Typography variant="h3">
+                    {t("label.tracked.metric")}
+                </Typography>
                 <div className="flex flex-col gap-2 md:flex-row">
                     <div className="w-full md:w-1/2">
                         <Select
@@ -269,7 +286,7 @@ export const Component = ({
             </div>
             <hr className="border-black" />
             <div className="flex flex-col px-4 gap-4">
-                <Typography variant="h3">Goal</Typography>
+                <Typography variant="h3">{t("label.goal")}</Typography>
                 <div className="flex flex-col gap-2 md:flex-row">
                     <div className="flex w-full flex-wrap gap-3">
                         {CONSTRAINT_TYPES.map((ct) => {
@@ -293,7 +310,7 @@ export const Component = ({
                     type={constraintType}
                     value0={constraintValues[0]}
                     value1={constraintValues[1]}
-                    onChange={setConstraintValues}
+                    onChange={handleValuesChange}
                     t={t}
                 />
             </div>
