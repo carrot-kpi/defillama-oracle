@@ -155,12 +155,6 @@ export const Component = ({
             constraintValuesValid
         ) {
             initializationBundleGetter = async () => {
-                if (!constraintValues[0] || !constraintValues[1])
-                    return {
-                        data: "0x",
-                        value: 0n,
-                    };
-
                 const specificationCid = await uploadToIpfs(
                     JSON.stringify(validSpecification),
                 );
@@ -176,8 +170,8 @@ export const Component = ({
                         specificationCid,
                         BigInt(timestamp.unix()),
                         BigInt(Number(constraintType.value)),
-                        constraintValues[0],
-                        constraintValues[1],
+                        constraintValues[0] || 0n,
+                        constraintValues[1] || 0n,
                     ],
                 );
                 console.log("initData", { initializationData });
