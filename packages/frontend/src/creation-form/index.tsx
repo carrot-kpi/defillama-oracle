@@ -39,8 +39,8 @@ export const Component = ({
     const [timestamp, setTimestamp] = useState<Dayjs | null>(
         state?.timestamp ? dayjs.unix(state.timestamp) : null,
     );
-    const [minimumDate, setMinimumDate] = useState(new Date());
-    const [maximumDate, setMaximumDate] = useState(new Date());
+    const [minimumDate, setMinimumDate] = useState<Date | null>(null);
+    const [maximumDate, setMaximumDate] = useState<Date | null>(null);
 
     const [timestampErrorText, setTimestampErrorText] = useState("");
 
@@ -78,6 +78,11 @@ export const Component = ({
             clearInterval(interval);
         };
     }, [kpiToken?.expiration, minimumTimeElapsed]);
+
+    useEffect(() => {
+        if (!state.timestamp) return;
+        setTimestamp(dayjs.unix(state.timestamp));
+    }, [state.timestamp]);
 
     useEffect(() => {
         setTimestampErrorText(
@@ -174,7 +179,6 @@ export const Component = ({
                         constraintValues[1] || 0n,
                     ],
                 );
-                console.log("initData", { initializationData });
                 return {
                     data: initializationData,
                     value: 0n,

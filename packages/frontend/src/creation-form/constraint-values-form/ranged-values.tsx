@@ -1,10 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { type ConstraintFormProps, ConstraintType } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 import { formatDecimals } from "@carrot-kpi/sdk";
-
-// TODO: add bounds validation (for example that the lower bound is actually < higher bound)
 
 type RangedConstraintType = Exclude<
     ConstraintType,
@@ -41,54 +39,49 @@ export const RangedValuesConstraintForm = ({
     const [value0ErrorText, setValue0ErrorText] = useState("");
     const [value1ErrorText, setValue1ErrorText] = useState("");
 
+    useEffect(() => {
+        let value0ErrorText = "";
+        let value1ErrorText = "";
+
+        if (!value0) {
+            value0ErrorText = t("error.value0.ranged.missing");
+        } else if (value1 !== undefined && value0 > value1) {
+            value0ErrorText = t("error.value0.ranged.tooHigh");
+        } else if (value1 !== undefined && value0 === 0n && value1 === 0n) {
+            value0ErrorText = t("error.ranged.zero");
+        }
+
+        if (!value1) {
+            value1ErrorText = t("error.value1.ranged.missing");
+        } else if (value0 !== undefined && value1 < value0) {
+            value1ErrorText = t("error.value1.ranged.tooLow");
+        } else if (value0 !== undefined && value1 === 0n && value0 === 0n) {
+            value1ErrorText = t("error.ranged.zero");
+        }
+
+        setValue0ErrorText(!!value0ErrorText ? value0ErrorText : "");
+        setValue1ErrorText(!!value1ErrorText ? value1ErrorText : "");
+        onChange([value0, value1], !value0ErrorText || !value1ErrorText);
+    }, [onChange, t, value0, value1]);
+
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {
-            let errorText = "";
-
-            if (!value) {
-                errorText = t("error.value0.ranged.missing");
-            } else if (value1 !== undefined && parseUnits(value, 18) > value1) {
-                errorText = t("error.value0.ranged.tooHigh");
-            } else if (
-                value1 !== undefined &&
-                parseUnits(value, 18) === 0n &&
-                value1 === 0n
-            ) {
-                errorText = t("error.ranged.zero");
-            }
-
-            setValue0ErrorText(!!errorText ? errorText : "");
             onChange(
                 [value ? parseUnits(value, 18) : undefined, value1],
-                !errorText,
+                !value0ErrorText,
             );
         },
-        [t, setValue0ErrorText, onChange, value1],
+        [onChange, value1, value0ErrorText],
     );
 
     const handleValue1Change = useCallback(
         ({ value }: { value: string }) => {
-            let errorText = "";
-
-            if (!value) {
-                errorText = t("error.value1.ranged.missing");
-            } else if (value0 !== undefined && parseUnits(value, 18) < value0) {
-                errorText = t("error.value1.ranged.tooLow");
-            } else if (
-                value0 !== undefined &&
-                parseUnits(value, 18) === 0n &&
-                value0 === 0n
-            ) {
-                errorText = t("error.ranged.zero");
-            }
-
-            setValue1ErrorText(!!errorText ? errorText : "");
             onChange(
                 [value0, value ? parseUnits(value, 18) : undefined],
-                !errorText,
+                !value1ErrorText,
             );
         },
-        [t, setValue1ErrorText, onChange, value0],
+        [onChange, value0, value1ErrorText],
     );
 
     return (

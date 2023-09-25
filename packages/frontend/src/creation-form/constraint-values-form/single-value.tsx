@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { type ConstraintFormProps, ConstraintType } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
@@ -25,23 +25,28 @@ export const SingleValueConstraintForm = ({
     onChange,
 }: ConstraintFormProps) => {
     const [valueErrorText, setValueErrorText] = useState("");
+
+    useEffect(() => {
+        let valueErrorText = "";
+
+        if (!value0) {
+            valueErrorText = t("error.value0.single.missing");
+        } else if (
+            type?.value === ConstraintType.LOWER_THAN &&
+            BigInt(valueErrorText) <= 0n
+        ) {
+            valueErrorText = t("error.value0.single.notValid");
+        }
+
+        setValueErrorText(!!valueErrorText ? valueErrorText : "");
+        onChange([value0, 0n], !valueErrorText);
+    }, [onChange, t, type?.value, value0]);
+
     const handleValueChange = useCallback(
         ({ value }: { value: string }) => {
-            let errorText = "";
-
-            if (!value) {
-                errorText = t("error.value0.single.missing");
-            } else if (
-                type?.value === ConstraintType.LOWER_THAN &&
-                BigInt(value) <= 0n
-            ) {
-                errorText = t("error.value0.single.notValid");
-            }
-
-            setValueErrorText(!!errorText ? errorText : "");
-            onChange([parseUnits(value, 18), 0n], !errorText);
+            onChange([parseUnits(value, 18), 0n], !valueErrorText);
         },
-        [onChange, t, type],
+        [onChange, valueErrorText],
     );
 
     return (
