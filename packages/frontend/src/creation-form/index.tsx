@@ -181,7 +181,6 @@ export const Component = ({
             };
         }
 
-        console.log("ONCHANGE", timestamp);
         const newState: State = {
             timestamp: timestamp?.unix(),
             constraint: {
