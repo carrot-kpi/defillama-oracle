@@ -31,10 +31,7 @@ export const SingleValueConstraintForm = ({
 
         if (!value0) {
             valueErrorText = t("error.value0.single.missing");
-        } else if (
-            type?.value === ConstraintType.LOWER_THAN &&
-            BigInt(valueErrorText) <= 0n
-        ) {
+        } else if (type?.value === ConstraintType.LOWER_THAN && value0 <= 0n) {
             valueErrorText = t("error.value0.single.notValid");
         }
 
