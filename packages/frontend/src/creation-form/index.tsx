@@ -174,7 +174,6 @@ export const Component = ({
                         constraintValues[1] || 0n,
                     ],
                 );
-                console.log("initData", { initializationData });
                 return {
                     data: initializationData,
                     value: 0n,
@@ -182,6 +181,7 @@ export const Component = ({
             };
         }
 
+        console.log("ONCHANGE", timestamp);
         const newState: State = {
             timestamp: timestamp?.unix(),
             constraint: {
