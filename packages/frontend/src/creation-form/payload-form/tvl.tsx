@@ -22,7 +22,7 @@ export const TvlPayloadForm = ({
 
     // In those cases when the component is initially rendered and loading is true,
     // the protocol will be set to null in the component's state even if it's passed
-    // in the payload prop. This just makes sure when loading gets set to false and 
+    // in the payload prop. This just makes sure when loading gets set to false and
     // the protocol is still null, that it will be set
     useEffect(() => {
         if (!protocol && !loading) {
