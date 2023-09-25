@@ -13,6 +13,7 @@
     "error.value0.ranged.tooHigh": "Value can't be higher than upper bound",
     "error.value1.ranged.missing": "Value is required",
     "error.value1.ranged.tooLow": "Value can't be lower than lower bound",
+    "error.values.ranged.between.sameValues": "Values can't be the same with the selected constraint",
     "error.ranged.zero": "Value can't be 0",
     "label.goal.summary.single": "The goal will be considered reached if the metric measured at the measurement timestamp",
     "placeholder.value0.single": "Pick a value",
