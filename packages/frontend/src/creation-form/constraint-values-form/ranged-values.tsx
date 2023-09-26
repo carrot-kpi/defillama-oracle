@@ -45,8 +45,12 @@ export const RangedValuesConstraintForm = ({
 
         if (
             type &&
-            type.value === ConstraintType.BETWEEN &&
-            value0 === value1
+            value0 === value1 &&
+            [
+                ConstraintType.BETWEEN,
+                ConstraintType.NOT_BETWEEN,
+                ConstraintType.RANGE,
+            ].includes(type.value)
         ) {
             value0ErrorText = t("error.values.ranged.between.sameValues");
             value1ErrorText = t("error.values.ranged.between.sameValues");
