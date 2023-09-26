@@ -43,7 +43,20 @@ export const RangedValuesConstraintForm = ({
         let value0ErrorText = "";
         let value1ErrorText = "";
 
-        if (!value0) {
+        if (
+            type &&
+            value0 === value1 &&
+            [
+                ConstraintType.BETWEEN,
+                ConstraintType.NOT_BETWEEN,
+                ConstraintType.RANGE,
+            ].includes(type.value)
+        ) {
+            value0ErrorText = t("error.values.ranged.between.sameValues");
+            value1ErrorText = t("error.values.ranged.between.sameValues");
+        }
+
+        if (value0 === undefined) {
             value0ErrorText = t("error.value0.ranged.missing");
         } else if (value1 !== undefined && value0 > value1) {
             value0ErrorText = t("error.value0.ranged.tooHigh");
@@ -51,7 +64,7 @@ export const RangedValuesConstraintForm = ({
             value0ErrorText = t("error.ranged.zero");
         }
 
-        if (!value1) {
+        if (value1 === undefined) {
             value1ErrorText = t("error.value1.ranged.missing");
         } else if (value0 !== undefined && value1 < value0) {
             value1ErrorText = t("error.value1.ranged.tooLow");
@@ -62,7 +75,7 @@ export const RangedValuesConstraintForm = ({
         setValue0ErrorText(!!value0ErrorText ? value0ErrorText : "");
         setValue1ErrorText(!!value1ErrorText ? value1ErrorText : "");
         onChange([value0, value1], !value0ErrorText || !value1ErrorText);
-    }, [onChange, t, value0, value1]);
+    }, [onChange, t, type, value0, value1]);
 
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {

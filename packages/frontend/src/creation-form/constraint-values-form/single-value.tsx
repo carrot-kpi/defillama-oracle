@@ -29,18 +29,19 @@ export const SingleValueConstraintForm = ({
     useEffect(() => {
         let valueErrorText = "";
 
-        if (!value0) {
+        if (value0 === undefined) {
             valueErrorText = t("error.value0.single.missing");
         } else if (
-            type?.value === ConstraintType.LOWER_THAN &&
-            BigInt(valueErrorText) <= 0n
+            type &&
+            type.value === ConstraintType.LOWER_THAN &&
+            value0 <= 0n
         ) {
             valueErrorText = t("error.value0.single.notValid");
         }
 
         setValueErrorText(!!valueErrorText ? valueErrorText : "");
         onChange([value0, 0n], !valueErrorText);
-    }, [onChange, t, type?.value, value0]);
+    }, [onChange, t, type, value0]);
 
     const handleValueChange = useCallback(
         ({ value }: { value: string }) => {
