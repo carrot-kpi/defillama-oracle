@@ -43,7 +43,20 @@ export const RangedValuesConstraintForm = ({
         let value0ErrorText = "";
         let value1ErrorText = "";
 
-        if (!value0) {
+        if (
+            type &&
+            value0 === value1 &&
+            [
+                ConstraintType.BETWEEN,
+                ConstraintType.NOT_BETWEEN,
+                ConstraintType.RANGE,
+            ].includes(type.value)
+        ) {
+            value0ErrorText = t("error.values.ranged.between.sameValues");
+            value1ErrorText = t("error.values.ranged.between.sameValues");
+        }
+
+        if (value0 === undefined) {
             value0ErrorText = t("error.value0.ranged.missing");
         } else if (value1 !== undefined && value0 > value1) {
             value0ErrorText = t("error.value0.ranged.tooHigh");
