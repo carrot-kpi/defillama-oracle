@@ -2,8 +2,18 @@
     "tracked.protocol": "Tracked protocol",
     "metric": "Metric",
     "metric.tvl": "TVL",
+    "goal.metric.tvl": "Total Value Locked (TVL)",
     "oracle.link": "Direct oracle link",
     "current.value": "Current value",
     "final.value": "Final value",
-    "finalization.time": "Finalization time"
+    "finalization.time": "Finalization time",
+    "constraint.type": "Goal configured with constraint type ",
+    "constraint.value0.ranged": "Goal lower bound is ",
+    "constraint.value1.ranged": "Goal higher bound is ",
+    "constraint.value0.single": "Goal is ",
+    "goal.current.status": "Current goal status",
+    "goal.summary.base": "The goal will be deemed successfully achieved when the {{metric}} {{goalDescription}}. The evaluation will take place on {{measurementTime}}.",
+    "goal.ranged.between.description": "falls within the range of {{value0}} and {{value1}}, excluding both the upper and lower limits",
+    "goal.current.status.failing": "Failing",
+    "goal.current.status.succeeding": "Succeeding"
 }
