@@ -3,5 +3,5 @@
     "description": "A trusted Carrot oracle to bring DefiLlama's data on-chain.",
     "tags": ["trusted", "defillama", "defi"],
     "repository": "https://github.com/carrot-kpi/defillama-oracle-template",
-    "stagingURL": "https://defillama-oracle-template.staging.carrot-kpi.dev"
+    "stagingURL": "https://defillama-oracle-template.staging.carrot.community"
 }
