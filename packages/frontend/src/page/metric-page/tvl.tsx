@@ -72,7 +72,7 @@ export const TvlPage = ({
                     <InfoBox
                         label={t("tracked.protocol")}
                         className={{
-                            root: "border-r border-black dark:border-white",
+                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
                         }}
                     >
                         {loadingProtocols || !resolvedProtocol ? (
@@ -94,7 +94,7 @@ export const TvlPage = ({
                     <InfoBox
                         label={t("metric")}
                         className={{
-                            root: "border-r border-black dark:border-white",
+                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
                         }}
                     >
                         <Typography>{t("metric.tvl")}</Typography>
@@ -124,7 +124,7 @@ export const TvlPage = ({
                             finalized ? t("final.value") : t("current.value")
                         }
                         className={{
-                            root: "border-r border-black dark:border-white",
+                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
                         }}
                     >
                         {loadingTvl ? (
@@ -157,7 +157,7 @@ export const TvlPage = ({
                     <InfoBox
                         label={t("constraint.type")}
                         className={{
-                            root: "border-r border-black dark:border-white",
+                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
                         }}
                     >
                         <Typography>
