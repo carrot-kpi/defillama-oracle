@@ -5,10 +5,6 @@ import {
     type MetricOption,
 } from "../types";
 
-export const DEFILLAMA_ANSWERER_URL = __DEV__
-    ? "http://127.0.0.1:9080"
-    : "https://defillama-answerer.carrot-kpi.dev";
-
 export const METRICS: MetricOption[] = [
     {
         value: Metric.TVL,

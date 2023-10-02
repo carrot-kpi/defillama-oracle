@@ -1,11 +1,19 @@
 import "../global.css";
 import "@carrot-kpi/ui/styles.css";
 
-import { type ReactElement, useState, useEffect, useCallback } from "react";
+import {
+    type ReactElement,
+    useState,
+    useEffect,
+    useCallback,
+    useMemo,
+} from "react";
 import {
     useDecentralizedStorageUploader,
     type OracleRemoteCreationFormProps,
     type OracleInitializationBundleGetter,
+    useDevMode,
+    useStagingMode,
 } from "@carrot-kpi/react";
 import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import {
@@ -14,7 +22,7 @@ import {
     type Specification,
     type State,
 } from "../types";
-import { CONSTRAINT_TYPES, DEFILLAMA_ANSWERER_URL, METRICS } from "../commons";
+import { CONSTRAINT_TYPES, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import { encodeAbiParameters } from "viem";
 import dayjs, { Dayjs } from "dayjs";
@@ -35,6 +43,15 @@ export const Component = ({
     const uploadToIpfs = useDecentralizedStorageUploader();
     const { minimumTimeElapsed, loading: loadingMinimumTimeElapsed } =
         useMinimumTimeElapsed(template.address);
+    const devMode = useDevMode();
+    const stagingMode = useStagingMode();
+    const answererUrl = useMemo(() => {
+        return devMode
+            ? "http://127.0.0.1:9080"
+            : stagingMode
+            ? "https://defillama-answerer.staging.carrot.community"
+            : "https://defillama-answerer.carrot.community";
+    }, [devMode, stagingMode]);
 
     const [timestamp, setTimestamp] = useState<Dayjs | null>(
         state?.timestamp ? dayjs.unix(state.timestamp) : null,
@@ -120,7 +137,7 @@ export const Component = ({
                 let valid = false;
                 try {
                     const response = await fetch(
-                        `${DEFILLAMA_ANSWERER_URL}/specifications/validations`,
+                        `${answererUrl}/specifications/validations`,
                         {
                             method: "POST",
                             headers: {
