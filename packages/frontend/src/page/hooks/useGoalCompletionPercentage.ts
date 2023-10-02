@@ -42,10 +42,6 @@ function getGoalCompletion({
         case ConstraintType.NOT_EQUAL: {
             return result !== value0 ? UNIT : 0;
         }
-        default: {
-            console.error("invalid constraint type", constraint);
-            return 0;
-        }
     }
 }
 
