@@ -16,7 +16,7 @@
         "codegen-chain-specific-contracts": "./codegen-chain-specific-contracts.js"
     },
     "devDependencies": {
-        "@carrot-kpi/sdk": "^1.41.1",
+        "@carrot-kpi/sdk": "^1.42.0",
         "eslint-config-custom": "*",
         "prettier": "^3.0.3",
         "tsconfig": "*",
