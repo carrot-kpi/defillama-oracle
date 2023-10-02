@@ -1,51 +1,50 @@
-import { formatUnits } from "viem";
 import { ConstraintType } from "../../types";
 
-interface CurrentGoalStatusParams {
+interface GoalCompletionParams {
     constraint: ConstraintType;
-    value0: bigint;
-    value1: bigint;
-    result: bigint;
+    value0: number;
+    value1: number;
+    result: number;
 }
 
-const UNIT = 1_000_000n;
+const UNIT = 1_000_000;
 
 function getGoalCompletion({
     constraint,
     result,
     value0,
     value1,
-}: CurrentGoalStatusParams) {
+}: GoalCompletionParams) {
     // implement the on-chain logic
     switch (constraint) {
         case ConstraintType.RANGE: {
-            if (result <= value0) return 0n;
+            if (result <= value0) return 0;
             if (result >= value1) return UNIT;
             else {
                 return ((result - value0) * UNIT) / (value1 - value0);
             }
         }
         case ConstraintType.BETWEEN: {
-            return result > value0 && result < value1 ? UNIT : 0n;
+            return result > value0 && result < value1 ? UNIT : 0;
         }
         case ConstraintType.NOT_BETWEEN: {
-            return result < value0 || result > value1 ? UNIT : 0n;
+            return result < value0 || result > value1 ? UNIT : 0;
         }
         case ConstraintType.GREATER_THAN: {
-            return result > value0 ? UNIT : 0n;
+            return result > value0 ? UNIT : 0;
         }
         case ConstraintType.LOWER_THAN: {
-            return result < value0 ? UNIT : 0n;
+            return result < value0 ? UNIT : 0;
         }
         case ConstraintType.EQUAL: {
-            return result === value0 ? UNIT : 0n;
+            return result === value0 ? UNIT : 0;
         }
         case ConstraintType.NOT_EQUAL: {
-            return result !== value0 ? UNIT : 0n;
+            return result !== value0 ? UNIT : 0;
         }
         default: {
             console.error("invalid constraint type", constraint);
-            return 0n;
+            return 0;
         }
     }
 }
@@ -55,13 +54,13 @@ export function useGoalCompletionPercentage({
     value0,
     value1,
     result,
-}: CurrentGoalStatusParams) {
+}: GoalCompletionParams) {
     const completion = getGoalCompletion({
         constraint,
         result,
-        value0: BigInt(formatUnits(value0, 18)),
-        value1: BigInt(formatUnits(value1, 18)),
+        value0,
+        value1,
     });
 
-    return (completion / UNIT) * 100n;
+    return (completion / UNIT) * 100;
 }
