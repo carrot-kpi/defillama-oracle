@@ -21,7 +21,7 @@ const CONSTRAINT_SUMMARY: {
     },
     [ConstraintType.NOT_BETWEEN]: {
         constraint: "label.summary.ranged.value.notBetween",
-        details: "label.summary.ranged.value.range.notBetween",
+        details: "label.summary.ranged.value.notBetween.details",
     },
     [ConstraintType.RANGE]: {
         constraint: "label.summary.ranged.value.range",
