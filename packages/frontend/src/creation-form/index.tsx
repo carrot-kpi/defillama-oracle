@@ -49,8 +49,8 @@ export const Component = ({
         return devMode
             ? "http://127.0.0.1:9080"
             : stagingMode
-            ? "https://defillama-answerer.staging.carrot.community"
-            : "https://defillama-answerer.carrot.community";
+            ? "https://defillama-answerer.api.staging.carrot.community"
+            : "https://defillama-answerer.api.carrot.community";
     }, [devMode, stagingMode]);
 
     const [timestamp, setTimestamp] = useState<Dayjs | null>(
