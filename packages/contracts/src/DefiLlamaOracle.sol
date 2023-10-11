@@ -15,14 +15,17 @@ import {IKPIToken} from "carrot/interfaces/kpi-tokens/IKPIToken.sol";
 /// @author Federico Luzzi - <federico.luzzi@protonmail.com>
 contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrustedOracle {
     uint256 public immutable minimumElapsedTime;
+    uint256 public immutable expirationBufferTime;
 
     uint256 public measurementTimestamp;
     string public specification;
     uint256 public result;
 
     error InvalidSpecification();
+    error InvalidMinimumElapsedTime();
+    error InvalidExpirationBufferTime();
     error MeasurementTimestampTooClose();
-    error MeasurementTimestampAfterKPITokenExpiration();
+    error MeasurementTimestampAfterKPITokenExpirationMinusBuffer();
     error TooSoonToFinalize();
 
     event Initialize(address indexed kpiToken, uint256 indexed templateId);
@@ -34,8 +37,14 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
     /// of an oracle to when the final measurement should be taken. If for example we have a
     /// `_minimumElapsedTime` with value 30, and oracle created at t0 must have a measurement
     /// timestamp of at least t30.
-    constructor(address _answerer, uint256 _minimumElapsedTime) ConstantAnswererTrustedOracle(_answerer) {
+    constructor(address _answerer, uint256 _minimumElapsedTime, uint256 _expirationBufferTime)
+        ConstantAnswererTrustedOracle(_answerer)
+    {
+        if (_minimumElapsedTime == 0) revert InvalidMinimumElapsedTime();
+        if (_expirationBufferTime == 0) revert InvalidExpirationBufferTime();
+
         minimumElapsedTime = _minimumElapsedTime;
+        expirationBufferTime = _expirationBufferTime;
     }
 
     /// @dev Initializes the oracle.
@@ -74,8 +83,8 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
 
         if (bytes(_specification).length == 0) revert InvalidSpecification();
         if (_measurementTimestamp < block.timestamp + minimumElapsedTime) revert MeasurementTimestampTooClose();
-        if (_measurementTimestamp > IKPIToken(_params.kpiToken).expiration()) {
-            revert MeasurementTimestampAfterKPITokenExpiration();
+        if (_measurementTimestamp > IKPIToken(_params.kpiToken).expiration() - expirationBufferTime) {
+            revert MeasurementTimestampAfterKPITokenExpirationMinusBuffer();
         }
 
         specification = _specification;

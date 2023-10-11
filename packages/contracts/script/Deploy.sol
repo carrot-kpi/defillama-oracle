@@ -11,12 +11,15 @@ import {DefiLlamaOracle} from "../src/DefiLlamaOracle.sol";
 contract Deploy is Script {
     error ZeroAddressAnswerer();
 
-    function run(address _answerer, uint256 _minimumElapsedTime) external {
+    function run(address _answerer, uint256 _minimumElapsedTime, uint256 _expirationBufferTime) external {
         if (_answerer == address(0)) revert ZeroAddressAnswerer();
 
         vm.startBroadcast();
 
-        console2.log("Template deployed at address", address(new DefiLlamaOracle(_answerer, _minimumElapsedTime)));
+        console2.log(
+            "Template deployed at address",
+            address(new DefiLlamaOracle(_answerer, _minimumElapsedTime, _expirationBufferTime))
+        );
 
         vm.stopBroadcast();
     }

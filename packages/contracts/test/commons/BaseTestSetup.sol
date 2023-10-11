@@ -15,6 +15,7 @@ abstract contract BaseTestSetup is Test {
     string internal constant TRUSTED_ORACLE_SPECIFICATION = "foo";
     address internal constant ANSWERER = address(1000000001);
     uint256 internal constant MINIMUM_ELAPSED_TIME = 30;
+    uint256 internal constant EXPIRATION_BUFFER_TIME = 30;
 
     address internal feeReceiver;
     KPITokensFactory internal factory;
@@ -31,7 +32,7 @@ abstract contract BaseTestSetup is Test {
         kpiTokensManager = new KPITokensManager1(address(factory));
         kpiTokensManager.addTemplate(address(mockKPIToken), "test-specification");
 
-        defiLlamaOracleTemplate = new DefiLlamaOracle(ANSWERER, MINIMUM_ELAPSED_TIME);
+        defiLlamaOracleTemplate = new DefiLlamaOracle(ANSWERER, MINIMUM_ELAPSED_TIME, EXPIRATION_BUFFER_TIME);
         oraclesManager = new OraclesManager1(address(factory));
         oraclesManager.addTemplate(address(defiLlamaOracleTemplate), TRUSTED_ORACLE_SPECIFICATION);
 
