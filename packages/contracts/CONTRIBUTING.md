@@ -71,9 +71,15 @@ brief explainer of the env variables:
   based on DefiLlama's data.
 - `MINIMUM_ELAPSED_TIME`: the minimum time that must elapse from the
   instantiation of an oracle to when the final measurement should be taken. If
-  for example we have a `MINIMUM_ELAPSED_TIME` set to 30, and oracle created at
+  for example we have a `MINIMUM_ELAPSED_TIME` set to 30, an oracle created at
   t0 must have a measurement timestamp of at least t30. Set this to a
   sufficiently large value for production deployments.
+- `EXPIRATION_BUFFER_TIME`: a buffer time (in seconds) that must pass between
+  the given measurement timestamp and the attached KPI token expiration. If for
+  example we have an `EXPIRATION_BUFFER_TIME` set to 30, an oracle created at t0
+  that is attached to a KPI token that has its expiration at t40 must have a
+  measurement timestamp of at maximum t10. Set this to a sufficiently large
+  value for production deployments.
 
 Once you have one instance of this file for each network you're interested in
 (e.g. .`env.goerli`, `.env.gnosis`, `env.mainnet` etc etc), you can go ahead and
@@ -82,5 +88,5 @@ doing that, you can finally execute the following command to initiate the
 deployment:
 
 ```
-FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address,uint256)' Deploy $ANSWERER_ADDRESS $MINIMUM_ELAPSED_TIME
+FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address,uint256)' Deploy $ANSWERER_ADDRESS $MINIMUM_ELAPSED_TIME $EXPIRATION_BUFFER_TIME
 ```
