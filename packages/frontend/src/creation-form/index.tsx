@@ -26,7 +26,7 @@ import { CONSTRAINT_TYPES, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import { encodeAbiParameters } from "viem";
 import dayjs, { Dayjs } from "dayjs";
-import { useMinimumTimeElapsed } from "../hooks/useMinimumTimeElapsed";
+import { useTimeConstraints } from "../hooks/useTimeConstraints";
 import { ConstraintForm } from "./constraint-values-form";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import useDebounce from "react-use/esm/useDebounce";
@@ -41,8 +41,11 @@ export const Component = ({
     template,
 }: OracleRemoteCreationFormProps<State>): ReactElement => {
     const uploadToIpfs = useDecentralizedStorageUploader();
-    const { minimumTimeElapsed, loading: loadingMinimumTimeElapsed } =
-        useMinimumTimeElapsed(template.address);
+    const {
+        minimumTimeElapsed,
+        expirationBufferTime,
+        loading: loadingTimeConstraints,
+    } = useTimeConstraints(template.address);
     const devMode = useDevMode();
     const stagingMode = useStagingMode();
     const answererUrl = useMemo(() => {
@@ -83,18 +86,24 @@ export const Component = ({
     >([state.constraint?.value0, state.constraint?.value1]);
 
     useEffect(() => {
-        if (kpiToken?.expiration)
-            setMaximumDate(dayjs.unix(kpiToken.expiration).toDate());
+        if (kpiToken?.expiration) {
+            const maximumDate = expirationBufferTime
+                ? dayjs
+                      .unix(kpiToken.expiration)
+                      .subtract(Number(expirationBufferTime), "seconds")
+                : dayjs.unix(kpiToken.expiration);
+            setMaximumDate(maximumDate.toDate());
+        }
         const interval = setInterval(() => {
-            const minimumDate = dayjs();
-            if (minimumTimeElapsed)
-                minimumDate.add(Number(minimumTimeElapsed), "seconds");
+            const minimumDate = minimumTimeElapsed
+                ? dayjs().add(Number(minimumTimeElapsed), "seconds")
+                : dayjs();
             setMinimumDate(minimumDate.toDate());
         }, 1_000);
         return () => {
             clearInterval(interval);
         };
-    }, [kpiToken?.expiration, minimumTimeElapsed]);
+    }, [expirationBufferTime, kpiToken?.expiration, minimumTimeElapsed]);
 
     useEffect(() => {
         if (!state.timestamp) return;
@@ -284,7 +293,7 @@ export const Component = ({
                                 input: "w-full",
                                 inputWrapper: "w-full",
                             }}
-                            loading={loadingMinimumTimeElapsed}
+                            loading={loadingTimeConstraints}
                             label={t("label.timestamp")}
                             placeholder={t("placeholder.tvl.timestamp")}
                             min={minimumDate}

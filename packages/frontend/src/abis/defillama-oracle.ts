@@ -11,6 +11,11 @@ export default [
                 name: "_minimumElapsedTime",
                 type: "uint256",
             },
+            {
+                internalType: "uint256",
+                name: "_expirationBufferTime",
+                type: "uint256",
+            },
         ],
         stateMutability: "nonpayable",
         type: "constructor",
@@ -22,12 +27,57 @@ export default [
     },
     {
         inputs: [],
+        name: "InvalidConstraint",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidExpirationBufferTime",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidGreaterThanConstraintValue",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidLowerThanConstraintValue",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidMinimumElapsedTime",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidRangeBounds",
+        type: "error",
+    },
+    {
+        inputs: [],
         name: "InvalidSpecification",
         type: "error",
     },
     {
         inputs: [],
-        name: "MeasurementTimestampAfterKPITokenExpiration",
+        name: "InvalidTemplateId",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidTemplateVersion",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidValues",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "MeasurementTimestampAfterKPITokenExpirationMinusBuffer",
         type: "error",
     },
     {
@@ -37,12 +87,17 @@ export default [
     },
     {
         inputs: [],
+        name: "TooSoonToFinalize",
+        type: "error",
+    },
+    {
+        inputs: [],
         name: "ZeroAddressAnswerer",
         type: "error",
     },
     {
         inputs: [],
-        name: "ZeroAddressKpiToken",
+        name: "ZeroAddressKPIToken",
         type: "error",
     },
     {
@@ -111,6 +166,19 @@ export default [
                 internalType: "bytes",
                 name: "",
                 type: "bytes",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "expirationBufferTime",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
             },
         ],
         stateMutability: "view",
@@ -211,6 +279,19 @@ export default [
     {
         inputs: [],
         name: "minimumElapsedTime",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "result",
         outputs: [
             {
                 internalType: "uint256",

@@ -202,6 +202,18 @@ contract InitializeTest is BaseTestSetup {
         );
     }
 
+    function testMeasurementTimestampAfterKPITokenExpirationMinusBuffer() external {
+        // the kpi token expiration is set to be 2 ** 128 in the mocked call in the initializeOracleAndAssert function
+        initializeOracleAndAssert(
+            "fake-spec",
+            2 ** 128 - EXPIRATION_BUFFER_TIME + 1,
+            Constraint.Equal,
+            10,
+            0,
+            abi.encodeWithSignature("MeasurementTimestampAfterKPITokenExpirationMinusBuffer()")
+        );
+    }
+
     function testMeasurementTimestampAfterKPITokenExpiration() external {
         // the kpi token expiration is set to be 2 ** 128 in the mocked call in the initializeOracleAndAssert function
         initializeOracleAndAssert(
@@ -210,7 +222,7 @@ contract InitializeTest is BaseTestSetup {
             Constraint.Equal,
             10,
             0,
-            abi.encodeWithSignature("MeasurementTimestampAfterKPITokenExpiration()")
+            abi.encodeWithSignature("MeasurementTimestampAfterKPITokenExpirationMinusBuffer()")
         );
     }
 
