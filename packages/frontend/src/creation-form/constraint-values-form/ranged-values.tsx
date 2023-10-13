@@ -143,7 +143,7 @@ export const RangedValuesConstraintForm = ({
             value1 !== undefined &&
             !!type ? (
                 <FeedbackBox
-                    variant="info"
+                    variant="success"
                     messages={{ title: t("label.goal.summary") }}
                     className={{ root: "flex flex-col gap-2" }}
                 >

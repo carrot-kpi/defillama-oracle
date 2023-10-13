@@ -7,11 +7,9 @@
     "current.value": "Current value",
     "final.value": "Final value",
     "finalization.time": "Finalization time",
-    "constraint.type": "Goal constraint type",
-    "constraint.value0.ranged": "Lower bound",
-    "constraint.value1.ranged": "Higher bound",
-    "constraint.value0.single": "Bound",
     "goal.current.status": "Current goal status",
+    "goal.final.status": "Final goal status",
+    "goal.summary.title": "Summary",
     "goal.summary.base": "The goal will be deemed successfully achieved when the {{metric}} {{goalDescription}}. The evaluation will take place on {{measurementTime}}.",
     "goal.ranged.between.description": "falls within the range of {{value0}} and {{value1}}, excluding both the upper and lower limits",
     "goal.ranged.notBetween.description": "does not fall within the range of {{value0}} and {{value1}}. If the result is equal to either the lower or the upper bound it's considered failed",
@@ -21,5 +19,7 @@
     "goal.single.greaterThan.description": "is greather than {{value0}}",
     "goal.single.lowerThan.description": "is lower than {{value0}}",
     "goal.current.status.failing": "Failing",
-    "goal.current.status.succeeding": "Succeeding"
+    "goal.current.status.succeeding": "Succeeding",
+    "goal.final.status.failed": "Failed",
+    "goal.final.status.reached": "Reached"
 }

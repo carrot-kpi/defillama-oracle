@@ -68,7 +68,7 @@ export const TvlPayloadForm = ({
             </div>
             {measurementTimestamp && protocol ? (
                 <FeedbackBox
-                    variant="info"
+                    variant="success"
                     messages={{ title: t("label.metric.summary") }}
                 >
                     <Typography>

@@ -75,7 +75,7 @@ export const SingleValueConstraintForm = ({
             </div>
             {value0 !== undefined && !!type ? (
                 <FeedbackBox
-                    variant="info"
+                    variant="success"
                     messages={{ title: t("label.goal.summary") }}
                 >
                     <Typography>
