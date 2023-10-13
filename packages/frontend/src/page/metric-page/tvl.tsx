@@ -1,4 +1,10 @@
-import { FeedbackBox, RemoteLogo, Skeleton, Typography } from "@carrot-kpi/ui";
+import {
+    FeedbackBox,
+    RemoteLogo,
+    Skeleton,
+    Typography,
+    type FeedbackBoxProps,
+} from "@carrot-kpi/ui";
 import {
     ConstraintType,
     Metric,
@@ -7,15 +13,13 @@ import {
 } from "../../types";
 import { InfoBox } from "../components/info-box";
 import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getDefiLlamaLink } from "../utils/defillama";
 import External from "../icons/external";
 import { formatDecimals } from "@carrot-kpi/sdk";
 import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
 import { formatUnits } from "viem";
 import { useGoalCompletionPercentage } from "../hooks/useGoalCompletionPercentage";
-import ArrowDown from "../icons/arrowDown";
-import ArrowUp from "../icons/arrowUp";
 
 const GOAL_DESCRIPTION: {
     [C in ConstraintType]: string;
@@ -65,6 +69,11 @@ export const TvlPage = ({
         );
     }, [loadingProtocols, protocols, specification.payload.protocol]);
 
+    const feedbackBoxStatus: FeedbackBoxProps["variant"] = useMemo(() => {
+        if (!finalized) return "info";
+        return goalCompletionPercentage === 0 ? "warning" : "success";
+    }, [finalized, goalCompletionPercentage]);
+
     return (
         <>
             <div className="flex flex-col md:flex-row border-b border-black dark:border-white">
@@ -92,34 +101,6 @@ export const TvlPage = ({
                 </div>
                 <div className="w-full flex">
                     <InfoBox
-                        label={t("metric")}
-                        className={{
-                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
-                        }}
-                    >
-                        <Typography>{t("metric.tvl")}</Typography>
-                    </InfoBox>
-                </div>
-                <div className="w-full flex">
-                    <InfoBox label={t("oracle.link")}>
-                        <a
-                            className="flex gap-1 items-center"
-                            href={getDefiLlamaLink(
-                                specification.payload.protocol,
-                                Metric.TVL,
-                            )}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Typography>DefiLlama</Typography>
-                            <External className="w-4 h-4 cursor-pointer" />
-                        </a>
-                    </InfoBox>
-                </div>
-            </div>
-            <div className="flex flex-col md:flex-row border-b border-black dark:border-white">
-                <div className="w-full flex">
-                    <InfoBox
                         label={
                             finalized ? t("final.value") : t("current.value")
                         }
@@ -145,73 +126,28 @@ export const TvlPage = ({
                     </InfoBox>
                 </div>
                 <div className="w-full flex">
-                    <InfoBox label={t("finalization.time")}>
-                        <Typography>
-                            {measurementTimestamp.format("L HH:mm:ss")}
-                        </Typography>
+                    <InfoBox label={t("oracle.link")}>
+                        <a
+                            className="flex gap-1 items-center"
+                            href={getDefiLlamaLink(
+                                specification.payload.protocol,
+                                Metric.TVL,
+                            )}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Typography>DefiLlama</Typography>
+                            <External className="w-4 h-4 cursor-pointer" />
+                        </a>
                     </InfoBox>
                 </div>
-            </div>
-            <div className="flex flex-col md:flex-row border-b border-black dark:border-white">
-                <div className="w-full flex">
-                    <InfoBox
-                        label={t("constraint.type")}
-                        className={{
-                            root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
-                        }}
-                    >
-                        <Typography>
-                            {ConstraintType[constraint].replace("_", " ")}
-                        </Typography>
-                    </InfoBox>
-                </div>
-                {value1 !== 0n ? (
-                    <>
-                        <div className="w-full flex">
-                            <InfoBox
-                                label={t("constraint.value0.ranged")}
-                                icon={<ArrowDown className="w-3 h-3" />}
-                                className={{
-                                    root: "border-r border-black dark:border-white",
-                                }}
-                            >
-                                <Typography>
-                                    {formatDecimals({
-                                        number: formatUnits(value0, 18),
-                                        decimalsAmount: 2,
-                                    })}
-                                </Typography>
-                            </InfoBox>
-                        </div>
-                        <div className="w-full flex">
-                            <InfoBox
-                                label={t("constraint.value1.ranged")}
-                                icon={<ArrowUp className="w-3 h-3" />}
-                            >
-                                <Typography>
-                                    {formatDecimals({
-                                        number: formatUnits(value1, 18),
-                                        decimalsAmount: 2,
-                                    })}
-                                </Typography>
-                            </InfoBox>
-                        </div>
-                    </>
-                ) : (
-                    <div className="w-full flex">
-                        <InfoBox label={t("constraint.value0.single")}>
-                            <Typography>
-                                {formatDecimals({
-                                    number: formatUnits(value0, 18),
-                                    decimalsAmount: 2,
-                                })}
-                            </Typography>
-                        </InfoBox>
-                    </div>
-                )}
             </div>
             <div className="flex flex-col md:flex-row border-b border-black dark:border-white p-6">
-                <FeedbackBox variant="info" className={{ root: "max-w-2xl" }}>
+                <FeedbackBox
+                    messages={{ title: t("goal.summary.title") }}
+                    variant={feedbackBoxStatus}
+                    className={{ root: "max-w-2xl" }}
+                >
                     <Typography>
                         {t("goal.summary.base", {
                             metric: t("goal.metric.tvl"),
@@ -232,18 +168,33 @@ export const TvlPage = ({
                 </FeedbackBox>
             </div>
             <div className="flex flex-col md:flex-row">
-                <InfoBox label={t("goal.current.status")}>
-                    <Typography uppercase>
-                        {goalCompletionPercentage === 0
-                            ? t("goal.current.status.failing")
-                            : t("goal.current.status.succeeding")}{" "}
-                        {formatDecimals({
-                            number: goalCompletionPercentage.toString(),
-                            decimalsAmount: 2,
-                        })}
-                        {"%"}
-                    </Typography>
-                </InfoBox>
+                {finalized ? (
+                    <InfoBox label={t("goal.final.status")}>
+                        <Typography uppercase>
+                            {goalCompletionPercentage === 0
+                                ? t("goal.final.status.failed")
+                                : t("goal.final.status.reached")}{" "}
+                            {formatDecimals({
+                                number: goalCompletionPercentage.toString(),
+                                decimalsAmount: 2,
+                            })}
+                            {"%"}
+                        </Typography>
+                    </InfoBox>
+                ) : (
+                    <InfoBox label={t("goal.current.status")}>
+                        <Typography uppercase>
+                            {goalCompletionPercentage === 0
+                                ? t("goal.current.status.failing")
+                                : t("goal.current.status.succeeding")}{" "}
+                            {formatDecimals({
+                                number: goalCompletionPercentage.toString(),
+                                decimalsAmount: 2,
+                            })}
+                            {"%"}
+                        </Typography>
+                    </InfoBox>
+                )}
             </div>
         </>
     );

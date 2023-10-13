@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adobe/css-tools@^4.3.0":
+"@adobe/css-tools@^4.3.1":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.3.1.tgz#abfccb8ca78075a2b6187345c26243c1a0842f28"
   integrity sha512-/62yikz7NLScCGAAST5SHdnjaDJQBDq0M2muyRTpf2VQhw6StBg2ALiu73zSJQ4fMVLA+0uBhBHAle7Wg+2kSg==
@@ -1079,10 +1079,10 @@
     bufferutil "4.0.5"
     utf-8-validate "5.0.7"
 
-"@carrot-kpi/host-frontend@^0.26.3":
-  version "0.26.3"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.26.3.tgz#8e8059a22e60cedbca95fbcfc5e7fbae8adc92c3"
-  integrity sha512-TYy30qLSRySMmrND1Nuu3rUt6k+VNLbrY/qyoTEE/ZSYC5kxRO1zQMf/3EnrV+nx70eZ8epffNi12Dz867N6mw==
+"@carrot-kpi/host-frontend@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.27.0.tgz#a7bf3d48b1836c4013ba55422de9ca453e984fc0"
+  integrity sha512-a1b9FJkSHYGFcG+e6fFIhzoGyLpcTTMwpGhdVKA4Y475mDfN2QnMlDTZKHIarT3q7sFaXeoYIrDfATTwGyZeIg==
   dependencies:
     "@carrot-kpi/react" "*"
     "@carrot-kpi/sdk" "*"
@@ -1112,10 +1112,10 @@
     react-use "^17.4.0"
     viem "^1.10.4"
 
-"@carrot-kpi/react@^0.64.1":
-  version "0.64.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.64.1.tgz#22f59a393b0e092052b3a3de7b2cf9aad1f53e4c"
-  integrity sha512-+8DgMwYfcJ84/0RE1gcemJKMpnpYNVXgh46FB4J4T/ckigDiTLNegc3NZhP1JXu6xEXAbH/rErYwDDPliZ/Jcw==
+"@carrot-kpi/react@^0.65.0":
+  version "0.65.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.65.0.tgz#e6205694fc720f5a25171324ea56005f630778aa"
+  integrity sha512-tAPTRckT4TMwBrIgVp/NLYzw3qyXMOC9YMUEu5GdighEWw6r/TSZvXQNFMBXEGFEdoCFt3FnjKKodcU+o5peUw==
   dependencies:
     "@carrot-kpi/sdk" "*"
     "@uniswap/token-lists" "1.0.0-beta.33"
@@ -1133,10 +1133,10 @@
     multiformats "^9.9.0"
     viem "^1.10.4"
 
-"@carrot-kpi/sdk@^1.42.3":
-  version "1.42.3"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.42.3.tgz#5cb0a4d9d11f63d76b6ed0fe44947e64a710e511"
-  integrity sha512-pNCSM1i9PWd5BvV+GXvBk/3z/FqeaK0WCoaVfSWoJYtSCdauV8l1TKo2gwY2JwhrpK9F9TmzdN2JXdAtcL/ysw==
+"@carrot-kpi/sdk@^1.43.0":
+  version "1.43.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.43.0.tgz#1384d1c8afcc464a27a0532054ece3ab306a0d74"
+  integrity sha512-jm1DKiAkGtuwtBcRIaxMilFiX1eP3C650JRjhxtPwJjK7acP+9NuHemUxKOfVtX37OzWW0n5Z0WsA96wgfJGcg==
   dependencies:
     "@carrot-kpi/contracts" "^0.3.1"
     decimal.js-light "^2.5.1"
@@ -1182,10 +1182,10 @@
     tailwind-merge "^1.14.0"
     viem "^1.10.4"
 
-"@carrot-kpi/ui@^0.64.0":
-  version "0.64.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/ui/-/ui-0.64.0.tgz#bb0f92d88d2019a95f32b2cc63566b7557ec85cf"
-  integrity sha512-ZTVTtFOYmpXMLhJ0FZFHUtPSl1JSDJnRHhxTLXAhOuEirnQLl8I7yW7fH8fGDKgsdffwj1UAzXpep3MNnOepSQ==
+"@carrot-kpi/ui@^0.65.0":
+  version "0.65.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/ui/-/ui-0.65.0.tgz#b05c659ce6264ad23f6ddd56390072db099fba1c"
+  integrity sha512-Mnp7OTvUOxzgzXjK9EUOUs155X5jddNk4d0sUiXinGDjEb1Z5FptDQZakH8rE72iblUxDPPM/VwDLmVV9oU7aw==
   dependencies:
     "@carrot-kpi/sdk" "*"
     "@popperjs/core" "^2.11.8"
@@ -2878,12 +2878,12 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.1.3.tgz#443118c9e4043f96396f120de2c7122504a079c5"
-  integrity sha512-YzpjRHoCBWPzpPNtg6gnhasqtE/5O4qz8WCwDEaxtfnPO6gkaLrnuXusrGSPyhIGPezr1HM7ZH0CFaUTY9PJEQ==
+"@testing-library/jest-dom@^6.1.4":
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.1.4.tgz#cf0835c33bc5ef00befb9e672b1e3e6a710e30e3"
+  integrity sha512-wpoYrCYwSZ5/AxcrjLxJmCU6I5QAJXslEeSiMQqaWmP2Kzpd1LvF/qxmAIW2qposULGWq2gw30GgVNFLSc2Jnw==
   dependencies:
-    "@adobe/css-tools" "^4.3.0"
+    "@adobe/css-tools" "^4.3.1"
     "@babel/runtime" "^7.9.2"
     aria-query "^5.0.0"
     chalk "^3.0.0"
@@ -10780,10 +10780,10 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-i18next@^13.2.2:
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.2.2.tgz#b1e78ed66a54f4bc819616f68b98221e1b1a1936"
-  integrity sha512-+nFUkbRByFwnrfDcYqvzBuaeZb+nACHx+fAWN/pZMddWOCJH5hoc21+Sa/N/Lqi6ne6/9wC/qRGOoQhJa6IkEQ==
+react-i18next@^13.3.0:
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.3.0.tgz#8e39c0101f654db7eb971f159bb55067a78925c3"
+  integrity sha512-FlR9xjYHSPIJfQspEmkN0yOlxgRyNuiJKJ8gCaZH08UJ7SZHG+VrptEPcpEMEchjNoCOZdKcvJ3PnmHEZhkeXg==
   dependencies:
     "@babel/runtime" "^7.22.5"
     html-parse-stringify "^3.0.1"
@@ -12653,10 +12653,10 @@ viem@^1.0.0, viem@^1.10.4, viem@^1.15.3, viem@^1.9.2:
     isomorphic-ws "5.0.0"
     ws "8.13.0"
 
-viem@^1.16.3:
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.16.3.tgz#154e9a93bc5434d46fcae49ed0d6ec0a34f4d2c9"
-  integrity sha512-5IErEXuJVrSoMnEYidOh5lzPpTOZ/e33riDiZCxToap2DpLBMDpZCKoZZgroQgH7mAjfZcylv/LS+YIP/Gmeyg==
+viem@^1.16.5:
+  version "1.16.5"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.16.5.tgz#99bac3bd6a2ccdff4a097438a8ef23a91f01d414"
+  integrity sha512-D8aE6cp/5w6PDtOOkJjkN+FtLyfsNWkfE78N4yTgCt4BG7KsBsePp4O68r1IaTVTVa41anebiZAy9kNEIwAXiw==
   dependencies:
     "@adraffy/ens-normalize" "1.9.4"
     "@noble/curves" "1.2.0"
