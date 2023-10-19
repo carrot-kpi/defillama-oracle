@@ -20,17 +20,66 @@ import { formatDecimals } from "@carrot-kpi/sdk";
 import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
 import { formatUnits } from "viem";
 import { useGoalCompletionPercentage } from "../hooks/useGoalCompletionPercentage";
+import { Trans } from "react-i18next";
 
 const GOAL_DESCRIPTION: {
-    [C in ConstraintType]: string;
+    [C in ConstraintType]: {
+        pending: string;
+        finalized: {
+            success: string;
+            fail: string;
+        };
+    };
 } = {
-    [ConstraintType.EQUAL]: "goal.single.equal.description",
-    [ConstraintType.NOT_EQUAL]: "goal.single.notEqual.description",
-    [ConstraintType.GREATER_THAN]: "goal.single.greaterThan.description",
-    [ConstraintType.LOWER_THAN]: "goal.single.lowerThan.description",
-    [ConstraintType.BETWEEN]: "goal.ranged.between.description",
-    [ConstraintType.NOT_BETWEEN]: "goal.ranged.notBetween.description",
-    [ConstraintType.RANGE]: "goal.ranged.range.description",
+    [ConstraintType.EQUAL]: {
+        pending: "goal.single.equal.description",
+        finalized: {
+            success: "goal.single.equal.finalized.success.description",
+            fail: "goal.single.equal.finalized.fail.description",
+        },
+    },
+    [ConstraintType.NOT_EQUAL]: {
+        pending: "goal.single.notEqual.description",
+        finalized: {
+            success: "goal.single.notEqual.finalized.success.description",
+            fail: "goal.single.notEqual.finalized.fail.description",
+        },
+    },
+    [ConstraintType.GREATER_THAN]: {
+        pending: "goal.single.greaterThan.description",
+        finalized: {
+            success: "goal.single.greaterThan.finalized.success.description",
+            fail: "goal.single.greaterThan.finalized.fail.description",
+        },
+    },
+    [ConstraintType.LOWER_THAN]: {
+        pending: "goal.single.lowerThan.description",
+        finalized: {
+            success: "goal.single.lowerThan.finalized.success.description",
+            fail: "goal.single.lowerThan.finalized.fail.description",
+        },
+    },
+    [ConstraintType.BETWEEN]: {
+        pending: "goal.ranged.between.description",
+        finalized: {
+            success: "goal.ranged.between.finalized.success.description",
+            fail: "goal.ranged.between.finalized.fail.description",
+        },
+    },
+    [ConstraintType.NOT_BETWEEN]: {
+        pending: "goal.ranged.notBetween.description",
+        finalized: {
+            success: "goal.ranged.notBetween.finalized.success.description",
+            fail: "goal.ranged.notBetween.finalized.fail.description",
+        },
+    },
+    [ConstraintType.RANGE]: {
+        pending: "goal.ranged.range.description",
+        finalized: {
+            success: "goal.ranged.range.finalized.success.description",
+            fail: "goal.ranged.range.finalized.fail.description",
+        },
+    },
 };
 
 export const TvlPage = ({
@@ -148,23 +197,81 @@ export const TvlPage = ({
                     variant={feedbackBoxStatus}
                     className={{ root: "max-w-2xl" }}
                 >
-                    <Typography>
-                        {t("goal.summary.base", {
-                            metric: t("goal.metric.tvl"),
-                            goalDescription: t(GOAL_DESCRIPTION[constraint], {
-                                value0: formatDecimals({
-                                    number: formatUnits(value0, 18),
-                                    decimalsAmount: 2,
-                                }),
-                                value1: formatDecimals({
-                                    number: formatUnits(value1, 18),
-                                    decimalsAmount: 2,
-                                }),
-                            }),
-                            measurementTime:
-                                measurementTimestamp.format("L HH:mm:ss"),
-                        })}
-                    </Typography>
+                    {finalized ? (
+                        <>
+                            <Typography>
+                                <Trans
+                                    i18nKey="goal.summary.finalized.success"
+                                    components={{
+                                        strong: <strong />,
+                                    }}
+                                    values={{
+                                        result: formatDecimals({
+                                            number: formatUnits(result, 18),
+                                            decimalsAmount: 2,
+                                        }),
+                                        measurementTime:
+                                            measurementTimestamp.format(
+                                                "L HH:mm:ss",
+                                            ),
+                                        goalDescription: t(
+                                            GOAL_DESCRIPTION[constraint]
+                                                .finalized[
+                                                goalCompletionPercentage > 0
+                                                    ? "success"
+                                                    : "fail"
+                                            ],
+                                            {
+                                                value0: formatDecimals({
+                                                    number: formatUnits(
+                                                        value0,
+                                                        18,
+                                                    ),
+                                                    decimalsAmount: 2,
+                                                }),
+                                                value1: formatDecimals({
+                                                    number: formatUnits(
+                                                        value1,
+                                                        18,
+                                                    ),
+                                                    decimalsAmount: 2,
+                                                }),
+                                            },
+                                        ),
+                                    }}
+                                />
+                            </Typography>
+                        </>
+                    ) : (
+                        <Typography>
+                            <Trans
+                                i18nKey="goal.summary.base"
+                                components={{
+                                    strong: <strong />,
+                                }}
+                                values={{
+                                    metric: t("goal.metric.tvl"),
+                                    goalDescription: t(
+                                        GOAL_DESCRIPTION[constraint].pending,
+                                        {
+                                            value0: formatDecimals({
+                                                number: formatUnits(value0, 18),
+                                                decimalsAmount: 2,
+                                            }),
+                                            value1: formatDecimals({
+                                                number: formatUnits(value1, 18),
+                                                decimalsAmount: 2,
+                                            }),
+                                        },
+                                    ),
+                                    measurementTime:
+                                        measurementTimestamp.format(
+                                            "L HH:mm:ss",
+                                        ),
+                                }}
+                            />
+                        </Typography>
+                    )}
                 </FeedbackBox>
             </div>
             <div className="flex flex-col md:flex-row">
