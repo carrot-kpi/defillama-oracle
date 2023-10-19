@@ -85,7 +85,7 @@ brief explainer of the env variables:
   value for production deployments.
 - `ETHERSCAN_API_KEY`: the Etherscan (or Blockscout) API key used to verify
   contracts.
-- `VERIFIER_URL`: the Etherscan pr Blockscout API URL that will be used to
+- `VERIFIER_URL`: the Etherscan or Blockscout API URL that will be used to
   verify contracts.
 
 Once you have one instance of this file for each network you're interested in
