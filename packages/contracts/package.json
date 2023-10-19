@@ -3,7 +3,7 @@
     "name": "contracts",
     "version": "0.2.0",
     "description": "A preset for developing Carrot oracle templates' smart contracts with Foundry and Solidity.",
-    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
+    "author": "Federico Luzzi <federico.luzzi@carrot-labs.xyz>",
     "license": "GPL-3.0-or-later",
     "private": true,
     "scripts": {

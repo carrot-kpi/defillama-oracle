@@ -42,6 +42,11 @@ export default [
     },
     {
         inputs: [],
+        name: "InvalidInitialization",
+        type: "error",
+    },
+    {
+        inputs: [],
         name: "InvalidLowerThanConstraintValue",
         type: "error",
     },
@@ -87,6 +92,11 @@ export default [
     },
     {
         inputs: [],
+        name: "NotInitializing",
+        type: "error",
+    },
+    {
+        inputs: [],
         name: "TooSoonToFinalize",
         type: "error",
     },
@@ -117,6 +127,12 @@ export default [
         anonymous: false,
         inputs: [
             {
+                indexed: false,
+                internalType: "address",
+                name: "creator",
+                type: "address",
+            },
+            {
                 indexed: true,
                 internalType: "address",
                 name: "kpiToken",
@@ -128,6 +144,12 @@ export default [
                 name: "templateId",
                 type: "uint256",
             },
+            {
+                indexed: true,
+                internalType: "uint128",
+                name: "templateVersion",
+                type: "uint128",
+            },
         ],
         name: "Initialize",
         type: "event",
@@ -137,9 +159,9 @@ export default [
         inputs: [
             {
                 indexed: false,
-                internalType: "uint8",
+                internalType: "uint64",
                 name: "version",
-                type: "uint8",
+                type: "uint64",
             },
         ],
         name: "Initialized",

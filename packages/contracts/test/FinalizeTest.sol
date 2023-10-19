@@ -1,11 +1,9 @@
-pragma solidity 0.8.19;
+pragma solidity 0.8.21;
 
 import {BaseTestSetup} from "./commons/BaseTestSetup.sol";
 import {DefiLlamaOracle} from "../src/DefiLlamaOracle.sol";
-import {IOraclesManager1} from "carrot/interfaces/oracles-managers/IOraclesManager1.sol";
 import {Template} from "carrot/interfaces/IBaseTemplatesManager.sol";
 import {InitializeOracleParams} from "carrot/commons/Types.sol";
-import {ClonesUpgradeable} from "oz-upgradeable/proxy/ClonesUpgradeable.sol";
 import {Constraint} from "carrot/presets/oracles/ConstrainedOracle.sol";
 import {INVALID_ANSWER, UNIT} from "carrot/commons/Constants.sol";
 import {MockKPIToken, OracleData} from "./mocks/MockKPIToken.sol";
@@ -13,7 +11,7 @@ import {MockKPIToken, OracleData} from "./mocks/MockKPIToken.sol";
 /// SPDX-License-Identifier: GPL-3.0-or-later
 /// @title DefiLlama oracle finalization test
 /// @dev Tests finalization in the DefiLlama oracle template.
-/// @author Federico Luzzi - <federico.luzzi@protonmail.com>
+/// @author Federico Luzzi - <federico.luzzi@carrot-labs.xyz>
 contract FinalizeTest is BaseTestSetup {
     function initializeKPITokenOracle(
         string memory _specification,
