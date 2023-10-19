@@ -10,6 +10,23 @@ import { Metric, type DecodedOracleData, type MetricPageProps } from "../types";
 import { TvlPage } from "./metric-page/tvl";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import i18next from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
+import { bundle } from "./i18n";
+
+export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
+    "@carrot-kpi/defillama-oracle-template";
+
+i18next.use(initReactI18next).init({
+    lng: "en",
+    fallbackLng: "en",
+    ns: DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE,
+    defaultNS: DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE,
+    resources: bundle,
+    interpolation: {
+        escapeValue: false,
+    },
+});
 
 dayjs.extend(localizedFormat);
 
@@ -27,6 +44,7 @@ export const Component = ({
         null,
     );
 
+    const { t } = useTranslation();
     const { loading, specification } = useSpecificationContent(
         decodedData?.specificationCid,
     );
@@ -48,6 +66,7 @@ export const Component = ({
         <Page
             oracle={oracle}
             {...rest}
+            t={t}
             specification={specification}
             decodedOracleData={decodedData}
         />
