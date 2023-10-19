@@ -59,6 +59,9 @@ export PRIVATE_KEY=""
 export RPC_ENDPOINT=""
 export ANSWERER=""
 export MINIMUM_ELAPSED_TIME=""
+export EXPIRATION_BUFFER_TIME=""
+export ETHERSCAN_API_KEY=""
+export VERIFIER_URL=""
 ```
 
 brief explainer of the env variables:
@@ -80,6 +83,10 @@ brief explainer of the env variables:
   that is attached to a KPI token that has its expiration at t40 must have a
   measurement timestamp of at maximum t10. Set this to a sufficiently large
   value for production deployments.
+- `ETHERSCAN_API_KEY`: the Etherscan (or Blockscout) API key used to verify
+  contracts.
+- `VERIFIER_URL`: the Etherscan pr Blockscout API URL that will be used to
+  verify contracts.
 
 Once you have one instance of this file for each network you're interested in
 (e.g. .`env.goerli`, `.env.gnosis`, `env.mainnet` etc etc), you can go ahead and
@@ -88,5 +95,5 @@ doing that, you can finally execute the following command to initiate the
 deployment:
 
 ```
-FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address,uint256)' Deploy $ANSWERER_ADDRESS $MINIMUM_ELAPSED_TIME $EXPIRATION_BUFFER_TIME
+FOUNDRY_PROFILE=production forge script --broadcast --slow --private-key $PRIVATE_KEY --fork-url $RPC_ENDPOINT --sig 'run(address,uint256,uint256)' --verify Deploy $ANSWERER_ADDRESS $MINIMUM_ELAPSED_TIME $EXPIRATION_BUFFER_TIME
 ```
