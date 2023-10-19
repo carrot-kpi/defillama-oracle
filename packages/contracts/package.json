@@ -3,7 +3,7 @@
     "name": "contracts",
     "version": "0.2.0",
     "description": "A preset for developing Carrot oracle templates' smart contracts with Foundry and Solidity.",
-    "author": "Federico Luzzi <federico.luzzi@protonmail.com>",
+    "author": "Federico Luzzi <federico.luzzi@carrot-labs.xyz>",
     "license": "GPL-3.0-or-later",
     "private": true,
     "scripts": {
@@ -16,7 +16,7 @@
         "codegen-chain-specific-contracts": "./codegen-chain-specific-contracts.js"
     },
     "devDependencies": {
-        "@carrot-kpi/sdk": "^1.43.0",
+        "@carrot-kpi/sdk": "^1.43.1",
         "eslint-config-custom": "*",
         "prettier": "^3.0.3",
         "tsconfig": "*",

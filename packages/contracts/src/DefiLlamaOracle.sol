@@ -1,10 +1,10 @@
-pragma solidity 0.8.19;
+pragma solidity 0.8.21;
 
 import {BaseOracle} from "carrot/presets/oracles/BaseOracle.sol";
 import {ConstantAnswererTrustedOracle} from "carrot/presets/oracles/ConstantAnswererTrustedOracle.sol";
 import {ConstrainedOracle, Constraint} from "carrot/presets/oracles/ConstrainedOracle.sol";
 import {InitializeOracleParams} from "carrot/commons/Types.sol";
-import {IKPIToken} from "carrot/interfaces/kpi-tokens/IKPIToken.sol";
+import {IKPIToken} from "carrot/interfaces/IKPIToken.sol";
 
 /// SPDX-License-Identifier: GPL-3.0-or-later
 /// @title DefiLlama oracle
@@ -12,7 +12,7 @@ import {IKPIToken} from "carrot/interfaces/kpi-tokens/IKPIToken.sol";
 /// to bring DefiLlama data on-chain. The smart contract solution is extremely
 /// simple and just allows an external, trusted data source to post data on-chain,
 /// so 100% of the data fetching logic is actually off-chain.
-/// @author Federico Luzzi - <federico.luzzi@protonmail.com>
+/// @author Federico Luzzi - <federico.luzzi@carrot-labs.xyz>
 contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrustedOracle {
     uint256 public immutable minimumElapsedTime;
     uint256 public immutable expirationBufferTime;
@@ -28,9 +28,6 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
     error MeasurementTimestampAfterKPITokenExpirationMinusBuffer();
     error TooSoonToFinalize();
 
-    event Initialize(address indexed kpiToken, uint256 indexed templateId);
-    event Finalize(uint256 result);
-
     /// @dev Initializes the trusted oracle system.
     /// @param _answerer The address of the trusted entitity that will be allowed to post answers.
     /// @param _minimumElapsedTime The minimum time that must elapse from the instantiation
@@ -45,6 +42,8 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
 
         minimumElapsedTime = _minimumElapsedTime;
         expirationBufferTime = _expirationBufferTime;
+
+        _disableInitializers();
     }
 
     /// @dev Initializes the oracle.
@@ -90,7 +89,7 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
         specification = _specification;
         measurementTimestamp = _measurementTimestamp;
 
-        emit Initialize(_params.kpiToken, _params.templateId);
+        emit Initialize(_params.creator, _params.kpiToken, _params.templateId, _params.templateVersion);
     }
 
     /// @dev Oracle finalization logic. This checks if the measurement timestamp has been reached and
