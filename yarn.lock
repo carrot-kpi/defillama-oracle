@@ -1053,10 +1053,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@carrot-kpi/contracts@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.3.1.tgz#9d15428a2ea681540facb8f87fc6f3fd7184c258"
-  integrity sha512-VGiVW+OXwe/Gqs7IOdz70jEC7xRQ17nItaiSX/U0WB/w0xHfrFhjMH0M++9RmFQYC3tiXl4ajkQxQFIoELj1sQ==
+"@carrot-kpi/contracts@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/contracts/-/contracts-0.8.0.tgz#c7cf8151cf20130e34a5893995368976f93792fc"
+  integrity sha512-M5DKjNjofIFr0Rm5DtVLnpW9fi0MKZc4y8eZIKLuNwrMLwqBfnN/KyG8LORiZEb29QzG/UX4BX+2Wr2zRStiVQ==
 
 "@carrot-kpi/ganache@^0.2.0":
   version "0.2.0"
@@ -1079,10 +1079,10 @@
     bufferutil "4.0.5"
     utf-8-validate "5.0.7"
 
-"@carrot-kpi/host-frontend@^0.27.0":
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.27.0.tgz#a7bf3d48b1836c4013ba55422de9ca453e984fc0"
-  integrity sha512-a1b9FJkSHYGFcG+e6fFIhzoGyLpcTTMwpGhdVKA4Y475mDfN2QnMlDTZKHIarT3q7sFaXeoYIrDfATTwGyZeIg==
+"@carrot-kpi/host-frontend@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/host-frontend/-/host-frontend-0.28.0.tgz#c18db6bfbe7a9e437aa604474558ae8cd5224af5"
+  integrity sha512-PKn4sU7dunrc9GvwfNWqk16MNbsgYT7Iq/FMuQ3iilztOjL+u8AX/LM4KYekeTQrX0XVBB86m9Ly96eLAuQQTw==
   dependencies:
     "@carrot-kpi/react" "*"
     "@carrot-kpi/sdk" "*"
@@ -1099,10 +1099,10 @@
     use-fathom-client "^1.3.2"
     viem "^1.15.3"
 
-"@carrot-kpi/react@*", "@carrot-kpi/react@^0.65.0":
-  version "0.65.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.65.0.tgz#e6205694fc720f5a25171324ea56005f630778aa"
-  integrity sha512-tAPTRckT4TMwBrIgVp/NLYzw3qyXMOC9YMUEu5GdighEWw6r/TSZvXQNFMBXEGFEdoCFt3FnjKKodcU+o5peUw==
+"@carrot-kpi/react@*", "@carrot-kpi/react@^0.65.1":
+  version "0.65.1"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/react/-/react-0.65.1.tgz#8b99623813d6cbf2bdc22845ffecd3d194d6e38a"
+  integrity sha512-DN0DpwLvCVd/BVkmXYdeWCLL6lrsFc5VFOzgmhOMVMdAm+qtzrrthExB5+n3ZGIn2X/tJHc2CWXaAzRX6uxnSg==
   dependencies:
     "@carrot-kpi/sdk" "*"
     "@uniswap/token-lists" "1.0.0-beta.33"
@@ -1110,12 +1110,12 @@
     react-use "^17.4.0"
     viem "^1.15.3"
 
-"@carrot-kpi/sdk@*", "@carrot-kpi/sdk@^1.34.0", "@carrot-kpi/sdk@^1.43.0":
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.43.0.tgz#1384d1c8afcc464a27a0532054ece3ab306a0d74"
-  integrity sha512-jm1DKiAkGtuwtBcRIaxMilFiX1eP3C650JRjhxtPwJjK7acP+9NuHemUxKOfVtX37OzWW0n5Z0WsA96wgfJGcg==
+"@carrot-kpi/sdk@*", "@carrot-kpi/sdk@^1.34.0", "@carrot-kpi/sdk@^1.43.1":
+  version "1.43.1"
+  resolved "https://registry.yarnpkg.com/@carrot-kpi/sdk/-/sdk-1.43.1.tgz#c5266c039202b37b91febc7603906d26e4dbae39"
+  integrity sha512-g0Z867RRXOkTGm9pwMXR6iI2r11SArwc55KoJxsuoglEsizKuTWiotZZUWM3uQE7Uyycc41rcvuBuXSDJhl+gQ==
   dependencies:
-    "@carrot-kpi/contracts" "^0.3.1"
+    "@carrot-kpi/contracts" "^0.8.0"
     decimal.js-light "^2.5.1"
     multiformats "^9.9.0"
     viem "^1.15.3"
@@ -2279,10 +2279,10 @@
     uint8-varint "^2.0.1"
     uint8arrays "^4.0.2"
 
-"@next/eslint-plugin-next@13.5.4":
-  version "13.5.4"
-  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-13.5.4.tgz#ec70af509f07dc4e545df25834ac94d2c341c36a"
-  integrity sha512-vI94U+D7RNgX6XypSyjeFrOzxGlZyxOplU0dVE5norIfZGn/LDjJYPHdvdsR5vN1eRtl6PDAsOHmycFEOljK5A==
+"@next/eslint-plugin-next@13.5.6":
+  version "13.5.6"
+  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-13.5.6.tgz#cf279b94ddc7de49af8e8957f0c3b7349bc489bf"
+  integrity sha512-ng7pU/DDsxPgT6ZPvuprxrkeew3XaRf4LAT4FabaEO/hAbvVx4P7wqnqdbTdDn1kgTvsI4tpIgT4Awn/m0bGbg==
   dependencies:
     glob "7.1.7"
 
@@ -6189,12 +6189,12 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-next@13.5.4:
-  version "13.5.4"
-  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-13.5.4.tgz#e50bb157d8346b63426f4b36bf53c2e46ccbc938"
-  integrity sha512-FzQGIj4UEszRX7fcRSJK6L1LrDiVZvDFW320VVntVKh3BSU8Fb9kpaoxQx0cdFgf3MQXdeSbrCXJ/5Z/NndDkQ==
+eslint-config-next@13.5.6:
+  version "13.5.6"
+  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-13.5.6.tgz#3a5a6222d5cb32256760ad68ab8e976e866a08c8"
+  integrity sha512-o8pQsUHTo9aHqJ2YiZDym5gQAMRf7O2HndHo/JZeY7TDD+W4hk6Ma8Vw54RHiBeb7OWWO5dPirQB+Is/aVQ7Kg==
   dependencies:
-    "@next/eslint-plugin-next" "13.5.4"
+    "@next/eslint-plugin-next" "13.5.6"
     "@rushstack/eslint-patch" "^1.3.3"
     "@typescript-eslint/parser" "^5.4.2 || ^6.0.0"
     eslint-import-resolver-node "^0.3.6"
