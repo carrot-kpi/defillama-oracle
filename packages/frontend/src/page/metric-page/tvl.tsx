@@ -201,7 +201,11 @@ export const TvlPage = ({
                         <>
                             <Typography>
                                 <Trans
-                                    i18nKey="goal.summary.finalized.success"
+                                    i18nKey={
+                                        goalCompletionPercentage === 0
+                                            ? "goal.summary.finalized.fail"
+                                            : "goal.summary.finalized.success"
+                                    }
                                     components={{
                                         strong: <strong />,
                                     }}
@@ -217,9 +221,9 @@ export const TvlPage = ({
                                         goalDescription: t(
                                             GOAL_DESCRIPTION[constraint]
                                                 .finalized[
-                                                goalCompletionPercentage > 0
-                                                    ? "success"
-                                                    : "fail"
+                                                goalCompletionPercentage === 0
+                                                    ? "fail"
+                                                    : "success"
                                             ],
                                             {
                                                 value0: formatDecimals({
