@@ -3,6 +3,7 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build"],
+            "env": ["BUILD_TARGET"],
             "outputs": ["dist/**", "build/**", "out/**"]
         },
         "test": {
@@ -18,5 +19,5 @@
         "lint": {},
         "format": {}
     },
-    "globalEnv": ["NODE_ENV", "STAGING_MODE"]
+    "globalEnv": ["NODE_ENV", "STAGING_MODE", "BUILD_TARGET"]
 }

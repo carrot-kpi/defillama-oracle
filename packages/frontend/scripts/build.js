@@ -17,11 +17,14 @@ const require = createRequire(import.meta.url);
 
 // TODO: support different React versions
 const main = async () => {
+    const target = process.env.BUILD_TARGET;
     const outDir = join(__dirname, "../dist");
 
     let spinner = ora();
+    spinner.info(`Building with target: ${!!target ? target : "production"}`);
 
-    spinner = ora(`Removing previous ${chalk.blue("dist")} folder`);
+    spinner = ora();
+    spinner.start(`Removing previous ${chalk.blue("dist")} folder`);
     const dist = join(__dirname, "../dist");
     if (existsSync(dist)) await rm(dist, { recursive: true });
     spinner.succeed(`Previous ${chalk.blue("dist")} folder removed`);
@@ -34,12 +37,14 @@ const main = async () => {
                 getTemplateComponentWebpackConfig(
                     "creationForm",
                     {},
-                    join(dist, "creationForm"),
+                    outDir,
+                    target === "dev",
                 ),
                 getTemplateComponentWebpackConfig(
                     "page",
                     {},
-                    join(dist, "page"),
+                    outDir,
+                    target === "dev",
                 ),
             ],
             (error, stats) => {

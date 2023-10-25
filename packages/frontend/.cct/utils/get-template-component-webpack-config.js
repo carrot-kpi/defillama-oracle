@@ -15,21 +15,25 @@ hash.update(Date.now().toString());
 
 const UNIQUE_ID = `carrot-template-${hash.digest("hex").slice(0, 32)}`;
 
-export const getTemplateComponentWebpackConfig = (type, globals, outDir) => {
+export const getTemplateComponentWebpackConfig = (
+    type,
+    globals,
+    outDir,
+    devMode,
+) => {
     if (type !== "page" && type !== "creationForm")
         throw new Error("type must either be creationForm or page");
 
-    const devMode = !!!outDir;
     return {
-        mode: devMode ? "development" : "production",
+        mode: !!devMode ? "development" : "production",
         target: "browserslist",
-        devtool: false,
-        infrastructureLogging: devMode
+        devtool: !!devMode ? "source-map" : false,
+        infrastructureLogging: !!devMode
             ? {
                   level: "none",
               }
             : undefined,
-        stats: devMode ? "none" : undefined,
+        stats: !!devMode ? "none" : undefined,
         entry: join(__dirname, "../../src"),
         output: {
             publicPath: "auto",
@@ -38,7 +42,7 @@ export const getTemplateComponentWebpackConfig = (type, globals, outDir) => {
             uniqueName: UNIQUE_ID,
         },
         resolve: {
-            fallback: devMode
+            fallback: !!devMode
                 ? {
                       buffer: join(__dirname, "./utils/buffer.js"),
                   }
