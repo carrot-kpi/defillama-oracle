@@ -43,5 +43,6 @@ createRoot(document.getElementById("root")!).render(
         ]}
         ipfsGatewayURL={CCT_IPFS_GATEWAY_URL}
         oracleTemplateBaseURL={CCT_TEMPLATE_URL}
+        enableStagingMode={STAGING_MODE}
     />,
 );
