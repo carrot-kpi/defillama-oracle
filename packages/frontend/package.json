@@ -21,7 +21,7 @@
     "scripts": {
         "lint": "eslint --ext .js,.ts,.tsx ./ && prettier --check .",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write .",
-        "build:dev": "node ./scripts/build.js",
+        "build": "node ./scripts/build.js",
         "build:prod": "NODE_ENV=production node ./scripts/build.js",
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"
     },
