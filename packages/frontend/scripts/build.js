@@ -15,13 +15,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const require = createRequire(import.meta.url);
 
-// TODO: support different React versions
 const main = async () => {
+    const prodMode = process.env.NODE_ENV === "production";
     const outDir = join(__dirname, "../dist");
 
     let spinner = ora();
+    spinner.info(`Building ${prodMode ? "production" : "development"} bundle`);
+    console.log();
 
-    spinner = ora(`Removing previous ${chalk.blue("dist")} folder`);
+    spinner = ora();
+    spinner.start(`Removing previous ${chalk.blue("dist")} folder`);
     const dist = join(__dirname, "../dist");
     if (existsSync(dist)) await rm(dist, { recursive: true });
     spinner.succeed(`Previous ${chalk.blue("dist")} folder removed`);
@@ -34,13 +37,10 @@ const main = async () => {
                 getTemplateComponentWebpackConfig(
                     "creationForm",
                     {},
-                    join(dist, "creationForm"),
+                    outDir,
+                    prodMode,
                 ),
-                getTemplateComponentWebpackConfig(
-                    "page",
-                    {},
-                    join(dist, "page"),
-                ),
+                getTemplateComponentWebpackConfig("page", {}, outDir, prodMode),
             ],
             (error, stats) => {
                 if (error) {
@@ -89,7 +89,6 @@ const main = async () => {
             },
         );
     });
-    spinner.succeed(`${chalk.blue("Federated modules")} successfully built`);
 
     spinner = ora(`Building ${chalk.blue("base.json")}`);
     await writeFile(
