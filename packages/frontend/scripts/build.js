@@ -25,8 +25,7 @@ const main = async () => {
 
     spinner = ora();
     spinner.start(`Removing previous ${chalk.blue("dist")} folder`);
-    const dist = join(__dirname, "../dist");
-    if (existsSync(dist)) await rm(dist, { recursive: true });
+    if (existsSync(outDir)) await rm(outDir, { recursive: true });
     spinner.succeed(`Previous ${chalk.blue("dist")} folder removed`);
 
     spinner = ora();

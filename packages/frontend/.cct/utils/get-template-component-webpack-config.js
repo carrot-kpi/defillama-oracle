@@ -92,9 +92,7 @@ export const getTemplateComponentWebpackConfig = (
             new MiniCssExtractPlugin(),
             new webpack.container.ModuleFederationPlugin({
                 name: type,
-                filename: !!prodMode
-                    ? "remoteEntry.js"
-                    : `${type}/remoteEntry.js`,
+                filename: `${type}/remoteEntry.js`,
                 exposes: {
                     "./component": join(
                         __dirname,
