@@ -15,13 +15,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const require = createRequire(import.meta.url);
 
-// TODO: support different React versions
 const main = async () => {
-    const target = process.env.BUILD_TARGET;
+    const prodMode = process.env.NODE_ENV === "production";
     const outDir = join(__dirname, "../dist");
 
     let spinner = ora();
-    spinner.info(`Building with target: ${!!target ? target : "production"}`);
+    spinner.info(`Building ${prodMode ? "production" : "development"} bundle`);
 
     spinner = ora();
     spinner.start(`Removing previous ${chalk.blue("dist")} folder`);
@@ -38,14 +37,9 @@ const main = async () => {
                     "creationForm",
                     {},
                     outDir,
-                    target === "dev",
+                    prodMode,
                 ),
-                getTemplateComponentWebpackConfig(
-                    "page",
-                    {},
-                    outDir,
-                    target === "dev",
-                ),
+                getTemplateComponentWebpackConfig("page", {}, outDir, prodMode),
             ],
             (error, stats) => {
                 if (error) {
