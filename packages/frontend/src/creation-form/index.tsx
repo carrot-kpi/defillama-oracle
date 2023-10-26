@@ -204,6 +204,7 @@ export const Component = ({
             !!constraintType &&
             constraintValuesValid
         ) {
+            console.log("init bundle getter");
             initializationBundleGetter = async () => {
                 const specificationCid = await uploadToIpfs(
                     JSON.stringify(validSpecification),
@@ -268,7 +269,7 @@ export const Component = ({
         [],
     );
 
-    console.log("external");
+    console.log("external", state);
 
     return (
         <div className="flex flex-col gap-4">
