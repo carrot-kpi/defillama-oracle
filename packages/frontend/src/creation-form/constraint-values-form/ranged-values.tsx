@@ -40,6 +40,13 @@ export const RangedValuesConstraintForm = ({
     const [value1ErrorText, setValue1ErrorText] = useState("");
 
     useEffect(() => {
+        console.log("effect ranges values constraint form", {
+            onChange,
+            t,
+            type,
+            value0,
+            value1,
+        });
         let value0ErrorText = "";
         let value1ErrorText = "";
 
@@ -96,6 +103,8 @@ export const RangedValuesConstraintForm = ({
         },
         [onChange, value0, value1ErrorText],
     );
+
+    console.log("external ranged value form");
 
     return (
         <div className="flex flex-col gap-4">

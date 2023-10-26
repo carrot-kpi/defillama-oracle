@@ -27,6 +27,12 @@ export const SingleValueConstraintForm = ({
     const [valueErrorText, setValueErrorText] = useState("");
 
     useEffect(() => {
+        console.log("effect single value constraint form", {
+            onChange,
+            t,
+            type,
+            value0,
+        });
         let valueErrorText = "";
 
         if (value0 === undefined) {
@@ -49,6 +55,8 @@ export const SingleValueConstraintForm = ({
         },
         [onChange, valueErrorText],
     );
+
+    console.log("external single value form");
 
     return (
         <div className="flex flex-col gap-4">
