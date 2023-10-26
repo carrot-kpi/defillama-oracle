@@ -21,6 +21,7 @@ const main = async () => {
 
     let spinner = ora();
     spinner.info(`Building ${prodMode ? "production" : "development"} bundle`);
+    console.log();
 
     spinner = ora();
     spinner.start(`Removing previous ${chalk.blue("dist")} folder`);
@@ -88,7 +89,6 @@ const main = async () => {
             },
         );
     });
-    spinner.succeed(`${chalk.blue("Federated modules")} successfully built`);
 
     spinner = ora(`Building ${chalk.blue("base.json")}`);
     await writeFile(
