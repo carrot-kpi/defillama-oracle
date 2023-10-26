@@ -86,6 +86,11 @@ export const Component = ({
     >([state.constraint?.value0, state.constraint?.value1]);
 
     useEffect(() => {
+        console.log("effect 1", {
+            expirationBufferTime,
+            expiration: kpiToken?.expiration,
+            minimumTimeElapsed,
+        });
         if (kpiToken?.expiration) {
             const maximumDate = expirationBufferTime
                 ? dayjs
@@ -95,6 +100,7 @@ export const Component = ({
             setMaximumDate(maximumDate.toDate());
         }
         const interval = setInterval(() => {
+            console.log("interval");
             const minimumDate = minimumTimeElapsed
                 ? dayjs().add(Number(minimumTimeElapsed), "seconds")
                 : dayjs();
@@ -106,11 +112,13 @@ export const Component = ({
     }, [expirationBufferTime, kpiToken?.expiration, minimumTimeElapsed]);
 
     useEffect(() => {
+        console.log("effect 2", state.timestamp);
         if (!state.timestamp) return;
         setTimestamp(dayjs.unix(state.timestamp));
     }, [state.timestamp]);
 
     useEffect(() => {
+        console.log("effect 3", { maximumDate, minimumDate, t, timestamp });
         setTimestampErrorText(
             timestamp &&
                 (timestamp.isAfter(maximumDate) ||
@@ -176,6 +184,17 @@ export const Component = ({
     // onChange will also receive an initialization bundle getter function
     // when data is valid.
     useEffect(() => {
+        console.log("effect 4", {
+            constraintType,
+            constraintValuesValid,
+            constraintValues,
+            metric: metric?.value,
+            onChange,
+            payload,
+            timestamp,
+            uploadToIpfs,
+            validSpecification,
+        });
         let initializationBundleGetter:
             | OracleInitializationBundleGetter
             | undefined = undefined;
@@ -248,6 +267,8 @@ export const Component = ({
         },
         [],
     );
+
+    console.log("external");
 
     return (
         <div className="flex flex-col gap-4">
