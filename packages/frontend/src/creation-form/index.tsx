@@ -86,7 +86,7 @@ export const Component = ({
     >([state.constraint?.value0, state.constraint?.value1]);
 
     useEffect(() => {
-        console.log("effect 1", {
+        console.log("effect_1", {
             expirationBufferTime,
             expiration: kpiToken?.expiration,
             minimumTimeElapsed,
@@ -97,7 +97,9 @@ export const Component = ({
                       .unix(kpiToken.expiration)
                       .subtract(Number(expirationBufferTime), "seconds")
                 : dayjs.unix(kpiToken.expiration);
+
             setMaximumDate(maximumDate.toDate());
+            if (maximumDate && dayjs(maximumDate).isBefore(dayjs())) return;
         }
         const interval = setInterval(() => {
             console.log("interval");
@@ -109,7 +111,7 @@ export const Component = ({
         return () => {
             clearInterval(interval);
         };
-    }, [expirationBufferTime, kpiToken?.expiration, minimumTimeElapsed]);
+    }, [expirationBufferTime, kpiToken?.expiration, minimumTimeElapsed, t]);
 
     useEffect(() => {
         console.log("effect 2", state.timestamp);
@@ -118,7 +120,21 @@ export const Component = ({
     }, [state.timestamp]);
 
     useEffect(() => {
-        console.log("effect 3", { maximumDate, minimumDate, t, timestamp });
+        if (
+            kpiToken?.expiration &&
+            maximumDate &&
+            dayjs(maximumDate).isBefore(dayjs())
+        ) {
+            setTimestampErrorText(
+                t("error.maximum.date.past", {
+                    minimumDate: dayjs
+                        .unix(kpiToken.expiration)
+                        .add(Number(expirationBufferTime), "seconds")
+                        .format("L HH:mm:ss"),
+                }),
+            );
+            return;
+        }
         setTimestampErrorText(
             timestamp &&
                 (timestamp.isAfter(maximumDate) ||
@@ -126,7 +142,16 @@ export const Component = ({
                 ? t("error.timestamp.invalid")
                 : "",
         );
-    }, [maximumDate, minimumDate, t, timestamp]);
+    }, [
+        expirationBufferTime,
+        kpiToken?.expiration,
+        maximumDate,
+        minimumDate,
+        t,
+        timestamp,
+    ]);
+
+    console.log("maximum date", { maximumDate });
 
     useDebounce(
         () => {
@@ -315,6 +340,12 @@ export const Component = ({
                                 input: "w-full",
                                 inputWrapper: "w-full",
                             }}
+                            disabled={
+                                !!(
+                                    maximumDate &&
+                                    dayjs(maximumDate).isBefore(dayjs())
+                                )
+                            }
                             loading={loadingTimeConstraints}
                             label={t("label.timestamp")}
                             placeholder={t("placeholder.tvl.timestamp")}
