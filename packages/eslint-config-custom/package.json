@@ -9,10 +9,10 @@
         "format": "eslint --fix --ext .js ./ && prettier --write './**/*.{json,md}'"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "^6.9.0",
-        "@typescript-eslint/parser": "^6.9.0",
+        "@typescript-eslint/eslint-plugin": "^6.9.1",
+        "@typescript-eslint/parser": "^6.9.1",
         "eslint": "8.52.0",
-        "eslint-config-next": "13.5.6",
+        "eslint-config-next": "14.0.1",
         "eslint-config-prettier": "latest",
         "eslint-config-turbo": "1.10.16"
     },

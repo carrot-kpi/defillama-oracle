@@ -26,14 +26,14 @@
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"
     },
     "devDependencies": {
-        "@carrot-kpi/host-frontend": "^0.30.0",
+        "@carrot-kpi/host-frontend": "^0.32.0",
         "@carrot-kpi/switzer-font": "^0.1.0",
         "@commitlint/cli": "^18.2.0",
         "@svgr/webpack": "^8.0.1",
         "@testing-library/jest-dom": "^6.1.4",
         "@testing-library/react": "^14.0.0",
         "@types/git-rev-sync": "^2.0.0",
-        "@types/jest": "^29.5.5",
+        "@types/jest": "^29.5.7",
         "@types/react": "^18.2.33",
         "@types/react-dom": "^18.2.13",
         "autoprefixer": "^10.4.16",
@@ -44,7 +44,7 @@
         "eslint-config-custom": "*",
         "eslint-plugin-react": "^7.33.1",
         "eslint-plugin-react-hooks": "^4.6.0",
-        "fork-ts-checker-webpack-plugin": "^9.0.0",
+        "fork-ts-checker-webpack-plugin": "^9.0.2",
         "git-rev-sync": "^3.0.2",
         "html-webpack-plugin": "^5.5.1",
         "jest": "^29.7.0",
@@ -69,10 +69,10 @@
         "webpack-dev-server": "^4.15.0"
     },
     "dependencies": {
-        "@carrot-kpi/react": "^0.65.2",
-        "@carrot-kpi/sdk": "^1.43.2",
+        "@carrot-kpi/react": "^0.67.0",
+        "@carrot-kpi/sdk": "^1.44.0",
         "@carrot-kpi/shared-state": "^0.13.1",
-        "@carrot-kpi/ui": "^0.65.1",
+        "@carrot-kpi/ui": "^0.65.5",
         "@fontsource/ibm-plex-mono": "^5.0.8",
         "class-variance-authority": "^0.7.0",
         "dayjs": "^1.11.10",
@@ -81,7 +81,7 @@
         "react-dom": "^18.2.0",
         "react-i18next": "^13.3.1",
         "rimraf": "^5.0.5",
-        "viem": "^1.17.1",
+        "viem": "^1.18.2",
         "wagmi": "^1.4.5"
     },
     "browserslist": {
