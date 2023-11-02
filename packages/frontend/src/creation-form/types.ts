@@ -25,7 +25,6 @@ export type Specification = {
 
 export interface PayloadFormProps {
     t: OracleRemoteCreationFormProps<State>["t"];
-    kpiToken: OracleRemoteCreationFormProps<State>["kpiToken"];
     measurementTimestamp?: number;
     payload?: Partial<Specification["payload"]>;
     onChange: (payload: Specification["payload"]) => void;

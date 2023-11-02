@@ -32,11 +32,7 @@ import { useTimeConstraints } from "../hooks/useTimeConstraints";
 import { ConstraintForm } from "./constraint-values-form";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import useDebounce from "react-use/esm/useDebounce";
-import {
-    dateToUnixTimestamp,
-    isDateInThePast,
-    unixTimestampToDate,
-} from "../utils/dates";
+import { dateToUnixTimestamp, unixTimestampToDate } from "../utils/dates";
 import { getInitializationBundleGetter } from "./utils/initialization-bundle-getter";
 import type { ConstraintTypeOption } from "../types";
 
@@ -48,7 +44,6 @@ export const Component = ({
     onInitializationBundleGetterChange,
     onSuggestedExpirationTimestampChange,
     t,
-    kpiToken,
     template,
 }: OracleRemoteCreationFormProps<State>): ReactElement => {
     const uploadToIpfs = useDecentralizedStorageUploader();
@@ -68,7 +63,6 @@ export const Component = ({
     }, [devMode, stagingMode]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
-    const [maximumDate, setMaximumDate] = useState<Date | null>(null);
     const [timestampErrorText, setTimestampErrorText] = useState("");
     const [validSpecification, setValidSpecification] =
         useState<Specification | null>(null);
@@ -87,47 +81,15 @@ export const Component = ({
     }, [minimumTimeElapsed]);
 
     useEffect(() => {
-        if (!kpiToken?.expiration) return;
-        let newMaxDate = kpiToken.expiration;
-        if (expirationBufferTime) newMaxDate -= Number(expirationBufferTime);
-        setMaximumDate(unixTimestampToDate(newMaxDate));
-    }, [expirationBufferTime, kpiToken?.expiration]);
-
-    useEffect(() => {
-        if (
-            kpiToken?.expiration &&
-            maximumDate &&
-            dayjs(maximumDate).isBefore(dayjs())
-        ) {
-            setTimestampErrorText(
-                t("error.maximum.date.past", {
-                    minimumDate: dayjs
-                        .unix(kpiToken.expiration)
-                        .add(Number(expirationBufferTime), "seconds")
-                        .format("L HH:mm:ss"),
-                }),
-            );
-            return;
-        }
-
         let errorText = "";
         if (
             state.timestamp &&
-            ((maximumDate &&
-                state.timestamp > dateToUnixTimestamp(maximumDate)) ||
-                (minimumDate &&
-                    state.timestamp < dateToUnixTimestamp(minimumDate)))
+            minimumDate &&
+            state.timestamp < dateToUnixTimestamp(minimumDate)
         )
             errorText = t("error.timestamp.invalid");
         setTimestampErrorText(errorText);
-    }, [
-        expirationBufferTime,
-        kpiToken?.expiration,
-        maximumDate,
-        minimumDate,
-        state.timestamp,
-        t,
-    ]);
+    }, [expirationBufferTime, minimumDate, state.timestamp, t]);
 
     useDebounce(
         () => {
@@ -326,14 +288,10 @@ export const Component = ({
                                 input: "w-full",
                                 inputWrapper: "w-full",
                             }}
-                            disabled={
-                                !!maximumDate && isDateInThePast(maximumDate)
-                            }
                             loading={loadingTimeConstraints}
                             label={t("label.timestamp")}
                             placeholder={t("placeholder.tvl.timestamp")}
                             min={minimumDate}
-                            max={maximumDate}
                             onChange={handleTimestampChange}
                             value={
                                 state.timestamp
@@ -350,7 +308,6 @@ export const Component = ({
                     measurementTimestamp={state.timestamp}
                     payload={state.specification?.payload}
                     onChange={handlePayloadChange}
-                    kpiToken={kpiToken}
                     t={t}
                 />
             </div>
