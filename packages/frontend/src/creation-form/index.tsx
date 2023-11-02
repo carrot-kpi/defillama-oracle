@@ -139,8 +139,8 @@ export const Component = ({
                     !state.specification.payload ||
                     !state.constraint ||
                     !state.constraint.type ||
-                    !state.constraint.value0 === undefined ||
-                    !state.constraint.value1 === undefined ||
+                    state.constraint.value0 === undefined ||
+                    state.constraint.value1 === undefined ||
                     !state.specification.payload.protocol
                 )
                     return;
