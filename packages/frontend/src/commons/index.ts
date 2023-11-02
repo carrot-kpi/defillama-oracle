@@ -1,6 +1,8 @@
 import type { MetricOption } from "../creation-form/types";
 import { ConstraintType, type ConstraintTypeOption } from "../types";
 
+export const SUGGESTED_EXPIRATION_DATE_BUFFER = 2_628_000; // a month
+
 export const METRICS: MetricOption[] = [
     {
         value: "tvl",

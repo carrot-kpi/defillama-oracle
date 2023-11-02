@@ -21,7 +21,11 @@ import {
     type Specification,
     type State,
 } from "./types";
-import { CONSTRAINT_TYPES, METRICS } from "../commons";
+import {
+    CONSTRAINT_TYPES,
+    METRICS,
+    SUGGESTED_EXPIRATION_DATE_BUFFER,
+} from "../commons";
 import { PayloadForm } from "./payload-form";
 import dayjs from "dayjs";
 import { useTimeConstraints } from "../hooks/useTimeConstraints";
@@ -42,6 +46,7 @@ export const Component = ({
     state,
     onStateChange,
     onInitializationBundleGetterChange,
+    onSuggestedExpirationTimestampChange,
     t,
     kpiToken,
     template,
@@ -216,12 +221,16 @@ export const Component = ({
 
     const handleTimestampChange = useCallback(
         (value: Date) => {
+            const newTimestamp = dateToUnixTimestamp(value);
             onStateChange((state) => ({
                 ...state,
-                timestamp: dateToUnixTimestamp(value),
+                timestamp: newTimestamp,
             }));
+            onSuggestedExpirationTimestampChange(
+                newTimestamp + SUGGESTED_EXPIRATION_DATE_BUFFER,
+            );
         },
-        [onStateChange],
+        [onStateChange, onSuggestedExpirationTimestampChange],
     );
 
     const handlePayloadChange = useCallback(
