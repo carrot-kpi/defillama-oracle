@@ -1,9 +1,9 @@
-import { Metric } from "../../types";
+import type { Metric } from "../../types";
 
 export const getDefiLlamaLink = (protocol: string, metric: Metric) => {
     let url = `https://defillama.com/protocol/${protocol}?`;
     switch (metric) {
-        case Metric.TVL: {
+        case "tvl": {
             url += "tvl=true";
             break;
         }

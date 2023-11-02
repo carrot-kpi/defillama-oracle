@@ -1,6 +1,6 @@
 import { decodeAbiParameters } from "viem";
 import { type Hex, type Address } from "viem";
-import { type DecodedOracleData } from "../../types";
+import { type DecodedOracleData } from "../types";
 import dayjs from "dayjs";
 
 export const decodeOracleData = (data: Hex): DecodedOracleData => {

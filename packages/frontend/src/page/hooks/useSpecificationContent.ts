@@ -1,7 +1,7 @@
 import { useIPFSGatewayURL } from "@carrot-kpi/react";
 import { Fetcher } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
-import { type Specification } from "../../types";
+import { type Specification } from "../types";
 
 export function useSpecificationContent(cid?: string) {
     const ipfsGatewayURL = useIPFSGatewayURL();

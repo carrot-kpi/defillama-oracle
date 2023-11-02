@@ -16,7 +16,7 @@
     "error.values.ranged.between.sameValues": "Values can't be the same with the selected constraint",
     "error.ranged.zero": "Value can't be 0",
     "error.timestamp.invalid": "Value not valid",
-    "error.maximum.date.past": "Expiration date too near in the future, choose a date that falls after {{minimumDate}}.",
+    "error.maximum.date.past": "The chosen KPI token expiration date is too close, please pick a date that falls after {{minimumDate}}.",
     "label.goal.summary.single": "The goal will be considered reached if the metric measured at the measurement timestamp",
     "placeholder.value0.single": "Pick a value",
     "label.value0.ranged": "Lower bound",

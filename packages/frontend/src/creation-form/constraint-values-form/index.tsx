@@ -1,8 +1,9 @@
 import { type FC } from "react";
-import { type ConstraintFormProps, ConstraintType } from "../../types";
+import { ConstraintType } from "../../types";
 import { SingleValueConstraintForm } from "./single-value";
 import { Typography } from "@carrot-kpi/ui";
 import { RangedValuesConstraintForm } from "./ranged-values";
+import type { ConstraintFormProps } from "../types";
 
 const CONSTRAINT_FORM_BY_TYPE: {
     [C in ConstraintType]: FC<ConstraintFormProps>;

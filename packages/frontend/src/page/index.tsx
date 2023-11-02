@@ -6,13 +6,14 @@ import type { OracleRemotePageProps } from "@carrot-kpi/react";
 import { decodeOracleData } from "./utils/data-decoding";
 import { Loader } from "@carrot-kpi/ui";
 import { useSpecificationContent } from "./hooks/useSpecificationContent";
-import { Metric, type DecodedOracleData, type MetricPageProps } from "../types";
+import { type DecodedOracleData, type MetricPageProps } from "./types";
 import { TvlPage } from "./metric-page/tvl";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import i18next from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import { bundle } from "./i18n";
+import type { Metric } from "../types";
 
 export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
     "@carrot-kpi/defillama-oracle-template";
@@ -33,7 +34,7 @@ dayjs.extend(localizedFormat);
 const PAGE_BY_METRIC: {
     [M in Metric]: FC<MetricPageProps>;
 } = {
-    [Metric.TVL]: TvlPage,
+    tvl: TvlPage,
 };
 
 export const Component = ({
