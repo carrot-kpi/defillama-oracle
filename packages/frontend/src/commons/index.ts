@@ -1,13 +1,9 @@
-import {
-    ConstraintType,
-    Metric,
-    type ConstraintTypeOption,
-    type MetricOption,
-} from "../types";
+import type { MetricOption } from "../creation-form/types";
+import { ConstraintType, type ConstraintTypeOption } from "../types";
 
 export const METRICS: MetricOption[] = [
     {
-        value: Metric.TVL,
+        value: "tvl",
         label: "Total value locked",
     },
 ];

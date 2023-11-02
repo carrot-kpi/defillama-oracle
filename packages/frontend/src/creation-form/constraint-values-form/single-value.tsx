@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
-import { type ConstraintFormProps, ConstraintType } from "../../types";
+import { ConstraintType, type ConstraintTypeOption } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 import { formatDecimals } from "@carrot-kpi/sdk";
+import type { ConstraintFormProps } from "../types";
 
 type SingleConstraintType = Exclude<
     ConstraintType,
@@ -18,6 +19,25 @@ const CONSTRAINT_SUMMARY: {
     [ConstraintType.LOWER_THAN]: "label.summary.single.value.lowerThan",
 };
 
+const validateValue = (
+    constraintType?: ConstraintTypeOption,
+    value?: bigint,
+): string => {
+    if (value === undefined) {
+        return "error.value0.single.missing";
+    }
+
+    if (
+        constraintType &&
+        constraintType.value === ConstraintType.LOWER_THAN &&
+        value <= 0n
+    ) {
+        return "error.value0.single.notValid";
+    }
+
+    return "";
+};
+
 export const SingleValueConstraintForm = ({
     t,
     type,
@@ -26,37 +46,17 @@ export const SingleValueConstraintForm = ({
 }: ConstraintFormProps) => {
     const [valueErrorText, setValueErrorText] = useState("");
 
-    useEffect(() => {
-        console.log("effect single value constraint form", {
-            onChange,
-            t,
-            type,
-            value0,
-        });
-        let valueErrorText = "";
-
-        if (value0 === undefined) {
-            valueErrorText = t("error.value0.single.missing");
-        } else if (
-            type &&
-            type.value === ConstraintType.LOWER_THAN &&
-            value0 <= 0n
-        ) {
-            valueErrorText = t("error.value0.single.notValid");
-        }
-
-        setValueErrorText(!!valueErrorText ? valueErrorText : "");
-        onChange([value0, 0n], !valueErrorText);
-    }, [onChange, t, type, value0]);
-
     const handleValueChange = useCallback(
         ({ value }: { value: string }) => {
-            onChange([parseUnits(value, 18), 0n], !valueErrorText);
-        },
-        [onChange, valueErrorText],
-    );
+            const newValue = parseUnits(value, 18);
 
-    console.log("external single value form");
+            const valueErrorText = validateValue(type, newValue);
+            setValueErrorText(valueErrorText);
+
+            onChange([newValue, 0n], !valueErrorText);
+        },
+        [onChange, type],
+    );
 
     return (
         <div className="flex flex-col gap-4">

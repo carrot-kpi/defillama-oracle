@@ -11,31 +11,37 @@ import {
 import {
     useDecentralizedStorageUploader,
     type OracleRemoteCreationFormProps,
-    type OracleInitializationBundleGetter,
     useDevMode,
     useStagingMode,
 } from "@carrot-kpi/react";
 import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import {
-    type ConstraintTypeOption,
+    type Constraint,
     type MetricOption,
     type Specification,
     type State,
-} from "../types";
+} from "./types";
 import { CONSTRAINT_TYPES, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
-import { encodeAbiParameters } from "viem";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useTimeConstraints } from "../hooks/useTimeConstraints";
 import { ConstraintForm } from "./constraint-values-form";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import useDebounce from "react-use/esm/useDebounce";
+import {
+    dateToUnixTimestamp,
+    isDateInThePast,
+    unixTimestampToDate,
+} from "../utils/dates";
+import { getInitializationBundleGetter } from "./utils/initialization-bundle-getter";
+import type { ConstraintTypeOption } from "../types";
 
 dayjs.extend(localizedFormat);
 
 export const Component = ({
     state,
-    onChange,
+    onStateChange,
+    onInitializationBundleGetterChange,
     t,
     kpiToken,
     template,
@@ -56,68 +62,31 @@ export const Component = ({
             : "https://defillama-answerer.api.carrot.community";
     }, [devMode, stagingMode]);
 
-    const [timestamp, setTimestamp] = useState<Dayjs | null>(
-        state?.timestamp ? dayjs.unix(state.timestamp) : null,
-    );
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
     const [maximumDate, setMaximumDate] = useState<Date | null>(null);
-
     const [timestampErrorText, setTimestampErrorText] = useState("");
-
-    const [metric, setMetric] = useState<MetricOption | undefined>(
-        METRICS.find((metric) => metric.value === state.specification?.metric),
-    );
-    const [payload, setPayload] = useState<
-        Specification["payload"] | undefined
-    >(state.specification?.payload);
     const [validSpecification, setValidSpecification] =
         useState<Specification | null>(null);
 
-    const [constraintType, setConstraintType] = useState<
-        ConstraintTypeOption | undefined
-    >(
-        CONSTRAINT_TYPES.find(
-            (constraintType) => constraintType.value === state.constraint?.type,
-        ),
-    );
     const [constraintValuesValid, setConstraintValuesValid] = useState(false);
-    const [constraintValues, setConstraintValues] = useState<
-        [bigint | undefined, bigint | undefined]
-    >([state.constraint?.value0, state.constraint?.value1]);
 
     useEffect(() => {
-        console.log("effect_1", {
-            expirationBufferTime,
-            expiration: kpiToken?.expiration,
-            minimumTimeElapsed,
-        });
-        if (kpiToken?.expiration) {
-            const maximumDate = expirationBufferTime
-                ? dayjs
-                      .unix(kpiToken.expiration)
-                      .subtract(Number(expirationBufferTime), "seconds")
-                : dayjs.unix(kpiToken.expiration);
-
-            setMaximumDate(maximumDate.toDate());
-            if (maximumDate && dayjs(maximumDate).isBefore(dayjs())) return;
-        }
         const interval = setInterval(() => {
-            console.log("interval");
-            const minimumDate = minimumTimeElapsed
-                ? dayjs().add(Number(minimumTimeElapsed), "seconds")
-                : dayjs();
-            setMinimumDate(minimumDate.toDate());
+            let newMinDate = dateToUnixTimestamp(new Date());
+            if (minimumTimeElapsed) newMinDate += Number(minimumTimeElapsed);
+            setMinimumDate(unixTimestampToDate(newMinDate));
         }, 1_000);
         return () => {
             clearInterval(interval);
         };
-    }, [expirationBufferTime, kpiToken?.expiration, minimumTimeElapsed, t]);
+    }, [minimumTimeElapsed]);
 
     useEffect(() => {
-        console.log("effect 2", state.timestamp);
-        if (!state.timestamp) return;
-        setTimestamp(dayjs.unix(state.timestamp));
-    }, [state.timestamp]);
+        if (!kpiToken?.expiration) return;
+        let newMaxDate = kpiToken.expiration;
+        if (expirationBufferTime) newMaxDate -= Number(expirationBufferTime);
+        setMaximumDate(unixTimestampToDate(newMaxDate));
+    }, [expirationBufferTime, kpiToken?.expiration]);
 
     useEffect(() => {
         if (
@@ -135,23 +104,25 @@ export const Component = ({
             );
             return;
         }
-        setTimestampErrorText(
-            timestamp &&
-                (timestamp.isAfter(maximumDate) ||
-                    timestamp.isBefore(minimumDate))
-                ? t("error.timestamp.invalid")
-                : "",
-        );
+
+        let errorText = "";
+        if (
+            state.timestamp &&
+            ((maximumDate &&
+                state.timestamp > dateToUnixTimestamp(maximumDate)) ||
+                (minimumDate &&
+                    state.timestamp < dateToUnixTimestamp(minimumDate)))
+        )
+            errorText = t("error.timestamp.invalid");
+        setTimestampErrorText(errorText);
     }, [
         expirationBufferTime,
         kpiToken?.expiration,
         maximumDate,
         minimumDate,
+        state.timestamp,
         t,
-        timestamp,
     ]);
-
-    console.log("maximum date", { maximumDate });
 
     useDebounce(
         () => {
@@ -162,19 +133,17 @@ export const Component = ({
                 // implemented elsewhere, as this component should be completely
                 // spec-agnostic
                 if (
-                    !metric ||
-                    !timestamp ||
-                    !constraintType ||
-                    constraintValues[0] === undefined ||
-                    constraintValues[1] === undefined ||
-                    !payload?.protocol
+                    !state.timestamp ||
+                    !state.specification ||
+                    !state.specification.metric ||
+                    !state.specification.payload ||
+                    !state.constraint ||
+                    !state.constraint.type ||
+                    state.constraint.value0 === undefined ||
+                    state.constraint.value1 === undefined ||
+                    !state.specification.payload.protocol
                 )
                     return;
-
-                const specification = {
-                    metric: metric?.value,
-                    payload,
-                };
 
                 let valid = false;
                 try {
@@ -185,7 +154,7 @@ export const Component = ({
                             headers: {
                                 "Content-Type": "application/json",
                             },
-                            body: JSON.stringify(specification),
+                            body: JSON.stringify(state.specification),
                         },
                     );
                     valid = response.ok;
@@ -196,105 +165,105 @@ export const Component = ({
                     );
                 }
 
-                setValidSpecification(valid ? specification : null);
+                setValidSpecification(valid ? state.specification : null);
             };
             validate();
         },
         300,
-        [metric, timestamp, constraintType, constraintValues, payload],
+        [state],
     );
 
-    // this effect reacts to any change in internal state, firing an
-    // onChange event to the creation form when necessary.
-    // onChange will also receive an initialization bundle getter function
-    // when data is valid.
     useEffect(() => {
-        console.log("effect 4", {
-            constraintType,
-            constraintValuesValid,
-            constraintValues,
-            metric: metric?.value,
-            onChange,
-            payload,
-            timestamp,
-            uploadToIpfs,
-            validSpecification,
-        });
-        let initializationBundleGetter:
-            | OracleInitializationBundleGetter
-            | undefined = undefined;
         if (
-            !!validSpecification &&
-            !!timestamp &&
-            !!constraintType &&
-            constraintValuesValid
-        ) {
-            console.log("init bundle getter");
-            initializationBundleGetter = async () => {
-                const specificationCid = await uploadToIpfs(
-                    JSON.stringify(validSpecification),
-                );
-                const initializationData = encodeAbiParameters(
-                    [
-                        { type: "string", name: "specification" },
-                        { type: "uint256", name: "measurementTimestamp" },
-                        { type: "uint256", name: "constraint" },
-                        { type: "uint256", name: "value0" },
-                        { type: "uint256", name: "value1" },
-                    ],
-                    [
-                        specificationCid,
-                        BigInt(timestamp.unix()),
-                        BigInt(Number(constraintType.value)),
-                        constraintValues[0] || 0n,
-                        constraintValues[1] || 0n,
-                    ],
-                );
-                return {
-                    data: initializationData,
-                    value: 0n,
-                };
-            };
-        }
-
-        const newState: State = {
-            timestamp: timestamp?.unix(),
-            constraint: {
-                type: constraintType?.value,
-                value0: constraintValues[0],
-                value1: constraintValues[1],
-            },
-            specification: {
-                metric: metric?.value,
-                payload,
-            },
-        };
-        onChange(newState, initializationBundleGetter);
+            !validSpecification ||
+            !state.timestamp ||
+            !state.constraint ||
+            !state.constraint.type ||
+            !state.constraint.value0 ||
+            !state.constraint.value1 ||
+            !constraintValuesValid
+        )
+            return;
+        onInitializationBundleGetterChange(
+            getInitializationBundleGetter(
+                uploadToIpfs,
+                state.timestamp,
+                validSpecification,
+                state.constraint as Required<Constraint>,
+            ),
+        );
     }, [
-        constraintType,
         constraintValuesValid,
-        constraintValues,
-        metric?.value,
-        onChange,
-        payload,
-        timestamp,
+        onInitializationBundleGetterChange,
+        state.constraint,
+        state.timestamp,
         uploadToIpfs,
         validSpecification,
     ]);
 
-    const handleTimestampChange = useCallback((value: Date) => {
-        setTimestamp(dayjs(value));
-    }, []);
-
-    const handleValuesChange = useCallback(
-        (values: [bigint | undefined, bigint | undefined], valid: boolean) => {
-            setConstraintValues(values);
-            setConstraintValuesValid(valid);
+    const handleMetricChange = useCallback(
+        (value: MetricOption) => {
+            onStateChange((state) => ({
+                ...state,
+                specification: {
+                    ...(state.specification || {}),
+                    metric: value.value,
+                },
+            }));
         },
-        [],
+        [onStateChange],
     );
 
-    console.log("external", state);
+    const handleTimestampChange = useCallback(
+        (value: Date) => {
+            onStateChange((state) => ({
+                ...state,
+                timestamp: dateToUnixTimestamp(value),
+            }));
+        },
+        [onStateChange],
+    );
+
+    const handlePayloadChange = useCallback(
+        (payload: Specification["payload"]) => {
+            onStateChange((state) => ({
+                ...state,
+                specification: {
+                    ...state.specification,
+                    payload,
+                },
+            }));
+        },
+        [onStateChange],
+    );
+
+    const handleConstraintTypeChange = useCallback(
+        (constraintType: ConstraintTypeOption) => () => {
+            onStateChange((state) => ({
+                ...state,
+                constraint: {
+                    ...state.constraint,
+                    type: constraintType.value,
+                },
+            }));
+        },
+        [onStateChange],
+    );
+
+    const handleConstraintValuesChange = useCallback(
+        (values: [bigint | undefined, bigint | undefined], valid: boolean) => {
+            onStateChange((state) => ({
+                ...state,
+                constraint: {
+                    ...state.constraint,
+                    value0: values[0]?.toString(),
+                    value1: values[1]?.toString(),
+                },
+            }));
+            setConstraintValuesValid(valid);
+        },
+        [onStateChange],
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -322,9 +291,17 @@ export const Component = ({
                             }
                             placeholder={t("placeholder.pick.metric")}
                             search
-                            onChange={setMetric}
+                            onChange={handleMetricChange}
                             options={METRICS}
-                            value={metric || null}
+                            value={
+                                state.specification?.metric
+                                    ? METRICS.find(
+                                          (metric) =>
+                                              metric.value ===
+                                              state.specification?.metric,
+                                      ) || null
+                                    : null
+                            }
                         />
                     </div>
                     <div className="w-full md:w-1/2">
@@ -341,10 +318,7 @@ export const Component = ({
                                 inputWrapper: "w-full",
                             }}
                             disabled={
-                                !!(
-                                    maximumDate &&
-                                    dayjs(maximumDate).isBefore(dayjs())
-                                )
+                                !!maximumDate && isDateInThePast(maximumDate)
                             }
                             loading={loadingTimeConstraints}
                             label={t("label.timestamp")}
@@ -352,17 +326,21 @@ export const Component = ({
                             min={minimumDate}
                             max={maximumDate}
                             onChange={handleTimestampChange}
-                            value={timestamp?.toDate()}
+                            value={
+                                state.timestamp
+                                    ? unixTimestampToDate(state.timestamp)
+                                    : null
+                            }
                             error={!!timestampErrorText}
                             errorText={timestampErrorText}
                         />
                     </div>
                 </div>
                 <PayloadForm
-                    metric={metric?.value}
-                    measurementTimestamp={timestamp}
-                    payload={payload}
-                    onChange={setPayload}
+                    metric={state.specification?.metric}
+                    measurementTimestamp={state.timestamp}
+                    payload={state.specification?.payload}
+                    onChange={handlePayloadChange}
                     kpiToken={kpiToken}
                     t={t}
                 />
@@ -378,10 +356,8 @@ export const Component = ({
                                     key={ct.value}
                                     size="big"
                                     clickable
-                                    active={constraintType?.value === ct.value}
-                                    onClick={() => {
-                                        setConstraintType(ct);
-                                    }}
+                                    active={ct.value === state.constraint?.type}
+                                    onClick={handleConstraintTypeChange(ct)}
                                 >
                                     {ct.label}
                                 </Chip>
@@ -390,10 +366,21 @@ export const Component = ({
                     </div>
                 </div>
                 <ConstraintForm
-                    type={constraintType}
-                    value0={constraintValues[0]}
-                    value1={constraintValues[1]}
-                    onChange={handleValuesChange}
+                    type={CONSTRAINT_TYPES.find(
+                        (constraintType) =>
+                            constraintType.value === state.constraint?.type,
+                    )}
+                    value0={
+                        state.constraint?.value0
+                            ? BigInt(state.constraint.value0)
+                            : undefined
+                    }
+                    value1={
+                        state.constraint?.value1
+                            ? BigInt(state.constraint.value1)
+                            : undefined
+                    }
+                    onChange={handleConstraintValuesChange}
                     t={t}
                 />
             </div>

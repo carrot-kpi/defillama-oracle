@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
-import { type ConstraintFormProps, ConstraintType } from "../../types";
+import { ConstraintType } from "../../types";
 import { FeedbackBox, NumberInput, Typography } from "@carrot-kpi/ui";
 import { formatDecimals } from "@carrot-kpi/sdk";
+import type { ConstraintFormProps } from "../types";
 
 type RangedConstraintType = Exclude<
     ConstraintType,
@@ -39,72 +40,49 @@ export const RangedValuesConstraintForm = ({
     const [value0ErrorText, setValue0ErrorText] = useState("");
     const [value1ErrorText, setValue1ErrorText] = useState("");
 
-    useEffect(() => {
-        console.log("effect ranges values constraint form", {
-            onChange,
-            t,
-            type,
-            value0,
-            value1,
-        });
-        let value0ErrorText = "";
-        let value1ErrorText = "";
-
-        if (
-            type &&
-            value0 === value1 &&
-            [
-                ConstraintType.BETWEEN,
-                ConstraintType.NOT_BETWEEN,
-                ConstraintType.RANGE,
-            ].includes(type.value)
-        ) {
-            value0ErrorText = t("error.values.ranged.between.sameValues");
-            value1ErrorText = t("error.values.ranged.between.sameValues");
-        }
-
-        if (value0 === undefined) {
-            value0ErrorText = t("error.value0.ranged.missing");
-        } else if (value1 !== undefined && value0 > value1) {
-            value0ErrorText = t("error.value0.ranged.tooHigh");
-        } else if (value1 !== undefined && value0 === 0n && value1 === 0n) {
-            value0ErrorText = t("error.ranged.zero");
-        }
-
-        if (value1 === undefined) {
-            value1ErrorText = t("error.value1.ranged.missing");
-        } else if (value0 !== undefined && value1 < value0) {
-            value1ErrorText = t("error.value1.ranged.tooLow");
-        } else if (value0 !== undefined && value1 === 0n && value0 === 0n) {
-            value1ErrorText = t("error.ranged.zero");
-        }
-
-        setValue0ErrorText(!!value0ErrorText ? value0ErrorText : "");
-        setValue1ErrorText(!!value1ErrorText ? value1ErrorText : "");
-        onChange([value0, value1], !value0ErrorText || !value1ErrorText);
-    }, [onChange, t, type, value0, value1]);
-
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {
-            onChange(
-                [value ? parseUnits(value, 18) : undefined, value1],
-                !value0ErrorText,
-            );
+            const newValue0 = value ? parseUnits(value, 18) : undefined;
+
+            let value0ErrorText = "";
+            let value1ErrorText = "";
+            if (newValue0 === undefined) {
+                value0ErrorText = t("error.value0.ranged.missing");
+            } else if (newValue0 === value1) {
+                value0ErrorText = t("error.values.ranged.between.sameValues");
+                value1ErrorText = t("error.values.ranged.between.sameValues");
+            } else if (value1 !== undefined && newValue0 > value1) {
+                value0ErrorText = t("error.value0.ranged.tooHigh");
+            }
+
+            setValue0ErrorText(!!value0ErrorText ? value0ErrorText : "");
+            setValue1ErrorText(!!value1ErrorText ? value1ErrorText : "");
+            onChange([newValue0, value1], !value0ErrorText || !value1ErrorText);
         },
-        [onChange, value1, value0ErrorText],
+        [onChange, t, value1],
     );
 
     const handleValue1Change = useCallback(
         ({ value }: { value: string }) => {
-            onChange(
-                [value0, value ? parseUnits(value, 18) : undefined],
-                !value1ErrorText,
-            );
-        },
-        [onChange, value0, value1ErrorText],
-    );
+            const newValue1 = value ? parseUnits(value, 18) : undefined;
 
-    console.log("external ranged value form");
+            let value0ErrorText = "";
+            let value1ErrorText = "";
+            if (newValue1 === undefined) {
+                value1ErrorText = t("error.value1.ranged.missing");
+            } else if (newValue1 === value0) {
+                value0ErrorText = t("error.values.ranged.between.sameValues");
+                value1ErrorText = t("error.values.ranged.between.sameValues");
+            } else if (value0 !== undefined && value0 > newValue1) {
+                value1ErrorText = t("error.value1.ranged.tooLow");
+            }
+
+            setValue0ErrorText(!!value0ErrorText ? value0ErrorText : "");
+            setValue1ErrorText(!!value1ErrorText ? value1ErrorText : "");
+            onChange([value0, newValue1], !value0ErrorText || !value1ErrorText);
+        },
+        [onChange, t, value0],
+    );
 
     return (
         <div className="flex flex-col gap-4">

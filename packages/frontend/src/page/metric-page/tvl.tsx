@@ -5,12 +5,8 @@ import {
     Typography,
     type FeedbackBoxProps,
 } from "@carrot-kpi/ui";
-import {
-    ConstraintType,
-    Metric,
-    type MetricPageProps,
-    type ProtocolOption,
-} from "../../types";
+import { type MetricPageProps } from "../types";
+import { type ProtocolOption } from "../../types";
 import { InfoBox } from "../components/info-box";
 import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
 import { useEffect, useMemo, useState } from "react";
@@ -21,6 +17,7 @@ import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
 import { formatUnits } from "viem";
 import { useGoalCompletionPercentage } from "../hooks/useGoalCompletionPercentage";
 import { Trans } from "react-i18next";
+import { ConstraintType } from "../../types";
 
 const GOAL_DESCRIPTION: {
     [C in ConstraintType]: {
@@ -180,7 +177,7 @@ export const TvlPage = ({
                             className="flex gap-1 items-center"
                             href={getDefiLlamaLink(
                                 specification.payload.protocol,
-                                Metric.TVL,
+                                "tvl",
                             )}
                             target="_blank"
                             rel="noopener noreferrer"
