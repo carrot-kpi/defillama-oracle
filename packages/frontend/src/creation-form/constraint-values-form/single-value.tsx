@@ -43,6 +43,7 @@ export const SingleValueConstraintForm = ({
     type,
     value0,
     onChange,
+    onValidChange,
 }: ConstraintFormProps) => {
     const [valueErrorText, setValueErrorText] = useState("");
 
@@ -56,7 +57,8 @@ export const SingleValueConstraintForm = ({
         }
 
         setValueErrorText(t(valueErrorText));
-    }, [value0, type, t]);
+        onValidChange(!valueErrorText);
+    }, [value0, type, t, onValidChange]);
 
     const handleValueChange = useCallback(
         ({ value }: { value: string }) => {
@@ -65,9 +67,10 @@ export const SingleValueConstraintForm = ({
             const valueErrorText = validateValue(value, type);
             setValueErrorText(t(valueErrorText));
 
-            onChange([newValue, 0n], !valueErrorText);
+            onChange([newValue, 0n]);
+            onValidChange(!valueErrorText);
         },
-        [onChange, type, t],
+        [onChange, type, t, onValidChange],
     );
 
     return (

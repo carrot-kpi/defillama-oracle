@@ -64,6 +64,7 @@ export const RangedValuesConstraintForm = ({
     value0,
     value1,
     onChange,
+    onValidChange,
 }: ConstraintFormProps) => {
     const [value0ErrorText, setValue0ErrorText] = useState("");
     const [value1ErrorText, setValue1ErrorText] = useState("");
@@ -74,22 +75,25 @@ export const RangedValuesConstraintForm = ({
 
         setValue0ErrorText(!!value0ErrorText ? t(value0ErrorText) : "");
         setValue1ErrorText(!!value1ErrorText ? t(value1ErrorText) : "");
-    }, [value0, value1, type, t]);
+        onValidChange(!value0ErrorText || !value1ErrorText);
+    }, [value0, value1, type, t, onValidChange]);
 
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {
             const newValue0 = value ? parseUnits(value, 18) : undefined;
-            onChange([newValue0, value1], !value0ErrorText || !value1ErrorText);
+            onChange([newValue0, value1]);
+            onValidChange(!value0ErrorText || !value1ErrorText);
         },
-        [onChange, value0ErrorText, value1, value1ErrorText],
+        [onChange, value0ErrorText, value1, value1ErrorText, onValidChange],
     );
 
     const handleValue1Change = useCallback(
         ({ value }: { value: string }) => {
             const newValue1 = value ? parseUnits(value, 18) : undefined;
-            onChange([value0, newValue1], !value0ErrorText || !value1ErrorText);
+            onChange([value0, newValue1]);
+            onValidChange(!value0ErrorText || !value1ErrorText);
         },
-        [onChange, value0, value0ErrorText, value1ErrorText],
+        [onChange, value0, value0ErrorText, value1ErrorText, onValidChange],
     );
 
     return (

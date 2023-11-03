@@ -122,13 +122,14 @@ export const Component = ({
                     !state.specification.metric ||
                     !state.specification.payload ||
                     !state.constraint ||
-                    !state.constraint.type ||
+                    state.constraint.type === undefined ||
                     state.constraint.value0 === undefined ||
-                    state.constraint.value1 === undefined ||
-                    !state.specification.payload.protocol
-                )
+                    !state.specification.payload.protocol ||
+                    !constraintValuesValid
+                ) {
+                    setValidSpecification(null);
                     return;
-
+                }
                 let valid = false;
                 try {
                     const response = await fetch(
@@ -162,12 +163,14 @@ export const Component = ({
             !validSpecification ||
             !state.timestamp ||
             !state.constraint ||
-            !state.constraint.type ||
+            state.constraint.type === undefined ||
             !state.constraint.value0 ||
             !state.constraint.value1 ||
             !constraintValuesValid
-        )
+        ) {
+            onInitializationBundleGetterChange(undefined);
             return;
+        }
         onInitializationBundleGetterChange(
             getInitializationBundleGetter(
                 uploadToIpfs,
@@ -239,7 +242,7 @@ export const Component = ({
     );
 
     const handleConstraintValuesChange = useCallback(
-        (values: [bigint | undefined, bigint | undefined], valid: boolean) => {
+        (values: [bigint | undefined, bigint | undefined]) => {
             onStateChange((state) => ({
                 ...state,
                 constraint: {
@@ -248,10 +251,13 @@ export const Component = ({
                     value1: values[1]?.toString(),
                 },
             }));
-            setConstraintValuesValid(valid);
         },
         [onStateChange],
     );
+
+    const handleConstraintValidChange = useCallback((valid: boolean) => {
+        setConstraintValuesValid(valid);
+    }, []);
 
     return (
         <div className="flex flex-col gap-4">
@@ -364,6 +370,7 @@ export const Component = ({
                             : undefined
                     }
                     onChange={handleConstraintValuesChange}
+                    onValidChange={handleConstraintValidChange}
                     t={t}
                 />
             </div>

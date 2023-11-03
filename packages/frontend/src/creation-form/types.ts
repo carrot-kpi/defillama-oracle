@@ -35,8 +35,6 @@ export interface ConstraintFormProps {
     t: OracleRemoteCreationFormProps<State>["t"];
     value0?: bigint;
     value1?: bigint;
-    onChange: (
-        values: [bigint | undefined, bigint | undefined],
-        valid: boolean,
-    ) => void;
+    onChange: (values: [bigint | undefined, bigint | undefined]) => void;
+    onValidChange: (valid: boolean) => void;
 }
