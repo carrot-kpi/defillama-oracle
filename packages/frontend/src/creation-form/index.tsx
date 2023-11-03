@@ -35,6 +35,23 @@ import useDebounce from "react-use/esm/useDebounce";
 import { dateToUnixTimestamp, unixTimestampToDate } from "../utils/dates";
 import { getInitializationBundleGetter } from "./utils/initialization-bundle-getter";
 import type { ConstraintTypeOption } from "../types";
+import i18next from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
+import { bundle } from "./i18n";
+
+export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
+    "@carrot-kpi/defillama-oracle-template";
+
+i18next.use(initReactI18next).init({
+    lng: "en",
+    fallbackLng: "en",
+    ns: DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE,
+    defaultNS: DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE,
+    resources: bundle,
+    interpolation: {
+        escapeValue: false,
+    },
+});
 
 dayjs.extend(localizedFormat);
 
@@ -43,7 +60,6 @@ export const Component = ({
     onStateChange,
     onInitializationBundleGetterChange,
     onSuggestedExpirationTimestampChange,
-    t,
     template,
 }: OracleRemoteCreationFormProps<State>): ReactElement => {
     const uploadToIpfs = useDecentralizedStorageUploader();
@@ -52,6 +68,7 @@ export const Component = ({
         expirationBufferTime,
         loading: loadingTimeConstraints,
     } = useTimeConstraints(template.address);
+    const { t } = useTranslation();
     const devMode = useDevMode();
     const stagingMode = useStagingMode();
     const answererUrl = useMemo(() => {
