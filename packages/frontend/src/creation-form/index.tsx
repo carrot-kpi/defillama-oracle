@@ -173,7 +173,7 @@ export const Component = ({
             onStateChange((state) => ({
                 ...state,
                 specification: {
-                    ...(state.specification || {}),
+                    ...state.specification,
                     metric: value.value,
                 },
             }));
@@ -184,13 +184,13 @@ export const Component = ({
     const handleTimestampChange = useCallback(
         (value: Date) => {
             const newTimestamp = dateToUnixTimestamp(value);
+            onSuggestedExpirationTimestampChange(
+                newTimestamp + SUGGESTED_EXPIRATION_DATE_BUFFER,
+            );
             onStateChange((state) => ({
                 ...state,
                 timestamp: newTimestamp,
             }));
-            onSuggestedExpirationTimestampChange(
-                newTimestamp + SUGGESTED_EXPIRATION_DATE_BUFFER,
-            );
         },
         [onStateChange, onSuggestedExpirationTimestampChange],
     );
