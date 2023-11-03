@@ -5,6 +5,9 @@ import { ProtocolOption as ProtocolOptionComponent } from "../../commons/protoco
 import dayjs from "dayjs";
 import type { PayloadFormProps } from "../types";
 import type { ProtocolOption } from "../../types";
+import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
+import { formatDecimals } from "@carrot-kpi/sdk";
+import { Trans } from "react-i18next";
 
 export const TvlPayloadForm = ({
     t,
@@ -12,7 +15,8 @@ export const TvlPayloadForm = ({
     payload,
     onChange,
 }: PayloadFormProps) => {
-    const { loading, protocols } = useDefiLlamaProtocols();
+    const { loading: loadingProtocols, protocols } = useDefiLlamaProtocols();
+    const { tvl } = useDefiLlamaCurrentTvl(payload?.protocol);
 
     const handleProtocolChange = useCallback(
         (protocolOption: ProtocolOption) => {
@@ -40,7 +44,7 @@ export const TvlPayloadForm = ({
                         }}
                         label={t("label.tvl.protocol")}
                         placeholder={t("placeholder.pick.protocol")}
-                        loading={loading}
+                        loading={loadingProtocols}
                         messages={{
                             noResults: t("select.no.results"),
                         }}
@@ -52,18 +56,29 @@ export const TvlPayloadForm = ({
                     />
                 </div>
             </div>
-            {measurementTimestamp && protocol ? (
+            {measurementTimestamp && protocol && tvl ? (
                 <FeedbackBox
                     variant="success"
                     messages={{ title: t("label.metric.summary") }}
                 >
                     <Typography>
-                        {t("metric.summary.tvl", {
-                            protocol: protocol.label,
-                            measurementTime: dayjs
-                                .unix(measurementTimestamp)
-                                .format("L HH:mm:ss"),
-                        })}
+                        <Trans
+                            i18nKey="metric.summary.tvl"
+                            components={{
+                                strong: <strong />,
+                                br: <br />,
+                            }}
+                            values={{
+                                protocol: protocol.label,
+                                measurementTime: dayjs
+                                    .unix(measurementTimestamp)
+                                    .format("L HH:mm:ss"),
+                                currentTvl: formatDecimals({
+                                    number: tvl,
+                                    decimalsAmount: 2,
+                                }),
+                            }}
+                        />
                     </Typography>
                 </FeedbackBox>
             ) : (
