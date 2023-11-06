@@ -282,11 +282,15 @@ export const TvlPage = ({
                             {goalCompletionPercentage === 0
                                 ? t("goal.final.status.failed")
                                 : t("goal.final.status.reached")}{" "}
-                            {formatDecimals({
-                                number: goalCompletionPercentage.toString(),
-                                decimalsAmount: 2,
-                            })}
-                            {"%"}
+                            {constraint === ConstraintType.RANGE && (
+                                <>
+                                    {formatDecimals({
+                                        number: goalCompletionPercentage.toString(),
+                                        decimalsAmount: 2,
+                                    })}
+                                    %
+                                </>
+                            )}
                         </Typography>
                     </InfoBox>
                 ) : (
@@ -295,11 +299,15 @@ export const TvlPage = ({
                             {goalCompletionPercentage === 0
                                 ? t("goal.current.status.failing")
                                 : t("goal.current.status.succeeding")}{" "}
-                            {formatDecimals({
-                                number: goalCompletionPercentage.toString(),
-                                decimalsAmount: 2,
-                            })}
-                            {"%"}
+                            {constraint === ConstraintType.RANGE && (
+                                <>
+                                    {formatDecimals({
+                                        number: goalCompletionPercentage.toString(),
+                                        decimalsAmount: 2,
+                                    })}
+                                    %
+                                </>
+                            )}
                         </Typography>
                     </InfoBox>
                 )}
