@@ -21,6 +21,7 @@ export const ConstraintForm = ({
     t,
     type,
     onChange,
+    onValidChange,
     ...rest
 }: ConstraintFormProps) => {
     if (!type && type !== 0)
@@ -33,5 +34,13 @@ export const ConstraintForm = ({
         );
 
     const ConstraintForm = CONSTRAINT_FORM_BY_TYPE[type.value];
-    return <ConstraintForm type={type} onChange={onChange} t={t} {...rest} />;
+    return (
+        <ConstraintForm
+            type={type}
+            onChange={onChange}
+            onValidChange={onValidChange}
+            t={t}
+            {...rest}
+        />
+    );
 };
