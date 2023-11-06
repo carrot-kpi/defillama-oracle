@@ -75,14 +75,14 @@ export const RangedValuesConstraintForm = ({
 
         setValue0ErrorText(!!value0ErrorText ? t(value0ErrorText) : "");
         setValue1ErrorText(!!value1ErrorText ? t(value1ErrorText) : "");
-        onValidChange(!value0ErrorText || !value1ErrorText);
+        onValidChange(!value0ErrorText && !value1ErrorText);
     }, [value0, value1, type, t, onValidChange]);
 
     const handleValue0Change = useCallback(
         ({ value }: { value: string }) => {
             const newValue0 = value ? parseUnits(value, 18) : undefined;
             onChange([newValue0, value1]);
-            onValidChange(!value0ErrorText || !value1ErrorText);
+            onValidChange(!value0ErrorText && !value1ErrorText);
         },
         [onChange, value0ErrorText, value1, value1ErrorText, onValidChange],
     );
@@ -91,7 +91,7 @@ export const RangedValuesConstraintForm = ({
         ({ value }: { value: string }) => {
             const newValue1 = value ? parseUnits(value, 18) : undefined;
             onChange([value0, newValue1]);
-            onValidChange(!value0ErrorText || !value1ErrorText);
+            onValidChange(!value0ErrorText && !value1ErrorText);
         },
         [onChange, value0, value0ErrorText, value1ErrorText, onValidChange],
     );
