@@ -164,8 +164,7 @@ export const Component = ({
             !state.timestamp ||
             !state.constraint ||
             state.constraint.type === undefined ||
-            !state.constraint.value0 ||
-            !state.constraint.value1 ||
+            state.constraint.value0 === undefined ||
             !constraintValuesValid
         ) {
             onInitializationBundleGetterChange(undefined);
