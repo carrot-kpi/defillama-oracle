@@ -286,7 +286,7 @@ export const TvlPage = ({
                                 number: goalCompletionPercentage.toString(),
                                 decimalsAmount: 2,
                             })}
-                            {"%"}
+                            {constraint === ConstraintType.RANGE && "%"}
                         </Typography>
                     </InfoBox>
                 ) : (
@@ -299,7 +299,7 @@ export const TvlPage = ({
                                 number: goalCompletionPercentage.toString(),
                                 decimalsAmount: 2,
                             })}
-                            {"%"}
+                            {constraint === ConstraintType.RANGE && "%"}
                         </Typography>
                     </InfoBox>
                 )}
