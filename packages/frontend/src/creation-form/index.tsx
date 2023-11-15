@@ -75,8 +75,8 @@ export const Component = ({
         return devMode
             ? "http://127.0.0.1:9080"
             : stagingMode
-            ? "https://defillama-answerer.api.staging.carrot.community"
-            : "https://defillama-answerer.api.carrot.community";
+              ? "https://defillama-answerer.api.staging.carrot.community"
+              : "https://defillama-answerer.api.carrot.community";
     }, [devMode, stagingMode]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
