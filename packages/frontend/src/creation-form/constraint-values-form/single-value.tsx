@@ -78,6 +78,7 @@ export const SingleValueConstraintForm = ({
             <div className="flex flex-col gap-2 md:flex-row">
                 <div className="w-full">
                     <NumberInput
+                        data-testid="single-value-form-value0-input"
                         id="value0"
                         className={{
                             root: "w-full",
