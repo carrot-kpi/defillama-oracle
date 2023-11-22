@@ -267,6 +267,7 @@ export const Component = ({
                 <div className="flex flex-col gap-2 md:flex-row">
                     <div className="w-full md:w-1/2">
                         <Select
+                            data-testid="creation-form-metric-select-input"
                             id="metric"
                             className={{
                                 root: "w-full",
@@ -299,6 +300,7 @@ export const Component = ({
                     </div>
                     <div className="w-full md:w-1/2">
                         <DateTimeInput
+                            data-testid="creation-form-measurement-date-input"
                             id="timestamp"
                             info={
                                 <Typography variant="sm">
@@ -337,10 +339,14 @@ export const Component = ({
             <div className="flex flex-col px-4 gap-4">
                 <Typography variant="h3">{t("label.goal")}</Typography>
                 <div className="flex flex-col gap-2 md:flex-row">
-                    <div className="flex w-full flex-wrap gap-3">
+                    <div
+                        data-testid="creation-form-constraints"
+                        className="flex w-full flex-wrap gap-3"
+                    >
                         {CONSTRAINT_TYPES.map((ct) => {
                             return (
                                 <Chip
+                                    data-testid={`creation-form-constraint-${ct.value}`}
                                     key={ct.value}
                                     size="big"
                                     clickable

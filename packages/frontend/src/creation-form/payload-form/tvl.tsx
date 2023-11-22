@@ -36,6 +36,7 @@ export const TvlPayloadForm = ({
             <div className="flex flex-col gap-2 md:flex-row">
                 <div className="w-full">
                     <Select
+                        data-testid="payload-form-protocol-select-input"
                         id="protocol"
                         className={{
                             root: "w-full",

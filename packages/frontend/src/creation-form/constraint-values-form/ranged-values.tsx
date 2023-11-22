@@ -101,6 +101,7 @@ export const RangedValuesConstraintForm = ({
             <div className="flex flex-col gap-2 md:flex-row">
                 <div className="w-full md:w-1/2">
                     <NumberInput
+                        data-testid="ranged-value-form-value0-input"
                         className={{
                             root: "w-full",
                             input: "w-full",
@@ -119,6 +120,7 @@ export const RangedValuesConstraintForm = ({
                 </div>
                 <div className="w-full md:w-1/2">
                     <NumberInput
+                        data-testid="ranged-value-form-value1-input"
                         className={{
                             root: "w-full",
                             input: "w-full",
