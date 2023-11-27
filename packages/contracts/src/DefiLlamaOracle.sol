@@ -32,8 +32,12 @@ contract DefiLlamaOracle is BaseOracle, ConstrainedOracle, ConstantAnswererTrust
     /// @param _answerer The address of the trusted entitity that will be allowed to post answers.
     /// @param _minimumElapsedTime The minimum time that must elapse from the instantiation
     /// of an oracle to when the final measurement should be taken. If for example we have a
-    /// `_minimumElapsedTime` with value 30, and oracle created at t0 must have a measurement
+    /// `_minimumElapsedTime` with value 30, an oracle created at t0 must have a measurement
     /// timestamp of at least t30.
+    /// @param _expirationBufferTime The minimum time that must elapse from the measurement timestamp
+    /// to when the oracle must be considered expired. If for example we have a `measurementTimestamp`
+    /// with value 30 at initialization (and assuming the oracle is initialized at t0), the expiration
+    /// timestamp should at least be t30.
     constructor(address _answerer, uint256 _minimumElapsedTime, uint256 _expirationBufferTime)
         ConstantAnswererTrustedOracle(_answerer)
     {
