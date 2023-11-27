@@ -17,11 +17,7 @@ contract InitializeTest is BaseTestSetup {
         uint256 _minimumElapsedTimestamp,
         uint256 _expirationBufferTime
     ) internal returns (DefiLlamaOracle) {
-        return new DefiLlamaOracle(
-                _answerer,
-                _minimumElapsedTimestamp,
-                _expirationBufferTime
-            );
+        return new DefiLlamaOracle(_answerer, _minimumElapsedTimestamp, _expirationBufferTime);
     }
 
     function testZeroAddressAnswerer() external {
