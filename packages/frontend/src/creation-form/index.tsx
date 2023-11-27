@@ -21,11 +21,7 @@ import {
     type Specification,
     type State,
 } from "./types";
-import {
-    CONSTRAINT_TYPES,
-    METRICS,
-    SUGGESTED_EXPIRATION_DATE_BUFFER,
-} from "../commons";
+import { CONSTRAINT_TYPES, METRICS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import dayjs from "dayjs";
 import { useTimeConstraints } from "../hooks/useTimeConstraints";
@@ -75,8 +71,8 @@ export const Component = ({
         return devMode
             ? "http://127.0.0.1:9080"
             : stagingMode
-              ? "https://defillama-answerer.api.staging.carrot.community"
-              : "https://defillama-answerer.api.carrot.community";
+            ? "https://defillama-answerer.api.staging.carrot.community"
+            : "https://defillama-answerer.api.carrot.community";
     }, [devMode, stagingMode]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
@@ -203,15 +199,21 @@ export const Component = ({
     const handleTimestampChange = useCallback(
         (value: Date) => {
             const newTimestamp = dateToUnixTimestamp(value);
-            onSuggestedExpirationTimestampChange(
-                newTimestamp + SUGGESTED_EXPIRATION_DATE_BUFFER,
-            );
+            if (expirationBufferTime) {
+                onSuggestedExpirationTimestampChange(
+                    newTimestamp + Number(expirationBufferTime),
+                );
+            }
             onStateChange((state) => ({
                 ...state,
                 timestamp: newTimestamp,
             }));
         },
-        [onStateChange, onSuggestedExpirationTimestampChange],
+        [
+            expirationBufferTime,
+            onStateChange,
+            onSuggestedExpirationTimestampChange,
+        ],
     );
 
     const handlePayloadChange = useCallback(
