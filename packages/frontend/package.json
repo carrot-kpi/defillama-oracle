@@ -23,6 +23,7 @@
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write .",
         "build": "node ./scripts/build.js",
         "build:prod": "NODE_ENV=production node ./scripts/build.js",
+        "generate-defillama-protocols": "node ./scripts/generate-defillama-protocols.js",
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"
     },
     "devDependencies": {

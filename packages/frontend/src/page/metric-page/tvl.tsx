@@ -9,7 +9,7 @@ import { type MetricPageProps } from "../types";
 import { type ProtocolOption } from "../../types";
 import { InfoBox } from "../components/info-box";
 // import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
-import DEFILLAMA_PROTOCOLS from "../../commons/defillama-protocols";
+import { DEFILLAMA_PROTOCOLS } from "../../commons/defillama-protocols";
 import { useEffect, useMemo, useState } from "react";
 import { getDefiLlamaLink } from "../utils/defillama";
 import External from "../icons/external";

@@ -8,7 +8,7 @@ import type { ProtocolOption } from "../../types";
 import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
 import { formatDecimals } from "@carrot-kpi/sdk";
 import { Trans } from "react-i18next";
-import DEFILLAMA_PROTOCOLS from "../../commons/defillama-protocols";
+import { DEFILLAMA_PROTOCOLS } from "../../commons/defillama-protocols";
 
 export const TvlPayloadForm = ({
     t,
