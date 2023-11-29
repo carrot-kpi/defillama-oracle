@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
+// import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
 import { FeedbackBox, Select, Typography } from "@carrot-kpi/ui";
 import { ProtocolOption as ProtocolOptionComponent } from "../../commons/protocol-option";
 import dayjs from "dayjs";
@@ -8,6 +8,7 @@ import type { ProtocolOption } from "../../types";
 import { useDefiLlamaCurrentTvl } from "../../hooks/useDefiLlamaCurrentTvl";
 import { formatDecimals } from "@carrot-kpi/sdk";
 import { Trans } from "react-i18next";
+import DEFILLAMA_PROTOCOLS from "../../commons/defillama-protocols";
 
 export const TvlPayloadForm = ({
     t,
@@ -15,7 +16,7 @@ export const TvlPayloadForm = ({
     payload,
     onChange,
 }: PayloadFormProps) => {
-    const { loading: loadingProtocols, protocols } = useDefiLlamaProtocols();
+    // const { loading: loadingProtocols, protocols } = useDefiLlamaProtocols();
     const { tvl } = useDefiLlamaCurrentTvl(payload?.protocol);
 
     const handleProtocolChange = useCallback(
@@ -26,8 +27,8 @@ export const TvlPayloadForm = ({
     );
 
     const protocol =
-        protocols && payload?.protocol
-            ? protocols.find(
+        DEFILLAMA_PROTOCOLS && payload?.protocol
+            ? DEFILLAMA_PROTOCOLS.find(
                   (protocol) => protocol.value === payload.protocol,
               ) || null
             : null;
@@ -45,12 +46,12 @@ export const TvlPayloadForm = ({
                         }}
                         label={t("label.tvl.protocol")}
                         placeholder={t("placeholder.pick.protocol")}
-                        loading={loadingProtocols}
+                        // loading={loadingProtocols}
                         messages={{
                             noResults: t("select.no.results"),
                         }}
                         onChange={handleProtocolChange}
-                        options={protocols}
+                        options={DEFILLAMA_PROTOCOLS}
                         search
                         value={protocol}
                         renderOption={ProtocolOptionComponent}
