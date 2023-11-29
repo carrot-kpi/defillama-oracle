@@ -8,7 +8,8 @@ import {
 import { type MetricPageProps } from "../types";
 import { type ProtocolOption } from "../../types";
 import { InfoBox } from "../components/info-box";
-import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
+// import { useDefiLlamaProtocols } from "../../hooks/useDefiLlamaProtocols";
+import DEFILLAMA_PROTOCOLS from "../../commons/defillama-protocols";
 import { useEffect, useMemo, useState } from "react";
 import { getDefiLlamaLink } from "../utils/defillama";
 import External from "../icons/external";
@@ -85,7 +86,7 @@ export const TvlPage = ({
     specification,
     decodedOracleData,
 }: MetricPageProps) => {
-    const { loading: loadingProtocols, protocols } = useDefiLlamaProtocols();
+    // const { loading: loadingProtocols, protocols } = useDefiLlamaProtocols();
     const { loading: loadingTvl, tvl } = useDefiLlamaCurrentTvl(
         specification.payload.protocol,
     );
@@ -107,13 +108,13 @@ export const TvlPage = ({
         useState<ProtocolOption | null>(null);
 
     useEffect(() => {
-        if (loadingProtocols) return;
+        // if (loadingProtocols) return;
         setResolvedProtocol(
-            protocols.find(
+            DEFILLAMA_PROTOCOLS.find(
                 (protocol) => protocol.value === specification.payload.protocol,
             ) || null,
         );
-    }, [loadingProtocols, protocols, specification.payload.protocol]);
+    }, [specification.payload.protocol]);
 
     const feedbackBoxStatus: FeedbackBoxProps["variant"] = useMemo(() => {
         if (!finalized) return "info";
@@ -130,7 +131,7 @@ export const TvlPage = ({
                             root: "border-b md:border-r md:border-b-0 border-black dark:border-white",
                         }}
                     >
-                        {loadingProtocols || !resolvedProtocol ? (
+                        {!resolvedProtocol ? (
                             <Skeleton width="100px" />
                         ) : (
                             <div className="flex gap-2 items-center">
