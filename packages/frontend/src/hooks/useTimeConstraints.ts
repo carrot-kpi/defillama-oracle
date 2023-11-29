@@ -5,8 +5,8 @@ export const useTimeConstraints = (
     address?: Address,
 ): {
     loading: boolean;
-    minimumTimeElapsed?: bigint;
-    expirationBufferTime?: bigint;
+    minimumTimeElapsed?: number;
+    expirationBufferTime?: number;
 } => {
     const { data, isLoading: loading } = useContractReads({
         contracts: [
@@ -23,9 +23,16 @@ export const useTimeConstraints = (
         ],
     });
 
+    const rawMinimumTimeElapsed = data?.[0].result as bigint | undefined;
+    const rawExpirationBufferTime = data?.[1].result as bigint | undefined;
+
     return {
-        minimumTimeElapsed: data?.[0].result as bigint | undefined,
-        expirationBufferTime: data?.[1].result as bigint | undefined,
+        minimumTimeElapsed: rawMinimumTimeElapsed
+            ? Number(rawMinimumTimeElapsed)
+            : undefined,
+        expirationBufferTime: rawExpirationBufferTime
+            ? Number(rawExpirationBufferTime)
+            : undefined,
         loading,
     };
 };

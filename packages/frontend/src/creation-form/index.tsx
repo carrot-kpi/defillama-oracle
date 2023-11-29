@@ -79,13 +79,16 @@ export const Component = ({
     const [timestampErrorText, setTimestampErrorText] = useState("");
     const [validSpecification, setValidSpecification] =
         useState<Specification | null>(null);
-
     const [constraintValuesValid, setConstraintValuesValid] = useState(false);
+
+    const memoizedMeasurementTimestamp = useMemo(() => {
+        return state.timestamp ? unixTimestampToDate(state.timestamp) : null;
+    }, [state.timestamp]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             let newMinDate = dateToUnixTimestamp(new Date());
-            if (minimumTimeElapsed) newMinDate += Number(minimumTimeElapsed);
+            if (minimumTimeElapsed) newMinDate += minimumTimeElapsed;
             setMinimumDate(unixTimestampToDate(newMinDate));
         }, 1_000);
         return () => {
@@ -201,7 +204,7 @@ export const Component = ({
             const newTimestamp = dateToUnixTimestamp(value);
             if (expirationBufferTime) {
                 onSuggestedExpirationTimestampChange(
-                    newTimestamp + Number(expirationBufferTime),
+                    newTimestamp + expirationBufferTime,
                 );
             }
             onStateChange((state) => ({
@@ -319,11 +322,7 @@ export const Component = ({
                             placeholder={t("placeholder.tvl.timestamp")}
                             min={minimumDate}
                             onChange={handleTimestampChange}
-                            value={
-                                state.timestamp
-                                    ? unixTimestampToDate(state.timestamp)
-                                    : null
-                            }
+                            value={memoizedMeasurementTimestamp}
                             error={!!timestampErrorText}
                             errorText={timestampErrorText}
                         />
