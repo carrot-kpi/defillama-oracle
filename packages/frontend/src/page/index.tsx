@@ -14,6 +14,7 @@ import i18next from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import { bundle } from "./i18n";
 import type { Metric } from "../types";
+import { useWatchOracleData } from "./hooks/useWatchOracleData";
 
 export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
     "@carrot-kpi/defillama-oracle-template";
@@ -49,11 +50,12 @@ export const Component = ({
     const { loading, specification } = useSpecificationContent(
         decodedData?.specificationCid,
     );
+    const oracleData = useWatchOracleData({ oracleAddress: oracle?.address });
 
     useEffect(() => {
-        if (!oracle) return;
-        setDecodedData(decodeOracleData(oracle.data));
-    }, [oracle]);
+        if (!oracleData) return;
+        setDecodedData(decodeOracleData(oracleData.data));
+    }, [oracleData]);
 
     if (loading || !specification || !decodedData)
         return (
