@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { Hex } from "viem";
 import { type Address, useContractReads } from "wagmi";
 
-interface WatchKPITokenDataParams {
+interface WatchOracleDataParams {
     oracleAddress?: Address;
 }
 
@@ -13,7 +13,7 @@ interface OracleData {
 }
 
 export function useWatchOracleData(
-    params?: WatchKPITokenDataParams,
+    params?: WatchOracleDataParams,
 ): OracleData | null {
     const [data, setData] = useState<OracleData | null>(null);
 
