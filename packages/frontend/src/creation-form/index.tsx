@@ -9,7 +9,7 @@ import {
     useMemo,
 } from "react";
 import {
-    useDecentralizedStorageUploader,
+    useJSONUploader,
     type OracleRemoteCreationFormProps,
     useDevMode,
     useStagingMode,
@@ -58,7 +58,7 @@ export const Component = ({
     onSuggestedExpirationTimestampChange,
     template,
 }: OracleRemoteCreationFormProps<State>): ReactElement => {
-    const uploadToIpfs = useDecentralizedStorageUploader();
+    const uploadToDataManager = useJSONUploader();
     const {
         minimumTimeElapsed,
         expirationBufferTime,
@@ -171,7 +171,7 @@ export const Component = ({
         }
         onInitializationBundleGetterChange(
             getInitializationBundleGetter(
-                uploadToIpfs,
+                uploadToDataManager,
                 state.timestamp,
                 validSpecification,
                 state.constraint as Required<Constraint>,
@@ -182,7 +182,7 @@ export const Component = ({
         onInitializationBundleGetterChange,
         state.constraint,
         state.timestamp,
-        uploadToIpfs,
+        uploadToDataManager,
         validSpecification,
     ]);
 

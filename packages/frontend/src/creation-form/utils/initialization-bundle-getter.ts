@@ -1,20 +1,18 @@
 import type {
     OracleInitializationBundleGetter,
-    Uploader as IpfsUploader,
+    JsonUploader,
 } from "@carrot-kpi/react";
 import type { Constraint, Specification } from "../types";
 import { encodeAbiParameters } from "viem";
 
 export const getInitializationBundleGetter = (
-    uploadToIpfs: IpfsUploader,
+    uploadToDataManager: JsonUploader<Specification>,
     timestamp: number,
     specification: Specification,
     constraint: Required<Constraint>,
 ): OracleInitializationBundleGetter => {
     return async () => {
-        const specificationCid = await uploadToIpfs(
-            JSON.stringify(specification),
-        );
+        const specificationCid = await uploadToDataManager(specification);
         const initializationData = encodeAbiParameters(
             [
                 { type: "string", name: "specification" },
