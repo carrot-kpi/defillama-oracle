@@ -52,7 +52,7 @@
         "jest-environment-jsdom": "^29.7.0",
         "mini-css-extract-plugin": "^2.7.7",
         "postcss": "^8.4.33",
-        "postcss-loader": "^7.3.2",
+        "postcss-loader": "^8.0.0",
         "postcss-prefix-selector": "^1.16.0",
         "prettier": "^3.2.4",
         "react-test-renderer": "^18.2.0",
@@ -70,7 +70,7 @@
         "webpack-dev-server": "^4.15.0"
     },
     "dependencies": {
-        "@carrot-kpi/react": "^0.76.0",
+        "@carrot-kpi/react": "^0.76.1",
         "@carrot-kpi/sdk": "^1.49.0",
         "@carrot-kpi/shared-state": "^0.16.0",
         "@carrot-kpi/ui": "^0.67.0",
