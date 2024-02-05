@@ -39,10 +39,7 @@ export const setupFork = async ({ nodeClient, walletClient }) => {
     const tst1Contract = getContract({
         abi: erc20Abi,
         address: tst1Address,
-        client: {
-            public: nodeClient,
-            wallet: walletClient,
-        },
+        client: walletClient,
     });
 
     const { contractAddress: tst2Address } =
@@ -56,10 +53,7 @@ export const setupFork = async ({ nodeClient, walletClient }) => {
     const tst2Contract = getContract({
         abi: erc20Abi,
         address: tst2Address,
-        client: {
-            public: nodeClient,
-            wallet: walletClient,
-        },
+        client: walletClient,
     });
 
     // mint some test erc20 tokens to signer
