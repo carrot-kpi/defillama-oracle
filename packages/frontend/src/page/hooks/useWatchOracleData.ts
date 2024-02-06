@@ -1,8 +1,8 @@
 import { useWagmiPassiveHook } from "@carrot-kpi/react";
 import { ORACLE_ABI } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
-import type { Hex } from "viem";
-import { type Address, useContractReads } from "wagmi";
+import type { Address, Hex } from "viem";
+import { useReadContracts } from "wagmi";
 
 interface WatchOracleDataParams {
     oracleAddress?: Address;
@@ -19,22 +19,23 @@ export function useWatchOracleData(
     const [data, setData] = useState<OracleData | null>(null);
 
     const { data: readResults } = useWagmiPassiveHook({
-        hook: useContractReads,
+        hook: useReadContracts,
         params: {
             contracts: [
                 {
-                    address: params?.oracleAddress as Address | undefined,
+                    address: params?.oracleAddress,
                     abi: ORACLE_ABI,
                     functionName: "data",
                 },
                 {
-                    address: params?.oracleAddress as Address | undefined,
+                    address: params?.oracleAddress,
                     abi: ORACLE_ABI,
                     functionName: "finalized",
                 },
             ],
-            enabled: !!params?.oracleAddress,
-            watch: true,
+            query: {
+                enabled: !!params?.oracleAddress,
+            },
         },
     });
 

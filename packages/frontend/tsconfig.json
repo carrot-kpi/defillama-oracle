@@ -6,10 +6,10 @@
         "./tests/**/*.ts",
         "./tests/**/*.tsx",
         "./playground/*.tsx",
-        "./.cct/**/*.tsx",
+        "./.cct/**/*.tsx"
     ],
     "exclude": ["node_modules"],
     "compilerOptions": {
-        "outDir": "./dist",
-    },
+        "outDir": "./dist"
+    }
 }

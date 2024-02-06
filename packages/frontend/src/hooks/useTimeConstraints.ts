@@ -1,5 +1,6 @@
-import { type Address, useContractReads } from "wagmi";
+import { useReadContracts } from "wagmi";
 import DEFILLAMA_ORACLE_ABI from "../abis/defillama-oracle";
+import type { Address } from "viem";
 
 export const useTimeConstraints = (
     address?: Address,
@@ -8,7 +9,7 @@ export const useTimeConstraints = (
     minimumTimeElapsed?: number;
     expirationBufferTime?: number;
 } => {
-    const { data, isLoading: loading } = useContractReads({
+    const { data, isLoading: loading } = useReadContracts({
         contracts: [
             {
                 abi: DEFILLAMA_ORACLE_ABI,
@@ -21,6 +22,7 @@ export const useTimeConstraints = (
                 functionName: "expirationBufferTime",
             },
         ],
+        query: { enabled: !!address },
     });
 
     const rawMinimumTimeElapsed = data?.[0].result as bigint | undefined;
