@@ -80,10 +80,21 @@ export const Component = ({
     const [validSpecification, setValidSpecification] =
         useState<Specification | null>(null);
     const [constraintValuesValid, setConstraintValuesValid] = useState(false);
+    const [showAllConstraints, setShowAllConstraints] = useState(false);
 
     const memoizedMeasurementTimestamp = useMemo(() => {
         return state.timestamp ? unixTimestampToDate(state.timestamp) : null;
     }, [state.timestamp]);
+
+    const activeConstraintType = useMemo(
+        () =>
+            CONSTRAINT_TYPES.find((ct) => ct.value === state.constraint?.type),
+        [state.constraint?.type],
+    );
+
+    useEffect(() => {
+        if (!activeConstraintType?.highlighted) setShowAllConstraints(true);
+    }, [activeConstraintType?.highlighted]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -245,6 +256,10 @@ export const Component = ({
         [onStateChange],
     );
 
+    const handleShowMoreConstraintsClick = useCallback(() => {
+        setShowAllConstraints((prevState) => !prevState);
+    }, []);
+
     const handleConstraintValuesChange = useCallback(
         (values: [bigint | undefined, bigint | undefined]) => {
             onStateChange((state) => ({
@@ -345,6 +360,7 @@ export const Component = ({
                         className="flex w-full flex-wrap gap-3"
                     >
                         {CONSTRAINT_TYPES.map((ct) => {
+                            if (!ct.highlighted && !showAllConstraints) return;
                             return (
                                 <Chip
                                     data-testid={`creation-form-constraint-${ct.value}`}
@@ -358,6 +374,17 @@ export const Component = ({
                                 </Chip>
                             );
                         })}
+                        <Chip
+                            data-testid="creation-form-constraint-show-more"
+                            size="big"
+                            clickable
+                            onClick={handleShowMoreConstraintsClick}
+                            className={{ root: "bg-green" }}
+                        >
+                            {showAllConstraints
+                                ? t("label.goal.showLess")
+                                : t("label.goal.showMore")}
+                        </Chip>
                     </div>
                 </div>
                 <ConstraintForm

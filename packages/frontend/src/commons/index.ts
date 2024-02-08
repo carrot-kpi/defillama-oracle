@@ -10,20 +10,22 @@ export const METRICS: MetricOption[] = [
 
 export const CONSTRAINT_TYPES: ConstraintTypeOption[] = [
     {
+        value: ConstraintType.RANGE,
+        label: "Range",
+        highlighted: true,
+    },
+    {
+        value: ConstraintType.GREATER_THAN,
+        label: "Greater than",
+        highlighted: true,
+    },
+    {
         value: ConstraintType.BETWEEN,
         label: "Between",
     },
     {
         value: ConstraintType.NOT_BETWEEN,
         label: "Not between",
-    },
-    {
-        value: ConstraintType.RANGE,
-        label: "Range",
-    },
-    {
-        value: ConstraintType.GREATER_THAN,
-        label: "Greater than",
     },
     {
         value: ConstraintType.LOWER_THAN,
