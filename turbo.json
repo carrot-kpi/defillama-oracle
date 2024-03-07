@@ -19,5 +19,5 @@
         "lint": {},
         "format": {}
     },
-    "globalEnv": ["NODE_ENV", "STAGING_MODE"]
+    "globalEnv": ["NODE_ENV", "ENVIRONMENT"]
 }
