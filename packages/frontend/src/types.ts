@@ -13,6 +13,7 @@ export enum ConstraintType {
 export type ConstraintTypeOption = {
     label: string;
     value: ConstraintType;
+    highlighted?: boolean;
 };
 
 export type Metric = "tvl";

@@ -3,6 +3,8 @@
         "label.tracked.metric": "Tracked metric",
         "label.metric": "Metric",
         "label.goal": "Goal",
+        "label.goal.showMore": "More goals",
+        "label.goal.showLess": "Show less",
         "label.timestamp": "Measurement timestamp",
         "label.payload.form.placeholder": "Select a metric",
         "label.constraint.type": "Constraint type",
@@ -47,6 +49,6 @@
         "label.summary.ranged.value.range.details": "Please be aware that if the final result is equal to the lower bound, the goal is considered to be failed. If it's greater than the lower bound the goal is considered to be linearly reached up to a final value greater than or equal to the upper bound of the range.",
         "label.summary.ranged.values": "{{value0}} and {{value1}}",
         "label.metric.summary": "Metric summary",
-        "metric.summary.tvl": "The total value locked in <strong>{{protocol}}</strong> on date <strong>{{measurementTime}}</strong>.<br/><br/>The current <strong>total value locked</strong> is <strong>{{currentTvl}}</strong>."
+        "metric.summary.tvl": "This metric will measure the total value locked in <strong>{{protocol}}</strong> on date <strong>{{measurementTime}}</strong>.<br/><br/>The current <strong>total value locked</strong> is <strong>{{currentTvl}}</strong>."
     }
 }
