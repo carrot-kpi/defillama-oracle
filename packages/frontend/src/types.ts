@@ -1,4 +1,3 @@
-import { ChainId } from "@carrot-kpi/sdk";
 import type { SelectOption } from "@carrot-kpi/ui";
 
 export enum ConstraintType {
@@ -15,11 +14,6 @@ export type ConstraintTypeOption = {
     label: string;
     value: ConstraintType;
 };
-
-export enum SupportedChainId {
-    GNOSIS = ChainId.GNOSIS,
-    SEPOLIA = ChainId.SEPOLIA,
-}
 
 export type Metric = "tvl";
 

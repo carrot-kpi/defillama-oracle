@@ -52,8 +52,8 @@ export const startPlayground = async (
     await templateDevServer.start();
     const { port: templatePort } = templateDevServer.server.address();
 
-    // initialize the applications compiler
-    const coreApplicationCompiler = webpack({
+    // initialize the bootstrap compiler
+    const playgroundCompiler = webpack({
         mode: "development",
         infrastructureLogging: {
             level: "none",
@@ -82,6 +82,30 @@ export const startPlayground = async (
                         },
                     ],
                 },
+                {
+                    test: /\.svg/,
+                    use: [
+                        {
+                            loader: "@svgr/webpack",
+                            options: {
+                                prettier: false,
+                                svgoConfig: {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                        "url-loader",
+                    ],
+                },
             ],
         },
         plugins: [
@@ -93,9 +117,7 @@ export const startPlayground = async (
                 CCT_TEMPLATE_URL: JSON.stringify(
                     `http://localhost:${templatePort}`,
                 ),
-                STAGING_MODE: JSON.stringify(
-                    process.env.STAGING_MODE === "true",
-                ),
+                ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
             }),
             new webpack.container.ModuleFederationPlugin({
                 name: "host",
@@ -111,13 +133,13 @@ export const startPlayground = async (
             open: true,
             compress: true,
         },
-        coreApplicationCompiler,
+        playgroundCompiler,
     );
 
     await playgroundDevServer.start();
     const { port: playgroundPort } = playgroundDevServer.server.address();
 
-    // setup the applications compilers hooks
+    // setup the playground compilers hooks
     const templateCompilerPromise = setupCompiler(
         templateCompiler,
         globals,
@@ -127,8 +149,8 @@ export const startPlayground = async (
         templatePort,
     );
 
-    const coreCompilerPromise = setupCompiler(
-        coreApplicationCompiler,
+    const playgroundCompilerPromise = setupCompiler(
+        playgroundCompiler,
         globals,
         writableStream,
         playgroundFirstCompilation,
@@ -137,5 +159,5 @@ export const startPlayground = async (
     );
 
     // wait for the applications to be fully started
-    await Promise.all([coreCompilerPromise, templateCompilerPromise]);
+    await Promise.all([playgroundCompilerPromise, templateCompilerPromise]);
 };

@@ -84,6 +84,30 @@ export const getTemplateComponentWebpackConfig = (
                         },
                     ],
                 },
+                {
+                    test: /\.svg/,
+                    use: [
+                        {
+                            loader: "@svgr/webpack",
+                            options: {
+                                prettier: false,
+                                svgoConfig: {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        },
+                        "url-loader",
+                    ],
+                },
             ],
         },
         optimization: {
