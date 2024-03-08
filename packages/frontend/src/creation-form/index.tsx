@@ -93,8 +93,9 @@ export const Component = ({
     );
 
     useEffect(() => {
-        if (!activeConstraintType?.highlighted) setShowAllConstraints(true);
-    }, [activeConstraintType?.highlighted]);
+        if (!!activeConstraintType && !activeConstraintType.highlighted)
+            setShowAllConstraints(true);
+    }, [activeConstraintType]);
 
     useEffect(() => {
         const interval = setInterval(() => {
