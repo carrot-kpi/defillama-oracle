@@ -30,6 +30,6 @@ createRoot(document.getElementById("root")!).render(
         privateKey={CCT_DEPLOYMENT_ACCOUNT_PRIVATE_KEY}
         ipfsGatewayURL={CCT_IPFS_GATEWAY_URL}
         oracleTemplateBaseURL={CCT_TEMPLATE_URL}
-        enableStagingMode={ENVIRONMENT !== "prod"}
+        enableTemplatePreviewMode={ENVIRONMENT !== "prod"}
     />,
 );
