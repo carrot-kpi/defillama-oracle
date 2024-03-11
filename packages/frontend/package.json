@@ -23,7 +23,7 @@
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write .",
         "build": "yarn build:dev",
         "build:production": "NODE_ENV=production ENVIRONMENT=prod node ./scripts/build.js",
-        "build:staging": "ENVIRONMENT=staging node ./scripts/build.js",
+        "build:staging": "NODE_ENV=production ENVIRONMENT=staging node ./scripts/build.js",
         "build:dev": "ENVIRONMENT=dev node ./scripts/build.js",
         "generate-defillama-protocols": "node ./scripts/generate-defillama-protocols.js",
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"

@@ -71,7 +71,7 @@ export const Component = ({
         return devMode
             ? "http://127.0.0.1:9080"
             : templatePreviewMode
-              ? `https://defillama-answerer.${ENVIRONMENT}.dev.carrot.community`
+              ? `https://defillama-answerer.api.${ENVIRONMENT}.carrot.community`
               : "https://defillama-answerer.api.carrot.community";
     }, [devMode, templatePreviewMode]);
 
