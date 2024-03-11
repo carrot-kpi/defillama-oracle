@@ -67,12 +67,11 @@ export const Component = ({
     const { t } = useTranslation();
     const devMode = useDevMode();
     const templatePreviewMode = useTemplatePreviewMode();
-    // FIXME: use the appropriate answerer service based on the current environment
     const answererUrl = useMemo(() => {
         return devMode
             ? "http://127.0.0.1:9080"
             : templatePreviewMode
-              ? `https://defillama-answerer.api.dev.carrot.community`
+              ? `https://defillama-answerer.${ENVIRONMENT}.dev.carrot.community`
               : "https://defillama-answerer.api.carrot.community";
     }, [devMode, templatePreviewMode]);
 
