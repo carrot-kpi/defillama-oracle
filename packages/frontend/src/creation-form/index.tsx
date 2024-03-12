@@ -12,7 +12,7 @@ import {
     useJSONUploader,
     type OracleRemoteCreationFormProps,
     useDevMode,
-    useStagingMode,
+    useTemplatePreviewMode,
 } from "@carrot-kpi/react";
 import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import {
@@ -66,14 +66,14 @@ export const Component = ({
     } = useTimeConstraints(template.address);
     const { t } = useTranslation();
     const devMode = useDevMode();
-    const stagingMode = useStagingMode();
+    const templatePreviewMode = useTemplatePreviewMode();
     const answererUrl = useMemo(() => {
         return devMode
             ? "http://127.0.0.1:9080"
-            : stagingMode
-              ? "https://defillama-answerer.api.staging.carrot.community"
+            : templatePreviewMode
+              ? `https://defillama-answerer.api.${ENVIRONMENT}.carrot.community`
               : "https://defillama-answerer.api.carrot.community";
-    }, [devMode, stagingMode]);
+    }, [devMode, templatePreviewMode]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
     const [timestampErrorText, setTimestampErrorText] = useState("");
@@ -93,8 +93,9 @@ export const Component = ({
     );
 
     useEffect(() => {
-        if (!activeConstraintType?.highlighted) setShowAllConstraints(true);
-    }, [activeConstraintType?.highlighted]);
+        if (!!activeConstraintType && !activeConstraintType.highlighted)
+            setShowAllConstraints(true);
+    }, [activeConstraintType]);
 
     useEffect(() => {
         const interval = setInterval(() => {

@@ -22,12 +22,14 @@
         "lint": "eslint --ext .js,.ts,.tsx ./ && prettier --check .",
         "format": "eslint --fix --ext .tsx,.ts,.js ./ && prettier --write .",
         "build": "node ./scripts/build.js",
-        "build:prod": "NODE_ENV=production node ./scripts/build.js",
+        "build:production": "NODE_ENV=production ENVIRONMENT=prod node ./scripts/build.js",
+        "build:staging": "NODE_ENV=production ENVIRONMENT=staging node ./scripts/build.js",
+        "build:dev": "ENVIRONMENT=dev node ./scripts/build.js",
         "generate-defillama-protocols": "node ./scripts/generate-defillama-protocols.js",
         "test": "echo 'Fix issues with pnpm and Jest not resolving modules'"
     },
     "devDependencies": {
-        "@carrot-kpi/host-frontend": "^0.40.2",
+        "@carrot-kpi/host-frontend": "^0.41.1",
         "@carrot-kpi/switzer-font": "^0.1.0",
         "@commitlint/cli": "^19.0.3",
         "@svgr/webpack": "^8.1.0",
@@ -70,9 +72,9 @@
         "webpack-dev-server": "^4.15.1"
     },
     "dependencies": {
-        "@carrot-kpi/react": "^0.79.0",
-        "@carrot-kpi/sdk": "^1.52.0",
-        "@carrot-kpi/shared-state": "^0.17.0",
+        "@carrot-kpi/react": "^0.80.1",
+        "@carrot-kpi/sdk": "^1.53.1",
+        "@carrot-kpi/shared-state": "^0.17.1",
         "@carrot-kpi/ui": "^0.69.0",
         "@fontsource/ibm-plex-mono": "^5.0.12",
         "@tanstack/react-query": "^5.25.0",

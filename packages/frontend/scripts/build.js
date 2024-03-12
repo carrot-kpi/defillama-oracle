@@ -35,13 +35,17 @@ const main = async () => {
             [
                 getTemplateComponentWebpackConfig(
                     "creationForm",
-                    {},
+                    {
+                        ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
+                    },
                     outDir,
                     prodMode ? "prod" : "dev",
                 ),
                 getTemplateComponentWebpackConfig(
                     "page",
-                    {},
+                    {
+                        ENVIRONMENT: JSON.stringify(process.env.ENVIRONMENT),
+                    },
                     outDir,
                     prodMode ? "prod" : "dev",
                 ),
