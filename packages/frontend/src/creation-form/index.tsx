@@ -11,7 +11,6 @@ import {
 import {
     useJSONUploader,
     type OracleRemoteCreationFormProps,
-    useTemplatePreviewMode,
     useEnvironment,
 } from "@carrot-kpi/react";
 import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
@@ -21,7 +20,7 @@ import {
     type Specification,
     type State,
 } from "./types";
-import { CONSTRAINT_TYPES, METRICS } from "../commons";
+import { CONSTRAINT_TYPES, METRICS, SERVICE_URLS } from "../commons";
 import { PayloadForm } from "./payload-form";
 import dayjs from "dayjs";
 import { useTimeConstraints } from "../hooks/useTimeConstraints";
@@ -67,14 +66,11 @@ export const Component = ({
     } = useTimeConstraints(template.address);
     const { t } = useTranslation();
     const environment = useEnvironment();
-    const templatePreviewMode = useTemplatePreviewMode();
     const answererUrl = useMemo(() => {
         return environment === Environment.Local
             ? "http://127.0.0.1:9080"
-            : templatePreviewMode
-              ? `https://defillama-answerer.api.${ENVIRONMENT}.carrot.community`
-              : "https://defillama-answerer.api.carrot.community";
-    }, [environment, templatePreviewMode]);
+            : SERVICE_URLS[environment];
+    }, [environment]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
     const [timestampErrorText, setTimestampErrorText] = useState("");

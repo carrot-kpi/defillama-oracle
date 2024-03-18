@@ -1,3 +1,4 @@
+import { Environment } from "@carrot-kpi/shared-state";
 import type { MetricOption } from "../creation-form/types";
 import { ConstraintType, type ConstraintTypeOption } from "../types";
 
@@ -40,3 +41,25 @@ export const CONSTRAINT_TYPES: ConstraintTypeOption[] = [
         label: "Not equal",
     },
 ];
+
+export interface ServiceUrls {
+    defillamaAnswerer: string;
+}
+
+export const SERVICE_URLS: Record<Environment, ServiceUrls> = {
+    [Environment.Local]: {
+        defillamaAnswerer:
+            "https://defillama-answerer.api.dev.carrot.community",
+    },
+    [Environment.Development]: {
+        defillamaAnswerer:
+            "https://defillama-answerer.api.dev.carrot.community",
+    },
+    [Environment.Staging]: {
+        defillamaAnswerer:
+            "https://defillama-answerer.api.staging.carrot.community",
+    },
+    [Environment.Production]: {
+        defillamaAnswerer: "https://defillama-answerer.api.carrot.community",
+    },
+};
