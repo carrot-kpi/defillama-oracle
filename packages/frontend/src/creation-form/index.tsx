@@ -135,7 +135,7 @@ export const Component = ({
                 let valid = false;
                 try {
                     const response = await fetch(
-                        `${SERVICE_URLS[environment]}/specifications/validations`,
+                        `${SERVICE_URLS[environment].defillamaAnswerer}/specifications/validations`,
                         {
                             method: "POST",
                             headers: {
