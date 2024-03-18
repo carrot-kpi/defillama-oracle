@@ -1,9 +1,8 @@
 import {
     useIPFSGatewayURL,
     usePreferDecentralization,
-    useProdMode,
 } from "@carrot-kpi/react";
-import { Fetcher, type SupportedChain } from "@carrot-kpi/sdk";
+import { Fetcher } from "@carrot-kpi/sdk";
 import { useEffect, useState } from "react";
 import { type Specification } from "../types";
 import { useAccount } from "wagmi";
@@ -11,7 +10,6 @@ import { useAccount } from "wagmi";
 export function useSpecificationContent(cid?: string) {
     const { chain } = useAccount();
     const ipfsGatewayURL = useIPFSGatewayURL();
-    const prodMode = useProdMode();
     const preferDecentralization = usePreferDecentralization();
 
     const [loading, setLoading] = useState(false);
@@ -27,9 +25,6 @@ export function useSpecificationContent(cid?: string) {
                 if (!cancelled) setLoading(true);
                 const content = (
                     await Fetcher.fetchCIDData({
-                        // FIXME: remove the cast
-                        dataCDNURL: (chain as SupportedChain).serviceUrls
-                            .dataCdn,
                         cids: [cid],
                         ipfsGatewayURL,
                         preferDecentralization,
@@ -50,7 +45,7 @@ export function useSpecificationContent(cid?: string) {
         return () => {
             cancelled = true;
         };
-    }, [ipfsGatewayURL, cid, chain, prodMode, preferDecentralization]);
+    }, [ipfsGatewayURL, cid, chain, preferDecentralization]);
 
     return { loading, specification };
 }
