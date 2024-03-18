@@ -48,8 +48,7 @@ export interface ServiceUrls {
 
 export const SERVICE_URLS: Record<Environment, ServiceUrls> = {
     [Environment.Local]: {
-        defillamaAnswerer:
-            "https://defillama-answerer.api.dev.carrot.community",
+        defillamaAnswerer: "http://127.0.0.1:9080",
     },
     [Environment.Development]: {
         defillamaAnswerer:

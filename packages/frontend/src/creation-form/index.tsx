@@ -33,7 +33,6 @@ import type { ConstraintTypeOption } from "../types";
 import i18next from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import { bundle } from "./i18n";
-import { Environment } from "@carrot-kpi/shared-state";
 
 export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
     "@carrot-kpi/defillama-oracle-template";
@@ -66,11 +65,6 @@ export const Component = ({
     } = useTimeConstraints(template.address);
     const { t } = useTranslation();
     const environment = useEnvironment();
-    const answererUrl = useMemo(() => {
-        return environment === Environment.Local
-            ? "http://127.0.0.1:9080"
-            : SERVICE_URLS[environment];
-    }, [environment]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
     const [timestampErrorText, setTimestampErrorText] = useState("");
@@ -141,7 +135,7 @@ export const Component = ({
                 let valid = false;
                 try {
                     const response = await fetch(
-                        `${answererUrl}/specifications/validations`,
+                        `${SERVICE_URLS[environment]}/specifications/validations`,
                         {
                             method: "POST",
                             headers: {
