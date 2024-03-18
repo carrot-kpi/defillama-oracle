@@ -11,8 +11,8 @@ import {
 import {
     useJSONUploader,
     type OracleRemoteCreationFormProps,
-    useDevMode,
     useTemplatePreviewMode,
+    useEnvironment,
 } from "@carrot-kpi/react";
 import { Chip, DateTimeInput, Select, Typography } from "@carrot-kpi/ui";
 import {
@@ -34,6 +34,7 @@ import type { ConstraintTypeOption } from "../types";
 import i18next from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import { bundle } from "./i18n";
+import { Environment } from "@carrot-kpi/shared-state";
 
 export const DEFILLAMA_ORACLE_TEMPLATE_I18N_NAMESPACE =
     "@carrot-kpi/defillama-oracle-template";
@@ -65,15 +66,15 @@ export const Component = ({
         loading: loadingTimeConstraints,
     } = useTimeConstraints(template.address);
     const { t } = useTranslation();
-    const devMode = useDevMode();
+    const environment = useEnvironment();
     const templatePreviewMode = useTemplatePreviewMode();
     const answererUrl = useMemo(() => {
-        return devMode
+        return environment === Environment.Local
             ? "http://127.0.0.1:9080"
             : templatePreviewMode
               ? `https://defillama-answerer.api.${ENVIRONMENT}.carrot.community`
               : "https://defillama-answerer.api.carrot.community";
-    }, [devMode, templatePreviewMode]);
+    }, [environment, templatePreviewMode]);
 
     const [minimumDate, setMinimumDate] = useState<Date | null>(null);
     const [timestampErrorText, setTimestampErrorText] = useState("");
